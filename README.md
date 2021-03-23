@@ -10,6 +10,16 @@
 ## About App
 A fully functional ecommerce made in Laravel Framework.
 
+## How to Clone/Install
+1. Clone the repo
+2. Install Composer
+<code>composer install</code>
+3. - Rename .env.example to .env and updated it with your database credentials.
+<b>Run this 3 command in your project terminal</b>
+<code>$ php artisan key:generate</code>
+<code>$ composer update</code>
+<code>$ php artisan serve</code>
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
