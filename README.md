@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-#About App
+##About App
 A fully functional ecommerce made in Laravel Framework.
 
 ## About Laravel
