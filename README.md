@@ -14,7 +14,7 @@ A fully functional ecommerce made in Laravel Framework.
 1. Clone the repo
 2. Install Composer
 <code>composer install</code>
-3. - Rename .env.example to .env and updated it with your database credentials.
+3. - Rename .env.example to .env and updated it with your database credentials.<br />
 <b>Run this 3 command in your project terminal</b>
 <code>$ php artisan key:generate</code>
 <code>$ composer update</code>
