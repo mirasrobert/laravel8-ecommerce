@@ -7,6 +7,23 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## About App
+A fully functional ecommerce made in Laravel Framework.
+
+## How to Clone/Install
+1. Clone the repo
+2. Install Composer
+<code>composer install</code>
+3. Rename .env.example to .env and updated it with your database credentials.<br />
+<b>Run this 3 command in your project terminal</b> <br />
+<code>$ php artisan key:generate</code> <br />
+<code>$ composer update</code> <br />
+<code>$ php artisan serve</code> <br />
+
+## Additional
+<code>$ php artisan storage:link</code> <br />
+<code>$ php artisan migrate</code> <br />
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
