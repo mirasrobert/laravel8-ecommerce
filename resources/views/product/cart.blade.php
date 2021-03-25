@@ -12,10 +12,16 @@
       <div class="row mt-3">
         <div class="col-lg-9 col-sm-12">
           <h1 class="">Shopping Cart</h1>
-
+          
           @if( session('status') )
           <div class="alert alert-success alert-dismissible">
             {{ session('status')  }}    
+          </div>
+          @endif  
+
+          @if( session('error') )
+          <div class="alert alert-danger" role="alert">
+            {{ session('error')  }}    
           </div>
           @endif  
 
@@ -68,12 +74,13 @@
                       <form action="/mycart/" method="POST">
                         @csrf
                         @method('PATCH')
-           
+
                       <input
-                        class="form-control @error('product_qty') border border-danger @enderror"
+                        data-id="{{ $product->rowId }}"
+                        class="form-control product_qty @error('product_qty') border border-danger @enderror"
                         type="number"
                         name="product_qty"
-                        id=""
+                        id="product_qty"
                         min="1"
                         value="{{ $product->qty }}"
                         required
@@ -178,4 +185,9 @@
   </section>
 
 </div>
+@endsection
+
+@section('extra-js')
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/cartqty.js') }}"></script>
 @endsection

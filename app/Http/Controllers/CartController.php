@@ -45,7 +45,7 @@ class CartController extends Controller
         // Add a product
         MyCart::add($product->id, $product->name, $request->product_qty, $product->price, ['img' => $product->image])
                 ->associate('App\Models\Product');
-       return back()->with('status', 'A new product has been added to your cart.');
+        return back()->with('status', 'A new product has been added to your cart.');
     }
 
     /**
@@ -77,9 +77,16 @@ class CartController extends Controller
      * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id, $qty)
     {
-        return back();
+        if ($qty > 20) {
+            
+            session()->flash('error', 'Max quantity of 20.');
+            return redirect()->route('cart.index');
+        }
+
+        MyCart::update($id, $qty);
+        return response()->json(['success' => true]);
     }
 
     /**
