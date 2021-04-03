@@ -159,7 +159,7 @@ body {
 }
 
 #products h5.product-title {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 /* Product-2 */
@@ -222,6 +222,19 @@ p:hover {
 }
 
 /* MEDIA QUERIES */
+@media only screen and (min-width: 768px) {
+    /* fix product card height */
+    #products .card {
+        height: 297.31px;
+    }
+
+    #footer p,
+    a,
+    li {
+        line-height: 1.5rem;
+    }
+}
+
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
     #footer p,
@@ -229,6 +242,7 @@ p:hover {
     li {
         line-height: 1.5rem;
     }
+
     #main-cart .card {
         margin: 0 0 1rem 0;
     }

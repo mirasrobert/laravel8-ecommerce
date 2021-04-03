@@ -34,14 +34,20 @@
             <a class="nav-link" href="{{ route('product.cart') }}">
               <i class="fas fa-shopping-cart"></i>
               @auth
-              @if(MyCart::instance('default')->count() > 0)
-              {{-- Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ auth()->user()->products->count() }} </span>  --}}
-              Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ MyCart::instance('default')->count() }} </span>   
+                @if(MyCart::instance('default')->count() > 0)
+                {{-- Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ auth()->user()->products->count() }} </span>  --}}
+                Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ MyCart::instance('default')->count() }} </span>   
+                @else
+                Cart
+                @endif 
+                
               @else
-              Cart
-              @endif 
-              @else
-              Cart
+                @if(MyCart::instance('default')->count() > 0)
+                {{-- Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ auth()->user()->products->count() }} </span>  --}}
+                Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ MyCart::instance('default')->count() }} </span>   
+                @else
+                Cart
+                @endif  
               @endauth
             </a>
           </li>

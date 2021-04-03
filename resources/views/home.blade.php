@@ -106,15 +106,22 @@
           @foreach ($products as $product)
               
             <div class="col-lg-3 col-md-6">
-              <div class="card">
+              <div class="card my-3">
                 <div class="card-body">
                   <img
                     src="/storage/{{ $product->image }}"
                     alt=""
                     class="img-fluid w-50 mb-3"
                   />
+                  
                   <h5 class="product-title">
-                    {{ $product->name }}
+                  @if (strlen($product->name) > 0 && strlen($product->name) < 26) <!-- TEXT NOT BREAK OR TOO SHORT -->
+                       {{ $product->name }}
+                  @elseif(strlen($product->name) > 25 && strlen($product->name) < 48) <!-- EXACT -->
+                       {{ $product->name }}
+                  @elseif(strlen($product->name) > 48) <!-- TOO MUCH TEXT -->
+                       {{ substr($product->name,0 , 48) }}...
+                  @endif
                   </h5>
   
                   <!-- Star Reviews -->

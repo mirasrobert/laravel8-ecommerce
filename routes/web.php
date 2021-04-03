@@ -34,7 +34,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('home.test');
 
-Route::get('/mycart', [App\Http\Controllers\CartController::class, 'index'])->name('product.cart')->middleware('auth');;
+Route::get('/mycart', [App\Http\Controllers\CartController::class, 'index'])->name('product.cart');
 
 Route::post('/product/store', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store')->middleware('auth');
 Route::get('/product/create', [App\Http\Controllers\ProductController::class, 'create'])->name('product.create')->middleware('auth');
@@ -42,8 +42,8 @@ Route::get('/product', [App\Http\Controllers\ProductController::class, 'index'])
 Route::get('/product/{product}', [App\Http\Controllers\ProductController::class, 'show'])->name('product.show');
 Route::delete('/product/{id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.delete')->middleware('auth');
 
-Route::delete('/mycart/{cart}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy')->middleware('auth');;
+Route::delete('/mycart/{cart}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy')->middleware('auth');
 
-Route::put('/mycart/{id}/qty/{qty}', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update')->middleware('auth');;
+Route::put('/mycart/{id}/qty/{qty}', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
 
-Route::post('/cart/{product}', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store')->middleware('auth');
+Route::post('/cart/{product}', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');

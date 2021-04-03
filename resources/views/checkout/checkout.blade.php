@@ -15,6 +15,12 @@
       <div class="row py-5">
         <div class="col-lg-8"> 
 
+          @if( session('error') )
+          <div class="alert alert-danger" role="alert">
+            {{ session('error')  }}    
+          </div>
+          @endif  
+
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <h3 class="text-uppercase text-muted">Shipping</h3>
