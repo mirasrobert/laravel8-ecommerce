@@ -11,9 +11,12 @@
       <div class="jumbotron text-center">
         <i class="fas fa-clock fa-4x text-primary"></i>
         <h1 class="display-3">Thank You!</h1>
+        @if ( session('thankyou') )
         <p class="text-muted">
-          Your order number is <strong>#{{ $user->orders[0]->order_no }}</strong>
+          Your order number is <strong>#{{ session('thankyou') }}</strong>
         </p>
+        @endif
+        
         <p class="text-muted">
           <strong>Please check your email</strong> for further information
           of your order.

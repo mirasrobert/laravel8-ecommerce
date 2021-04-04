@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="col-lg-5 col-sm-12">
-              <form action="/cart/{{ $product->id }}" method="POST">
+              <form action="/mycart/{{ $product->id }}" method="POST">
                 @csrf
                 <ul class="list-group">
                   <li class="list-group-item">

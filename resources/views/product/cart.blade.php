@@ -71,7 +71,7 @@
                     </div>
                     
                     <div class="col-lg-2">
-                      <form action="/mycart/" method="POST">
+                      <form action="/cart/" method="POST">
                         @csrf
                         @method('PATCH')
 
@@ -95,7 +95,7 @@
                     </div>
 
                     <div class="col-lg-1">
-                      <form action="/mycart/{{ $product->rowId }}" method="POST">
+                      <form action="/cart/{{ $product->rowId }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-lg" type="submit">
@@ -149,7 +149,7 @@
               <!-- Shipping-->
               <div class="row py-1">
                 <div class="col lg-6">Shipping:</div>
-                <div class="col lg-6">$ 0.00</div>
+                <div class="col lg-6">FREE</div>
               </div>
               <!-- Total -->
               <div class="row py-1">

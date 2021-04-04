@@ -14,6 +14,11 @@ use Stripe;
 
 class CheckoutController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         if(auth()->user()->shipping()->doesntExist() || MyCart::instance('default')->count() == 0)
@@ -40,15 +45,6 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-        
-        $order = new Order();
-
-        // SAVE ORDER
-        $content = MyCart::content();
-        $order_no = auth()->user()->id.$this->generateRandomString().time();
-
-        $order->saveOrder($content, $order_no);
-
         try {
         
             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -69,30 +65,47 @@ class CheckoutController extends Controller
                 return $item->qty.', '.$item->name;
             })->values()->toJson();
     
+            $customer = Stripe\Customer::create([
+                'email' => auth()->user()->email,
+                "source" => $request->stripeToken,
+            ]);
+
             // Charge Payment Method
-            Stripe\Charge::create ([
+            $charge = Stripe\Charge::create ([
                     "amount" => $amount,
                     "currency" => "usd",
-                    "source" => $request->stripeToken,
                     "description" => "ZALADA Order",
                     "receipt_email" => auth()->user()->email,
+                    'customer' => $customer,
                     "metadata" => [
                         'contents' => $contents,
                         'quantity' => MyCart::instance('default')->count()
                     ]
             ]); 
             
-            
-    
+            // SAVE ORDER
+            $order = new Order();
+            $content = MyCart::content();
+            //$order_no = auth()->user()->id.$this->generateRandomString().time();
+            $data = [
+                'content' => $content,
+                'order_no' => $charge->id
+            ];
+
+            $order->saveOrder($data);
+
             // Remove Cart
             MyCart::instance('default')->destroy();
     
             // Delete the old cart from the  database
             MyCart::instance('default')->erase(auth()->user()->id);
               
-            session(["thankyou" => "Order is successfull"]);
-    
+            session(["thankyou" => $data['order_no']]);
+            
+
             return redirect()->route('thankyou');
+
+            
     
             } catch (Exception $e) {
                 return back()->with('Error! ' . $e->getMessage());

@@ -111,11 +111,14 @@ class CartController extends Controller
         MyCart::remove($id);
         session()->flash('status', 'An item has been removed to your cart.');
 
-        // Delete the old cart from the  database
-        MyCart::instance('default')->erase(Auth::id());
+        if(Auth::check())
+        {
+            // Delete the old cart from the  database
+            MyCart::instance('default')->erase(Auth::id());
 
-        // Add the new/modified cart to the database
-        MyCart::instance('default')->store(Auth::id());
+            // Add the new/modified cart to the database
+            MyCart::instance('default')->store(Auth::id());
+        }
 
         //MyCart::instance('default')->merge('shoppingcart', MyCart::discount(), MyCart::tax(), null, 'default');
 

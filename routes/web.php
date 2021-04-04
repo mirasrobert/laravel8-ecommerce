@@ -23,27 +23,27 @@ Route::get('/empty', function() {
     MyCart::destroy();
 });
 
-Route::get('/thankyou', [App\Http\Controllers\CheckoutController::class, 'thankyou'])->name('thankyou')->middleware('auth');
-Route::post('/checkout/store', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store')->middleware('auth');
-Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index')->middleware('auth');
+Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
+Route::get('/thankyou', [App\Http\Controllers\CheckoutController::class, 'thankyou'])->name('thankyou');
+Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
 
-Route::post('/shipping', [App\Http\Controllers\ShippingController::class, 'store'])->name('shipping.store');
 Route::get('/shipping', [App\Http\Controllers\ShippingController::class, 'index'])->name('shipping');
+Route::post('/shipping', [App\Http\Controllers\ShippingController::class, 'store'])->name('shipping.store');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('home.test');
 
-Route::get('/mycart', [App\Http\Controllers\CartController::class, 'index'])->name('product.cart');
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('product.cart');
 
-Route::post('/product/store', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store')->middleware('auth');
-Route::get('/product/create', [App\Http\Controllers\ProductController::class, 'create'])->name('product.create')->middleware('auth');
+Route::post('/product/store', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store');
+Route::get('/product/create', [App\Http\Controllers\ProductController::class, 'create'])->name('product.create');
 Route::get('/product', [App\Http\Controllers\ProductController::class, 'index'])->name('product.index');
 Route::get('/product/{product}', [App\Http\Controllers\ProductController::class, 'show'])->name('product.show');
-Route::delete('/product/{id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.delete')->middleware('auth');
+Route::delete('/product/{id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.delete');
 
-Route::delete('/mycart/{cart}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy')->middleware('auth');
+Route::put('/cart/{id}/qty/{qty}', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
 
-Route::put('/mycart/{id}/qty/{qty}', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
+Route::post('/mycart/{product}', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
 
-Route::post('/cart/{product}', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
+Route::delete('/cart/{id}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');

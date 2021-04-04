@@ -13,16 +13,18 @@ class Order extends Model
 
     protected $fillable =  [
         'product_id',
-        'order_no'
+        'order_no',
+        'amount'
     ];
 
-    public function saveOrder($content, $order_no)
+    public function saveOrder($data)
     {
-            foreach ($content as $key => $value) {
+            foreach ($data['content'] as $key => $value) {
 
                 auth()->user()->orders()->create([
                     'product_id' => $value->id,
-                    'order_no' => $order_no
+                    'order_no' => $data['order_no'],
+                    'amount' => $value->price
                 ]);
     
             }

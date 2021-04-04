@@ -13,7 +13,7 @@ Array.from(className).forEach(element => {
         // Async Axios Patch
         const sendPatchRequest = async () => {
             try {
-                const response = await axios.put(`/mycart/${id}/qty/${qty}`, {
+                const response = await axios.put(`/cart/${id}/qty/${qty}`, {
                     quantity: qty
                 });
 
@@ -27,7 +27,7 @@ Array.from(className).forEach(element => {
         // Do Something to the data.
         sendPatchRequest().then(res => {
             // redirect and refresh
-            window.location.href = `/mycart`;
+            window.location.href = `/cart`;
         });
     });
 });
