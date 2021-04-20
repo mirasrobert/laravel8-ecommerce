@@ -248,6 +248,19 @@ p:hover {
     }
 }
 
+/* TABLETS */
+/* Portrait */
+@media only screen and (max-width: 990px) {
+    .my-order-name {
+        margin: 11px 11px;
+    }
+
+    .my-order-qty,
+    .my-order-status {
+        margin: 8px 11px;
+    }
+}
+
 /* STRIPE STYLING */
 .StripeElement {
     box-sizing: border-box;

@@ -1,14 +1,21 @@
 @extends('layouts.app')
 
+
+@section('title') Sign in @endsection
+
 @section('content')
+
 @include('layouts.links')
 
 <div class="container">
     <div class="row justify-content-center py-5">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
+                <div class="card-header d-flex justify-content-between">
+                    {{ __('Login') }}
+                    <div> <small>New member? <a href="{{ route('register') }}"> <small>Register</small> </a> here.</small> </div>
+                </div>
+            
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf

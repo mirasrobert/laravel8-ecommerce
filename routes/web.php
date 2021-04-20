@@ -19,9 +19,13 @@ use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
 
 Auth::routes();
 
-Route::get('/empty', function() {
-    MyCart::destroy();
-});
+Route::resource('orders', App\Http\Controllers\OrderController::class)->only([
+    'index', 'show', 'store'
+])->parameters([
+    'show' => 'id'
+])->names([
+    'index' => 'orders.index'
+]);;
 
 Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
 Route::get('/thankyou', [App\Http\Controllers\CheckoutController::class, 'thankyou'])->name('thankyou');
@@ -31,8 +35,6 @@ Route::get('/shipping', [App\Http\Controllers\ShippingController::class, 'index'
 Route::post('/shipping', [App\Http\Controllers\ShippingController::class, 'store'])->name('shipping.store');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('home.test');
 
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('product.cart');
 

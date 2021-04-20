@@ -12,9 +12,10 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable =  [
+        'transaction_no',
         'product_id',
-        'order_no',
-        'amount'
+        'amount',
+        'qty'
     ];
 
     public function saveOrder($data)
@@ -23,8 +24,9 @@ class Order extends Model
 
                 auth()->user()->orders()->create([
                     'product_id' => $value->id,
-                    'order_no' => $data['order_no'],
-                    'amount' => $value->price
+                    'amount' => $value->price,
+                    'qty' => $value->qty,
+                    'transaction_no' => $data['id']
                 ]);
     
             }
@@ -33,5 +35,10 @@ class Order extends Model
     public function users()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

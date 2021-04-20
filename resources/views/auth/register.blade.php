@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+
+@section('title') Create an account @endsection
+
 @section('content')
 
 @include('layouts.links')
@@ -8,10 +11,13 @@
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center py-5">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header d-flex justify-content-between">
+                    {{ __('Register') }}
+                    <div> <small>Already have an account? <a href="{{ route('login') }}"> <small>Login</small> </a> here.</small> </div>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">

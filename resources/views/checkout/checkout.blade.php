@@ -24,49 +24,57 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <h3 class="text-uppercase text-muted">Shipping</h3>
-              <h5>{{ auth()->user()->shipping->address }} {{ auth()->user()->shipping->city }} {{ auth()->user()->shipping->province }}, {{ auth()->user()->shipping->country }}</h5>
-              
+              <small>{{ auth()->user()->shipping->address }} {{ auth()->user()->shipping->city }} {{ auth()->user()->shipping->province }}, {{ auth()->user()->shipping->country }}</small>
+              <span> <a href="#">Edit</a> </span>
             </li>
             <li class="list-group-item">
-              <h3 class="text-uppercase text-muted">Payment Method</h3>
-              <h5>Cash on delivery</h5>
+              <h3 class="text-uppercase text-dark">Payment Method</h3>
+              <small>Cash on delivery</small>
+              <span> <a href="#">Change</a> </span>
             </li>
             {{-- Item --}}
             
-            <li class="list-group p-3 pb-0">
-              <h3 class="text-uppercase text-muted">Order Items</h3>
-            </li>
-            
-            @foreach (MyCart::content() as $key => $product)
             <li class="list-group-item mt-3">
-              <div class="d-flex justify-content-center">
-                <div class="row">
-                  <div class="row align-items-center">
-                    <div class="col-lg-3">
-                      <img
-                        src="storage/{{ $product->options->img }}"
-                        class="img-fluid"
-                        width="100rem"
-                        height="100rem"
-                      />
-                    </div>
-                    <div class="col-lg-5">
-                      <p class="text-dark">
-                        {{ $product->name }}
-                      </p>
-                    </div>
-                    <div class="col-lg-4">
-                      <p class="text-dark">
-                        <span>{{ $product->qty }}</span> x
-                        <span>{{ $product->price }}</span> =
-                        <span>{{ ($product->qty * $product->price) }}</span>
-                      </p>
+              <h3 class="text-uppercase text-dark">Order Items</h3>
+
+              <ul class="list-group list-group-flush">
+                @foreach (MyCart::content() as $key => $product)
+                <li class="list-group-item">
+                  <div class="div-row">
+                    <div class="row">
+                      <div class="row align-items-center">
+                        <div class="col-lg-3">
+                          <a href="/product/{{ $product->id }}">
+                            <img
+                              src="storage/{{ $product->options->img }}"
+                              class="img-fluid"
+                              width="75rem"
+                              height="75rem"
+                            />
+                          </a>
+                        </div>
+                        <div class="col-lg-4">
+                          <small class="text-dark">
+                            {{ $product->name }}
+                          </small>
+                        </div>
+                        <div class="col-lg-5">
+                          <small class="text-dark">
+                            <span>{{ $product->qty }}</span> x
+                            <span> &#8369;{{ $product->price }}</span> =
+                            <span> &#8369;{{ ($product->qty * $product->price) }}</span>
+                          </small>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </li>          
-            @endforeach
+                </li>
+                @endforeach
+
+              </ul>
+              
+              
+            </li>
 
           </ul>
         </div>
@@ -87,13 +95,13 @@
               <!-- Discount-->
               <div class="row py-1">
                 <div class="col lg-6">Discount:</div>
-                <div class="col lg-6">$ 0.00</div>
+                <div class="col lg-6">&#8369; 0.00</div>
               </div>
 
               <!-- Shipping-->
               <div class="row py-1">
                 <div class="col lg-6">Shipping:</div>
-                <div class="col lg-6">$ 0.00</div>
+                <div class="col lg-6">&#8369; 0.00</div>
               </div>
 
               <!-- Total -->
@@ -108,7 +116,7 @@
               <div class="row py-1">
                 <div class="col lg-6">Total:</div>
                 <div class="col lg-6">
-                  <span class="fw-bold">${{ MyCart::total() }}</span>
+                  <span class="fw-bold">&#8369;{{ MyCart::total() }}</span>
                 </div>
               </div>
 

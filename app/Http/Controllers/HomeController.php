@@ -39,12 +39,5 @@ class HomeController extends Controller
         ]);
 
     }
-
-    public function test()
-    {
-        $routeCollection = Route::getRoutes();
-        dd($routeCollection);
-    }
-
    
 }

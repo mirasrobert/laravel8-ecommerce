@@ -66,8 +66,15 @@
               {{ Auth::user()->name }}
             </a>
             <ul class="dropdown-menu text-white" aria-labelledby="navbarDropdown">
+
+              <li><a class="dropdown-item" href="{{ route('orders.index') }}">My Orders</a></li>
+              
+              {{-- CHECK IF ADMIN --}}
+              @if (auth()->user()->role === 0)
               <li><a class="dropdown-item" href="#">User</a></li>
               <li><a class="dropdown-item" href="{{ route('product.index') }}">Product</a></li>
+              @endif
+
               <li>
                 <li>
                   <a class="dropdown-item" href="{{ route('logout') }}"

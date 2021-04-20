@@ -10,7 +10,6 @@
             Repudiandae quis ut hic? Sed iure ratione reprehenderit neque quam
             enim impedit provident veritatis ullam quas, harum unde reiciendis
             autem cupiditate nam!
-            <span>Made With Robert Miras &hearts;.</span>
           </p>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-12">
@@ -52,7 +51,7 @@
         <p class="lead m-0 p-0">
           &copy;
           <span id="year"></span>
-          ZALADA
+          ZALADA <span>Made With Robert Miras &hearts;.</span>
         </p>
       </div>
     </div>

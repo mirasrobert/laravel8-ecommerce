@@ -9,6 +9,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
+use Illuminate\Support\Facades\DB;
 use Stripe;
 
 
@@ -86,10 +87,11 @@ class CheckoutController extends Controller
             // SAVE ORDER
             $order = new Order();
             $content = MyCart::content();
+            $transaction_no = $this->generateRandomString();
             //$order_no = auth()->user()->id.$this->generateRandomString().time();
             $data = [
                 'content' => $content,
-                'order_no' => $charge->id
+                'id' => $transaction_no
             ];
 
             $order->saveOrder($data);
@@ -100,27 +102,30 @@ class CheckoutController extends Controller
             // Delete the old cart from the  database
             MyCart::instance('default')->erase(auth()->user()->id);
               
-            session(["thankyou" => $data['order_no']]);
+            session(["thankyou" => $data['id']]);
             
-
             return redirect()->route('thankyou');
 
-            
-    
             } catch (Exception $e) {
                 return back()->with('Error! ' . $e->getMessage());
             }
 
     }
 
-    public function generateRandomString($length = 5) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    public function generateRandomString($length = 15) {
+
+        $characters = '012345678901234567890123456789012345678901234567890123456789';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
-        return $randomString;
+        
+        $transationnoDoesExist = Order::find($randomString);
+
+        $check = (! $transationnoDoesExist) ? $randomString : $this->generateRandomString();
+
+        return $check;
     }
 
 

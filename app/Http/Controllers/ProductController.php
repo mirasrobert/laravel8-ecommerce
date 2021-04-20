@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use App\Models\User;
+use App\Policies\UserPolicy;
 
 class ProductController extends Controller
 {
@@ -22,6 +24,11 @@ class ProductController extends Controller
      */
     public function index()
     {
+        //Check if admin
+        if (auth()->user()->role !== 0) {
+            return redirect()->route('home');
+        }
+
         $products = Product::get();
         return view('product.product' , [
             'products' => $products
@@ -124,3 +131,4 @@ class ProductController extends Controller
         return back()->with('status', 'A product has been removed.');
     }
 }
+
