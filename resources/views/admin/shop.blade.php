@@ -18,21 +18,15 @@
               <div class="p-2 bd-highlight">
                 <a href="#">My Profile</a>
               </div>
-              {{-- <div class="p-2 bd-highlight">
-                <a href="#">My Returns</a>
-              </div>
-              <div class="p-2 bd-highlight">
-                <a href="#">My Cancellation</a>
-              </div> --}}
             </div>
           </div>
 
           {{-- START OF CARD --}}
           <div class="col-lg-8 ms-auto">
 
-            <h3>My Orders</h3>
+            <h3>Shop Orders</h3>
 
-            @if (count($order) > 0)
+            @if (count($orders) > 0)
             <table class="table table-hover">
               <thead class="table-dark">
                 <tr>
@@ -44,19 +38,19 @@
               </thead>
               <tbody>
 
-                @foreach ($order as $key => $product)
+                @foreach ($orders as $key => $order)
                 <tr>
-                  <td>{{ $product->transaction_no }}</td>
-                  <td>{{ \Carbon\Carbon::parse($product->created_at)->format('F d Y') }}</td>
+                  <td>{{ $order->transaction_no }}</td>
+                  <td>{{ \Carbon\Carbon::parse($order->created_at)->format('F d Y') }}</td>
                   <td>
                       <span
-                      class="{{ is_null($product->deliveredAt) ? 'bg-danger' : 'bg-success' }} rounded-pill p-2 text-white my-order-status"
+                      class="{{ is_null($order->deliveredAt) ? 'bg-danger' : 'bg-success' }} rounded-pill p-2 text-white my-order-status"
                       style="font-size: 0.7rem"
                       >
-                      {{ is_null($product->deliveredAt) ? "Not yet Delivered" : "Delivered" }}
+                      {{ is_null($order->deliveredAt) ? "Not Yet Delivered" : "Delivered" }}
                     </span>
                   </td>
-                  <td><span class="btn btn-light"><a style="text-decoration: none; color: #4d4d4d;" href="/orders/{{ $product->transaction_no }}">Manage</a></span></td>
+                  <td><span class="btn btn-light"><a style="text-decoration: none; color: #4d4d4d;" href="/orders/{{ $order->transaction_no }}">Manage</a></span></td>
 
                 </tr>
                 @endforeach

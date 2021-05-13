@@ -150,6 +150,10 @@ body {
     color: #ffb366;
 }
 
+#products .card {
+    height: 330px !important;
+}
+
 #products .card-footer .fas {
     color: #c0c0c0;
 }
@@ -208,7 +212,11 @@ p:hover {
 
 /* Product.html */
 /* ICONS */
-#main-content .fas {
+#main-content .checked  {
+    color: #ffb366;
+}
+
+.card-body .fas {
     color: #ffb366;
 }
 

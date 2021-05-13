@@ -14,6 +14,11 @@ Array.from(className).forEach(element => {
         const sendPatchRequest = async () => {
             try {
                 const response = await axios.put(`/cart/${id}/qty/${qty}`, {
+                    headers: {
+                        "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr(
+                            "content"
+                        )
+                    },
                     quantity: qty
                 });
 

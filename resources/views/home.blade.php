@@ -108,12 +108,16 @@
             <div class="col-lg-3 col-md-6">
               <div class="card my-3">
                 <div class="card-body">
-                  <img
+
+                  {{-- Product Image --}}
+                  <a href="/product/{{ $product->id }}">
+                    <img
                     src="/storage/{{ $product->image }}"
                     alt=""
                     class="img-fluid w-50 mb-3"
                   />
-                  
+                  </a>
+
                   <h5 class="product-title">
                   @if (strlen($product->name) > 0 && strlen($product->name) < 26) <!-- TEXT NOT BREAK OR TOO SHORT -->
                        {{ $product->name }}

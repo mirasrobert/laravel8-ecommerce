@@ -29,7 +29,7 @@
             </li>
             <li class="list-group-item">
               <h3 class="text-uppercase text-dark">Payment Method</h3>
-              <small>Cash on delivery</small>
+              <small>Credit or Debit Card</small>
               <span> <a href="#">Change</a> </span>
             </li>
             {{-- Item --}}
@@ -102,6 +102,7 @@
               <div class="row py-1">
                 <div class="col lg-6">Shipping:</div>
                 <div class="col lg-6">&#8369; 0.00</div>
+               
               </div>
 
               <!-- Total -->
@@ -117,10 +118,15 @@
                 <div class="col lg-6">Total:</div>
                 <div class="col lg-6">
                   <span class="fw-bold">&#8369;{{ MyCart::total() }}</span>
+                  <input type="hidden" id="total" value="{{ $total }}">
                 </div>
               </div>
 
               <hr />
+
+              {{-- PAYPAL BUTTON --}}
+              <div id="paypal-button-container"></div>
+
               <div class="d-flex gap-2 col-lg-7 mx-auto">
                 <img src="img/payment.png" class="img-fluid" />
               </div>
@@ -130,13 +136,25 @@
             </div>
 
             {{-- Payment Details --}}
-            <div class="card mt-3">
+           {{-- <div class="card mt-3">
               <div class="card-body">
                 <h3 class="text-uppercase">Payment</h3>
                 <hr>
+            --}}    
 
-                <form action="{{ route('checkout.store') }}" method="post" id="payment-form" data-cc-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}">
+                {{-- data-cc-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}"  --}}
+
+                <form action="{{ route('checkout.store') }}" method="post" id="payment-form">
                   @csrf
+
+                  <div class="form-group">
+                    <input type="hidden" name="address" id="address" value="{{ auth()->user()->shipping->address }}"  readonly required>
+                    <input type="hidden" name="city" id="city" value="{{ auth()->user()->shipping->city }}"  readonly required>
+                    <input type="hidden" name="province" id="province" value="{{ auth()->user()->shipping->province }}"  readonly required>
+                    <input type="hidden" name="postalcode" id="postalcode" value="{{ auth()->user()->shipping->postal_code }}"  readonly required>
+                  </div>
+
+                {{--
                 <div class="form-group">
                   <label for="name_on_card" class="col-form-label text-md-right">Name Of Card</label>
                   <input id="name_on_card" type="name_on_card" class="form-control @error('name_on_card') is-invalid @enderror" name="name_on_card" required autocomplete="name_on_card">
@@ -151,16 +169,11 @@
                     Beware of scams.
                   </div>
                 </div>
+                --}}
 
-                <div class="form-group">
-                  <input type="hidden" name="address" id="address" value="{{ auth()->user()->shipping->address }}"  readonly required>
-                  <input type="hidden" name="city" id="city" value="{{ auth()->user()->shipping->city }}"  readonly required>
-                  <input type="hidden" name="province" id="province" value="{{ auth()->user()->shipping->province }}"  readonly required>
-                  <input type="hidden" name="postalcode" id="postalcode" value="{{ auth()->user()->shipping->postal_code }}"  readonly required>
-                </div>
                 
                 {{-- Stripe Form --}}
-                <div class="form-group mt-3">
+                {{-- <div class="form-group mt-3">
                   <label for="card-element">
                     Credit or debit card
                   </label>
@@ -170,14 +183,16 @@
 
                   <!-- Used to display form errors -->
                   <div id="card-errors" role="alert"></div>
-              </div>
+              </div> --}}
               {{-- End Stripe Form --}}
+              
+              {{-- <hr> --}}
 
-              <hr>
-
+              {{--
               <div class="d-grid gap-2">
                 <button id="complete-order" class="btn btn-primary text-uppercase p-2" type="submit">Place Order</button>
               </div>
+              --}}
 
             </form>
 
@@ -191,6 +206,19 @@
 
 @endsection
 @section('extra-js')
+{{-- AXIOS --}}
+<script src="{{ asset('js/app.js') }}"></script>
+
+{{-- PAYPAL SDK API --}}
+<script
+    src="https://www.paypal.com/sdk/js?client-id={{ $PAYPAL_CLIENT_ID }}&locale=en_PH">
+</script>
+
+{{-- PAYPAL INTEGRATION --}}
+<script src="{{ asset('js/paypalapi.js') }}"></script>
+
+{{-- STRIPE INTEGRATION --}}
+{{-- 
 <script>
   // Create a Stripe client.
   var stripe = Stripe('pk_test_51IY0L6JrD7AXIUlSejg5ryIQezY9lqXifT0P1aHE6sKfUXEfT3e6mHO5pJ8L9HjSXsVBNOhTs3swdWCdwGMv0uyW00yDpnSF3J');
@@ -283,4 +311,5 @@
       form.submit();
   }
 </script>
+--}}
 @endsection

@@ -9,6 +9,8 @@
 
     <title>@yield('title')</title>
 
+    <link rel="icon" href="http://assets.stickpng.com/images/5f480fb74ee26200042222e5.png" type="image/gif" sizes="8x8">
+
     <!-- Fontawesome -->
     <link
       href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"

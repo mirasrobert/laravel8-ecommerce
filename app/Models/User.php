@@ -56,7 +56,7 @@ class User extends Authenticatable
     public function products()
     {
         return $this->belongsToMany(Product::class, 'orders', 'user_id', 'product_id')
-                    ->withPivot('id','amount', 'qty', 'transaction_no');
+                    ->withPivot('id','amount', 'qty', 'transaction_no', 'tax');
     }
 
     public function orders()
@@ -69,4 +69,8 @@ class User extends Authenticatable
         return $this->hasOne(Shipping::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasOne(Review::class);
+    }
 }

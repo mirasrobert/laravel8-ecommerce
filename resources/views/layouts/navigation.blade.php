@@ -70,10 +70,10 @@
               <li><a class="dropdown-item" href="{{ route('orders.index') }}">My Orders</a></li>
               
               {{-- CHECK IF ADMIN --}}
-              @if (auth()->user()->role === 0)
-              <li><a class="dropdown-item" href="#">User</a></li>
+              @can('view', auth()->user())
+              <li><a class="dropdown-item" href="{{ route('shop') }}">Shop</a></li>
               <li><a class="dropdown-item" href="{{ route('product.index') }}">Product</a></li>
-              @endif
+              @endcan
 
               <li>
                 <li>

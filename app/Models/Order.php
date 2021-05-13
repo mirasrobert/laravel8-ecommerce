@@ -14,22 +14,36 @@ class Order extends Model
     protected $fillable =  [
         'transaction_no',
         'product_id',
+        'name',
+        'image',
         'amount',
-        'qty'
+        'qty',
+        'isPaid',
+        'deliveredAt',
+        'tax'
     ];
 
     public function saveOrder($data)
     {
+
+        try {
             foreach ($data['content'] as $key => $value) {
 
                 auth()->user()->orders()->create([
                     'product_id' => $value->id,
+                    'name' => $value->name,
+                    'image' => $value->options->img,
                     'amount' => $value->price,
                     'qty' => $value->qty,
-                    'transaction_no' => $data['id']
+                    'transaction_no' => $data['id'],
+                    'isPaid' => $data['isPaid'],
+                    'tax' => $data['tax']
                 ]);
-    
             }
+        } catch (\Illuminate\Database\QueryException $e) {
+            die('SOMETHING WENT WRONG '.$e->getMessage());
+        }
+            
     }
 
     public function users()

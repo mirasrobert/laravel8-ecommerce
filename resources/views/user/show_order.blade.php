@@ -10,6 +10,12 @@
       <div class="row py-5">
         <div class="col-lg-8"> 
           <ul class="list-group list-group-flush">
+
+            <li class="list-group-item">
+              <h3 class="text-uppercase text-dark">Order #</h3>
+              <small>#{{ $id }}</small>
+            </li>
+
             <li class="list-group-item">
               <h3 class="text-uppercase text-dark">Shipping</h3>
               <small>32 A Mabin St Cavinti Laguna, Philippines</small>
@@ -17,9 +23,30 @@
 
             <li class="list-group-item">
               <h3 class="text-uppercase text-dark">Payment Method</h3>
-              <small>Cash on delivery</small>
-              <span class="bg-danger rounded-pill p-2 text-white" style="font-size: 0.7rem;">NOT PAID</span>
-              <span class="bg-success rounded-pill p-2 text-white" style="font-size: 0.7rem;">PAID</span>
+              <small>Credit or Debit Card</small>
+            </li>
+
+            <li class="list-group-item">
+              <h3 class="text-uppercase text-dark">Delivered At</h3>
+              <div class="alert {{ is_null($isDelivered) ? "alert-danger" : "alert-success" }}" role="alert">
+                <div class="row">
+                  <div class="col-md-6">
+                    {{ is_null($isDelivered) ? "Not yet been delivered." : $deliveredAt }}
+                  </div>
+                </div>
+              </div>
+
+              @if (is_null($isDelivered))
+                @can('view', auth()->user())
+                
+                <form action="/shop/{{ $id }}" method="POST">
+                  @csrf
+                  @method('PATCH')
+                  <button type="submit" class="btn btn-sm btn-primary">Mark as delivered.</button>
+                </form>
+                @endcan
+              @endif
+            
             </li>
             
             <li class="list-group-item mt-3">
@@ -47,9 +74,9 @@
                         </div>
                         <div class="col-lg-5">
                           <small class="text-dark">
-                            <span>{{ $order->pivot->qty }}</span> x
-                            <span> &#8369;{{ $order->price }}</span> =
-                            <span> &#8369;{{ ($order->pivot->amount) }}</span>
+                            <span>{{ $order->qty }}</span> x
+                            <span> &#8369;{{ $order->amount }}</span> =
+                            <span> &#8369;{{ ($order->qty * $order->amount) }}</span>
                           </small>
                         </div>
                       </div>
@@ -85,6 +112,12 @@
                 <div class="col lg-6">&#8369;{{ $total }}</div>
               </div>
 
+              <!-- TAX-->
+              <div class="row py-1">
+                <div class="col lg-6">Tax:</div>
+                <div class="col lg-6">&#8369;{{ $tax }}</div>
+              </div>
+
               <!-- Shipping-->
               <div class="row py-1">
                 <div class="col lg-6">Shipping:</div>
@@ -95,7 +128,7 @@
               <div class="row py-1">
                 <div class="col lg-6">Total:</div>
                 <div class="col lg-6">
-                  <span class="fw-bold">&#8369;{{ $total }}</span>
+                  <span class="fw-bold">&#8369;{{ $total + $tax}}.00</span>
                 </div>
               </div>
 

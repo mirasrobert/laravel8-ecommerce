@@ -6,7 +6,8 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use App\Models\User;
-use App\Policies\UserPolicy;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
@@ -22,17 +23,14 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
         //Check if admin
-        if (auth()->user()->role !== 0) {
-            return redirect()->route('home');
-        }
+        $this->authorize('view', $user);
 
         $products = Product::get();
-        return view('product.product' , [
-            'products' => $products
-        ]);
+
+        return view('product.product' , compact('products'));
     }
 
     /**
@@ -40,8 +38,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
+        //Check if admin
+        $this->authorize('view', $user);
         return view('product.create');
     }
 
@@ -51,8 +51,11 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
+        //Check if admin
+        $this->authorize('view', $user);
+
         // Validate the forms
         $data = request()->validate([
             'name' => 'required|max:255',
@@ -93,7 +96,47 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('product.show', compact('product'));
+        // Check if user has buyed the product.
+        $canReview = DB::table('orders')
+                    ->where('user_id', auth()->user()->id)
+                    ->where('product_id', $product->id)
+                    ->exists();
+
+        // Check if user have already a review
+        $hasReview = auth()->user()->reviews()->where('product_id', $product->id)->exists();
+
+        // Get the reviews
+        $reviews = DB::table('users')
+            ->join('reviews', 'users.id', '=', 'reviews.user_id')
+            ->join('products', 'products.id', '=', 'reviews.product_id')
+            ->select('users.name', 'reviews.*')
+            ->where('reviews.product_id', $product->id)
+            ->get();
+
+        $totalVotes = DB::table('users')
+            ->join('reviews', 'users.id', '=', 'reviews.user_id')
+            ->join('products', 'products.id', '=', 'reviews.product_id')
+            ->where('reviews.product_id', $product->id)
+            ->sum('rate');
+
+        // $reviewCount = Cache::remember('reviewCount'.auth()->user()->id, 
+        //     now()->addSeconds(30), 
+        //     function() use ($reviews) {
+        //         return $reviews->count();
+        //     });
+
+        $reviewCount = $reviews->count();
+
+        // $rateAverage = Cache::remember('rateAverage'.auth()->user()->id, 
+        //     now()->addSeconds(30), 
+        //     function() use ($totalVotes, $reviewCount) {
+        //         if($reviewCount > 0) return ($totalVotes / $reviewCount);
+        //         return 0;
+        //     });
+
+        $rateAverage = ($reviewCount != 0) ? ($totalVotes / $reviewCount) : 0;
+
+        return view('product.show', compact('product', 'hasReview', 'reviews', 'reviewCount', 'rateAverage', 'canReview'));
     }
 
     /**
@@ -125,8 +168,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product, User $user)
     {
+        //Check if authorize to delete
+        $this->authorize('view', $user);
+
         $product->destroy($product->id);
         return back()->with('status', 'A product has been removed.');
     }

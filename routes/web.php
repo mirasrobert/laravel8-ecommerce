@@ -19,20 +19,35 @@ use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
 
 Auth::routes();
 
+Route::post('/reviews/{id}', [App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
+
 Route::resource('orders', App\Http\Controllers\OrderController::class)->only([
     'index', 'show', 'store'
 ])->parameters([
     'show' => 'id'
 ])->names([
     'index' => 'orders.index'
-]);;
+]);
+
+Route::resource('shipping', App\Http\Controllers\ShippingController::class)->only([
+    'index', 'store'
+])->names([
+    'index' => 'shipping',
+    'store' => 'shipping.store'
+]);
+
+Route::resource('shop', App\Http\Controllers\ShopController::class)->only([
+    'index', 'update'
+])->parameters([
+    'update' => 'id'
+])->names([
+    'index' => 'shop',
+    'update' => 'shop.update'
+]);
 
 Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
 Route::get('/thankyou', [App\Http\Controllers\CheckoutController::class, 'thankyou'])->name('thankyou');
 Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
-
-Route::get('/shipping', [App\Http\Controllers\ShippingController::class, 'index'])->name('shipping');
-Route::post('/shipping', [App\Http\Controllers\ShippingController::class, 'store'])->name('shipping.store');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

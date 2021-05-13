@@ -8,14 +8,12 @@
 @section('content')
 
 <div>
-
     <section id="main-content">
         <div class="container">
-
         @if( session('status') )
           <div class="alert alert-success alert-dismissible mt-3">
             {{ session('status')  }}    
-        </div>
+          </div>
         @endif
 
           <div class="row pt-5">
@@ -34,11 +32,16 @@
                       <li class="list-group-item">
                          <!-- Star Reviews -->
                         <div class="d-flex align-self-start">
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <span class="text-muted ps-1">0 reviews</span>
+                          @if ($reviewCount != 0)
+                            @for ($i = 0; $i < intval($rateAverage); $i++)
+                            <i class="fas fa-star checked"></i>
+                            @endfor
+                          @else
+                            @for ($i = 0; $i < 5; $i++)
+                              <i class="fas fa-star text-muted"></i>
+                            @endfor
+                          @endif
+                          <span class="text-muted ps-1">{{ $rateAverage }} Ratings </span>
                         </div>
                       </li> 
                       <li class="list-group-item">
@@ -107,18 +110,35 @@
                 <div class="col-lg-7">
                     <div class="card card-outline-secondary my-4">
                         <div class="card-header">
-                          Product Reviews
+                          Product Reviews | <span class="text-mute">{{ $reviewCount }} Vote(s)</span>
                         </div>
                         <div class="card-body">
-                          <p class="text-dark">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                          <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                          <hr>
-                          <p class="text-dark">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                          <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                          <hr>
-                          <p class="text-dark">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                          <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                          <hr>
+                          
+                          {{-- PRODUCT REVIEWS --}}
+                          @if ($reviewCount != 0)
+                            @foreach ($reviews as $key => $review)
+                            <div id="product-reviews">
+                              <p class="text-dark">{{ $review->comment }}</p>
+                              <small class="text-muted">Posted by {{ $review->name }} on {{ $review->created_at }}</small>
+                              <div class="reviews d-flex justify-content-start">
+                              @for ($i = 0; $i < $review->rate; $i++)
+                                <i class="fas fa-star checked"></i>
+                              @endfor
+                              <span class="ps-2 text-muted">  | <small>{{ $review->rate }} Stars</small> </span>
+                            </div>
+                            <hr>
+                            </div>
+                            @endforeach
+                          @else
+                            <div class="alert alert-info alert-dismissible mt-3">
+                              <small>
+                                This product has no reviews.
+                                Let others know what do you think and be the first to write a review.
+                              </small>
+                              <img width="35" height="35" src="https://laz-img-cdn.alicdn.com/tfs/TB1cXF1llTH8KJjy0FiXXcRsXXa-112-98.png" alt="sad-face">
+                            </div>
+                          @endif
+
                           <!-- FORM REVIEW -->
                           <div class="row">
                             
@@ -134,24 +154,59 @@
                             <!-- End Login Info -->
                             @else
                               <div class="col-lg-7 col-sm-12">
-                                <h4>Write your Review</h4>
-                                <form class="">
-                                  <div class="mb-3">
-                                      <label for="Rating" class="form-label">Rating</label>
-                                      <select class="form-select" aria-label="Rating">
-                                          <option value="1">1 - Very Bad</option>
-                                          <option value="2">2 - Bad</option>
-                                          <option value="3">3 - Satisfactory</option>
-                                          <option value="4">4 - Good</option>
-                                          <option value="5">5 - Satisfactory</option>
-                                        </select>
+
+                                {{-- Check if user has review --}}
+                                @if ($hasReview)
+                                  <div class="alert alert-info alert-dismissible mt-3">
+                                    You already have a review
                                   </div>
-                                  <div class="mb-3">
-                                    <label for="review" class="form-label">Review</label>
-                                    <textarea class="form-control" name="review" placeholder="Write your review here.."></textarea>
-                                  </div>                    
-                                  <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
+                                @else
+
+                                  @if ($canReview)
+                                    <h4>Write your Review</h4>
+                                    
+                                    <form action="{{ route('review.store', ['id' => $product->id]) }}" method="POST">
+                                      @csrf
+                                      <div class="mb-3">
+                                          <label for="Rating" class="form-label">Rating</label>
+                                          <select class="form-select @error('rating') is-invalid @enderror" name="rating" value="{{ old('rating') }}" aria-label="Rating" autofocus >
+                                              <option value="1">1 - Very Bad</option>
+                                              <option value="2">2 - Bad</option>
+                                              <option value="3">3 - Satisfactory</option>
+                                              <option value="4">4 - Good</option>
+                                              <option value="5">5 - Satisfactory</option>
+                                            </select>
+                                      </div>
+
+                                      @error('rating')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                      @enderror
+
+                                      <div class="mb-3">
+                                        <label for="review" class="form-label">Review</label>
+                                        <textarea class="form-control @error('review') is-invalid @enderror" name="review" value="{{ old('review') }}" placeholder="Write your review here.." autofocus></textarea>
+                                        <small id="emailHelp" class="form-text text-muted">Please share your experience with this product.</small>
+
+                                        @error('review')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+
+                                      </div>                    
+                                      <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                    @else
+                                     
+                                      <div class="alert alert-info alert-dismissible mt-3">
+                                        <small>Please buy the product to write a review.</small>
+                                      </div>
+
+                                  @endif
+                                @endif
+
                               </div>
                               @endguest
 

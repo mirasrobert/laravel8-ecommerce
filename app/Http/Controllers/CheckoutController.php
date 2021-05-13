@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Checkout;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
 use Illuminate\Support\Facades\DB;
 use Stripe;
+use Illuminate\Support\Carbon;
 
 
 class CheckoutController extends Controller
@@ -27,7 +29,13 @@ class CheckoutController extends Controller
             return redirect()->route('home');
         }
 
-        return view('checkout.checkout');
+        $total = str_replace(array(','), '', MyCart::total());
+        $config = config("api.PAYPAL_CLIENT_ID");
+
+        return view('checkout.checkout', [
+            "PAYPAL_CLIENT_ID" => $config,
+            "total" => $total
+        ]);
     }
 
     public function thankyou(Order $order)
@@ -44,14 +52,67 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Order $order,Product $product)
+    {
+        // Check for Paypal Request from Axios
+        if($data = $request->paypal) {
+
+            $details = session(["paypal" => $data]);
+
+            $value = session('paypal');
+
+            $this->paypalIntegration($request, $value, $order, $product);
+
+            $response = array("msg" => "payment-success");
+            return json_encode($response);
+        }
+    }
+
+    protected function paypalIntegration($request, $details, Order $order,Product $product)
+    {
+        try {         
+                $content = MyCart::content();
+
+                $date = Carbon::createFromFormat('Y-m-d\TH:i:s\Z', $details['create_time'], 'Asia/Manila');
+
+                $isPaid = $date->toDateTimeString();
+                
+                $data = [
+                    'content' => $content,
+                    'id' => $details["id"],
+                    'isPaid' => $isPaid,
+                    'tax' => MyCart::tax()
+                ];
+
+                // Save Order to the database
+                $order->saveOrder($data);
+
+                $product->updateProductQuantity($data);
+
+                // Remove All Cart
+                MyCart::instance('default')->destroy();
+        
+                // Delete the saved cart from the  database
+                MyCart::instance('default')->erase(auth()->user()->id);
+                    
+                session(["thankyou" => $data['id']]); // Create session for Order #   
+
+                // Remove Paypal Details
+                session()->forget('paypal');
+
+           } catch (\Illuminate\Database\QueryException $e) {
+                return back()->with('Error! ' . $e->getMessage());
+           }
+    }
+
+    protected function stripeIntegration(Request $request)
     {
         try {
-        
+            // Set Stripe API SECRET KEY
             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
     
             // Payment Intent Method 
-            /*
+            
             Stripe\PaymentIntent::create([
                 'amount' => 69,
                 'currency' => 'usd',
@@ -59,13 +120,18 @@ class CheckoutController extends Controller
                 'description' => 'Laravel Test Payment',
                 'setup_future_usage' => 'off_session'
             ]);
-            */
+            
              
+            // Total Amount
             $amount = str_replace(array(',','.'), '', MyCart::total());
+
+            // Metadata of products
             $contents = MyCart::content()->map(function($item) {
                 return $item->qty.', '.$item->name;
             })->values()->toJson();
+            
     
+            // Create customer payment
             $customer = Stripe\Customer::create([
                 'email' => auth()->user()->email,
                 "source" => $request->stripeToken,
@@ -83,7 +149,7 @@ class CheckoutController extends Controller
                         'quantity' => MyCart::instance('default')->count()
                     ]
             ]); 
-            
+           
             // SAVE ORDER
             $order = new Order();
             $content = MyCart::content();
@@ -96,7 +162,7 @@ class CheckoutController extends Controller
 
             $order->saveOrder($data);
 
-            // Remove Cart
+            // Remove All Cart
             MyCart::instance('default')->destroy();
     
             // Delete the old cart from the  database
@@ -109,7 +175,6 @@ class CheckoutController extends Controller
             } catch (Exception $e) {
                 return back()->with('Error! ' . $e->getMessage());
             }
-
     }
 
     public function generateRandomString($length = 15) {
@@ -127,6 +192,4 @@ class CheckoutController extends Controller
 
         return $check;
     }
-
-
 }
