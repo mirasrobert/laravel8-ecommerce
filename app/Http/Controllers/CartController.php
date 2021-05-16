@@ -53,10 +53,14 @@ class CartController extends Controller
      */     
     public function store(Product $product, Request $request)
     {
-        dd($product);
-        // Check if Out Of Stock
-        if($product->qty == 0) {
-            return back();
+        // Validate
+        $this->validate($request, [
+            'product_qty' => 'required|min:1|max:10'
+        ]);
+
+        // Valdiate If have enough stocks
+        if($request->product_qty > $product->qty) {
+            return back()->with('error', 'Product doesnt have enough stock. Please select between 1 & '.$product->qty);
         }
         
         if(Auth::check())

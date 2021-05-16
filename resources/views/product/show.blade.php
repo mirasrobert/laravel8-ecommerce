@@ -16,6 +16,12 @@
           </div>
         @endif
 
+        @if( session('error') )
+          <div class="alert alert-danger alert-dismissible mt-3">
+            {{ session('error')  }}    
+          </div>
+        @endif
+
           <div class="row pt-5">
             <div class="col-lg-7 col-sm-12">
               <div class="d-flex">
@@ -81,6 +87,12 @@
                           </div>
                           <div class="align-self-end ps-5 ms-4">
                             <input type="number" name="product_qty" class="form-control  @error('product_qty') border border-danger @enderror" value="{{ old('product_qty') ?? 1 }}" placeholder="" min="1" autofocus required {{ ($product->qty < 1) ? "disabled" : "" }}>
+                            
+                            @error('product_qty')
+                              <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $message }}</strong>
+                              </span>
+                            @enderror
                           </div>
                       </div>
                   </li>
