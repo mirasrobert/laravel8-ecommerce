@@ -44,7 +44,7 @@ class OrderController extends Controller
 
         $order = Order::select('transaction_no', 'created_at', 'isPaid' , 'deliveredAt')
                         ->where('user_id', $authenticated_user_id)
-                        ->orderBy('created_at')
+                        ->orderBy('created_at', 'DESC')
                         ->groupBy('created_at', 'transaction_no', 'isPaid' , 'deliveredAt')
                         ->get();
         
@@ -62,7 +62,7 @@ class OrderController extends Controller
         $orders = Order::where('transaction_no', $id)->get();
 
         // SUM OF EACH AMOUNT WITH THE ALL THE SAME CORRECT TRANSACTION_NO
-        $total = Order::where('transaction_no', $id)->sum('amount');
+        $total = $orders->sum('amount');
 
         // Get the Tax
         $tax = Order::where('transaction_no', $id)->first()->tax;
@@ -72,18 +72,23 @@ class OrderController extends Controller
 
         $date = Carbon::parse($isDelivered)->toDayDateTimeString();
 
+        $user = User::with(['shipping'])->findOrFail($orders[0]->user_id);
+
+        $shippingAddress = $user->shipping()->first();
+
         // Cache the data
+        /*
         $orderId = Cache::remember('orderId'.auth()->user()->id, 
         now()->addSeconds(30), 
         function() use ($id) {
             return $id;
-        });
+        });*/
 
-        $deliveredAt = Cache::remember('orderDeliveredAt'.auth()->user()->id, 
-        now()->addSeconds(30), 
-        function() use ($date) {
-            return $date;
-        });
+        // $deliveredAt = Cache::remember('orderDeliveredAt'.auth()->user()->id, 
+        // now()->addSeconds(30), 
+        // function() use ($date) {
+        //     return $date;
+        // });
 
         $orderTotal = Cache::remember('orderTotal'.auth()->user()->id, 
         now()->addSeconds(30), 
@@ -101,12 +106,14 @@ class OrderController extends Controller
         if(auth()->user()->role === 0)
         {
             return view('user.show_order', [
-                'id' =>  $orderId,
+                'id' =>  $id,
                 'orders' => $orders,
                 'total' => $orderTotal,
                 'tax' => $orderTax,
                 'isDelivered' => $isDelivered,
-                'deliveredAt' => $deliveredAt
+                'deliveredAt' => $date,
+                'user' => $user,
+                'shippingAddress' => $shippingAddress
             ]);
         } 
         else 
@@ -114,12 +121,14 @@ class OrderController extends Controller
             if (!$userOwnedTheOrder) return abort(404);
             
             return view('user.show_order', [
-                'id' =>  $orderId,
+                'id' =>  $id,
                 'orders' => $orders,
                 'total' => $orderTotal,
                 'tax' => $orderTax,
                 'isDelivered' => $isDelivered,
-                'deliveredAt' => $deliveredAt
+                'deliveredAt' => $date,
+                'user' => $user,
+                'shippingAddress' => $shippingAddress
                 ]);
                
         }

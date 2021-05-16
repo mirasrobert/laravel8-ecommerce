@@ -12,15 +12,15 @@ class Product extends Model
     protected $guarded = [];
 
     // A product can have a many users/customers into the cart
-    
-    public function users()
-    {
-        return $this->belongsToMany(User::class);
-    }
 
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
     
     // Update Product Qty

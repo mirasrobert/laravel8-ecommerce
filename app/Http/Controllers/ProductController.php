@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
+//use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -96,47 +97,52 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        // Check if user has buyed the product.
-        $canReview = DB::table('orders')
-                    ->where('user_id', auth()->user()->id)
-                    ->where('product_id', $product->id)
-                    ->exists();
+        
+        $isAuthenticated = (Auth::check()) ? Auth::id() : '';
+
+        // USING DB FACADE WITH PAGINATION
+        // // Check if user has buyed the product.
+        // $canReview = DB::table('orders')
+        //             ->where('user_id', $isAuthenticated)
+        //             ->where('product_id', $product->id)
+        //             ->exists();
 
         // Check if user have already a review
-        $hasReview = auth()->user()->reviews()->where('product_id', $product->id)->exists();
+        //$hasReview = auth()->user()->reviews()->where('product_id', $product->id)->exists();
+        // $hasReview = DB::table('reviews')
+        //             ->where('user_id', $isAuthenticated)
+        //             ->where('product_id', $product->id)
+        //             ->exists();
+        // Get the reviews by product ID
+        // $reviews = DB::table('users')
+        //     ->join('reviews', 'users.id', '=', 'reviews.user_id')
+        //     ->join('products', 'products.id', '=', 'reviews.product_id')
+        //     ->select('users.name', 'reviews.*')
+        //     ->latest()
+        //     ->where('reviews.product_id', $product->id)
+        //     ->paginate(5);
 
-        // Get the reviews
-        $reviews = DB::table('users')
-            ->join('reviews', 'users.id', '=', 'reviews.user_id')
-            ->join('products', 'products.id', '=', 'reviews.product_id')
-            ->select('users.name', 'reviews.*')
-            ->where('reviews.product_id', $product->id)
-            ->get();
+        // Total Participants that reviewed.
+        // $totalVotes = DB::table('users')
+        //     ->join('reviews', 'users.id', '=', 'reviews.user_id')
+        //     ->join('products', 'products.id', '=', 'reviews.product_id')
+        //     ->where('reviews.product_id', $product->id)
+        //     ->sum('rate');
 
-        $totalVotes = DB::table('users')
-            ->join('reviews', 'users.id', '=', 'reviews.user_id')
-            ->join('products', 'products.id', '=', 'reviews.product_id')
-            ->where('reviews.product_id', $product->id)
-            ->sum('rate');
+        // Total Reviews Count
+        //$reviewCount = $reviews->count();
 
-        // $reviewCount = Cache::remember('reviewCount'.auth()->user()->id, 
-        //     now()->addSeconds(30), 
-        //     function() use ($reviews) {
-        //         return $reviews->count();
-        //     });
+        // USING ELOQUENT WITH EAGER LOADING BUT NO PAGINATION
+        $product = $product->with(['reviews', 'orders'])->where('id', $product->id)->first();
 
-        $reviewCount = $reviews->count();
+        $hasReview = $product->reviews->where('user_id', $isAuthenticated)->count() > 0;
 
-        // $rateAverage = Cache::remember('rateAverage'.auth()->user()->id, 
-        //     now()->addSeconds(30), 
-        //     function() use ($totalVotes, $reviewCount) {
-        //         if($reviewCount > 0) return ($totalVotes / $reviewCount);
-        //         return 0;
-        //     });
+        $canReview = ($product->orders->where('user_id', $isAuthenticated)->count()) > 0;
 
-        $rateAverage = ($reviewCount != 0) ? ($totalVotes / $reviewCount) : 0;
+        // Ratings
+        $rateAverage = ($product->reviews->count() != 0) ? ($product->reviews->sum('rate') / $product->reviews->count()) : 0;
 
-        return view('product.show', compact('product', 'hasReview', 'reviews', 'reviewCount', 'rateAverage', 'canReview'));
+        return view('product.show', compact('product', 'hasReview', 'rateAverage', 'canReview'));
     }
 
     /**

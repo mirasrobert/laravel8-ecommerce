@@ -14,7 +14,6 @@ class ShopController extends Controller
     }
 
     public function index() {
-
         
         $this->authorize('view', auth()->user());
         $orders = Order::select('transaction_no', 'created_at', 'deliveredAt')
@@ -39,7 +38,7 @@ class ShopController extends Controller
                 $order = Order::findOrFail($value->id);
     
                 $order->update([
-                    'deliveredAt' => now()
+                    'deliveredAt' => now('Asia/Manila')
                 ]);
             }
 

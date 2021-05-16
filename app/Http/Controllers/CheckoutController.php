@@ -100,7 +100,9 @@ class CheckoutController extends Controller
                 // Remove Paypal Details
                 session()->forget('paypal');
 
-           } catch (\Illuminate\Database\QueryException $e) {
+                //\Illuminate\Database\QueryException
+
+           } catch (Exception $e) {
                 return back()->with('Error! ' . $e->getMessage());
            }
     }

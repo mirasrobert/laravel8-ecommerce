@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\Order;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use Illuminate\Support\Facades\Route;
-use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -29,14 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {
+        //dd(session('paypal'));
+        $singularOfRatings = Str::singular('Ratings');
+
         session()->forget('thankyou');
 
-        $products = Product::paginate(8);
+        $products = Product::with(['reviews'])->paginate(8);
 
-        return view('home' , [
-        'products' => $products
-        
-        ]);
+        return view('home', compact('products', 'singularOfRatings'));
 
     }
    

@@ -32,7 +32,7 @@
                       <li class="list-group-item">
                          <!-- Star Reviews -->
                         <div class="d-flex align-self-start">
-                          @if ($reviewCount != 0)
+                          @if ($product->reviews->count() != 0)
                             @for ($i = 0; $i < intval($rateAverage); $i++)
                             <i class="fas fa-star checked"></i>
                             @endfor
@@ -70,15 +70,9 @@
                   </li>
                   <li class="list-group-item">
                       Status
-                      @if ($product->qty > 0)
-                      <span class="ps-4 ms-4">
-                        In Stock
+                      <span class="ps-4 ms-4 fw-bold {{ ($product->qty > 0) ? "text-primary" : "text-danger" }}">
+                        {{ ($product->qty > 0) ? "In Stock" : "Out Of Stock" }}
                       </span>
-                      @else 
-                      <span class="ps-4 ms-4">
-                        Out of Stock
-                      </span>
-                      @endif
                   </li>
                   <li class="list-group-item">
                       <div class="d-flex">
@@ -86,13 +80,13 @@
                               Qty
                           </div>
                           <div class="align-self-end ps-5 ms-4">
-                            <input type="number" name="product_qty" class="form-control  @error('product_qty') border border-danger @enderror" value="{{ old('product_qty') ?? 1 }}" placeholder="" min="1" autofocus required>
+                            <input type="number" name="product_qty" class="form-control  @error('product_qty') border border-danger @enderror" value="{{ old('product_qty') ?? 1 }}" placeholder="" min="1" autofocus required {{ ($product->qty === 0) ? "disabled" : "" }}>
                           </div>
                       </div>
                   </li>
                   <li class="list-group-item">
                       <div class="d-grid gap-2 col-6 mx-auto">
-                          <button type="submit" class="btn btn-primary text-uppercase p-2">add to cart</button>
+                          <button type="submit" class="btn {{ ($product->qty === 0) ? "btn-danger" : "btn-primary" }} text-uppercase p-2" {{ ($product->qty === 0) ? "disabled" : "" }}>add to cart</button>
                       </div>
                   </li>
                 </ul>
@@ -110,13 +104,13 @@
                 <div class="col-lg-7">
                     <div class="card card-outline-secondary my-4">
                         <div class="card-header">
-                          Product Reviews | <span class="text-mute">{{ $reviewCount }} Vote(s)</span>
+                          Product Reviews | <span class="text-mute">{{ $product->reviews->count() }} Vote(s)</span>
                         </div>
                         <div class="card-body">
                           
                           {{-- PRODUCT REVIEWS --}}
-                          @if ($reviewCount != 0)
-                            @foreach ($reviews as $key => $review)
+                          @if ($product->reviews->count() != 0)
+                            @foreach ($product->reviews as $key => $review)
                             <div id="product-reviews">
                               <p class="text-dark">{{ $review->comment }}</p>
                               <small class="text-muted">Posted by {{ $review->name }} on {{ $review->created_at }}</small>
@@ -138,6 +132,8 @@
                               <img width="35" height="35" src="https://laz-img-cdn.alicdn.com/tfs/TB1cXF1llTH8KJjy0FiXXcRsXXa-112-98.png" alt="sad-face">
                             </div>
                           @endif
+
+                          {{-- {{ $product->reviews->links('pagination::bootstrap-4') }} --}}
 
                           <!-- FORM REVIEW -->
                           <div class="row">
@@ -162,7 +158,7 @@
                                   </div>
                                 @else
 
-                                  @if ($canReview)
+                                  @if ($canReview && Auth::checK())
                                     <h4>Write your Review</h4>
                                     
                                     <form action="{{ route('review.store', ['id' => $product->id]) }}" method="POST">

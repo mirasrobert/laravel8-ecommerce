@@ -104,7 +104,6 @@
   
           <div class="row">
           @foreach ($products as $product)
-              
             <div class="col-lg-3 col-md-6">
               <div class="card my-3">
                 <div class="card-body">
@@ -129,13 +128,24 @@
                   </h5>
   
                   <!-- Star Reviews -->
-                  <div class="d-flex justify-content-center">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <span class="text-muted ps-1">0 reviews</span>
-                  </div>
+                  @if($product->reviews->count() != 0)
+                    <div class="d-flex justify-content-center">
+                      @for ($i = 0; $i < intval(($product->reviews->sum('rate')) / ($product->reviews->count())); $i++)
+                        <i class="fas fa-star checked"></i>
+                      @endfor
+                      <span class="text-muted ps-1">
+                        {{ ($product->reviews->count() == 0) ? "0" : $product->reviews->sum('rate') / ($product->reviews->count() ) }}
+                        {{ $product->reviews->count() == 1 ? $singularOfRatings : "Ratings" }}
+                      </span>
+                    </div>
+                  @else
+                      @for ($i = 0; $i < 5; $i++)
+                      <i class="fas fa-star text-muted"></i>
+                      @endfor
+                      <span class="text-muted ps-1">
+                        0 Rating
+                      </span>
+                  @endif
   
                   <!-- Cost -->
                   <div class="d-flex justify-content-center">

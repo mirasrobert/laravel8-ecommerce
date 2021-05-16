@@ -146,12 +146,14 @@ body {
 }
 
 /* ICONS */
-#products .fas {
+#products .checked {
     color: #ffb366;
 }
 
+/* HOME PRODUCT CARDS HEIGHT */
 #products .card {
-    height: 330px !important;
+    /* height: 317.22px !important; */
+    height: 305px !important;
 }
 
 #products .card-footer .fas {
@@ -163,7 +165,7 @@ body {
 }
 
 #products h5.product-title {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 /* Product-2 */
@@ -212,11 +214,11 @@ p:hover {
 
 /* Product.html */
 /* ICONS */
-#main-content .checked  {
+#main-content .checked {
     color: #ffb366;
 }
 
-.card-body .fas {
+.card-body .checked {
     color: #ffb366;
 }
 

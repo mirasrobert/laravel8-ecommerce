@@ -53,6 +53,11 @@ class CartController extends Controller
      */     
     public function store(Product $product, Request $request)
     {
+        // Check if Out Of Stock
+        if($product->qty == 0) {
+            return back();
+        }
+        
         if(Auth::check())
         {
             // Erase the old cart from the database

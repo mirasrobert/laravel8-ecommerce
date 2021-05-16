@@ -18,7 +18,7 @@
 
             <li class="list-group-item">
               <h3 class="text-uppercase text-dark">Shipping</h3>
-              <small>32 A Mabin St Cavinti Laguna, Philippines</small>
+              <small>{{ $shippingAddress->address }}</small>
             </li>
 
             <li class="list-group-item">
@@ -146,6 +146,26 @@
               </div>
 
             </div>
+
+          <div class="card mt-2">
+              <div class="card-body">
+                <h3 class="text-uppercase">Customer Details</h3>
+                <hr>
+              
+                <!-- Subtotal Price -->
+                <div class="row py-1">
+                  <div class="col lg-6">Name:</div>
+                  <div class="col lg-6">{{ $user->name }}</div>
+                </div>
+        
+                <!-- Subtotal-->
+                <div class="row py-1">
+                  <div class="col lg-6">Address:</div>
+                  <div class="col lg-6">{{ $shippingAddress->contact }}</div>
+                </div>         
+              </div>
+            </div>
+            {{-- END OF CUSTOMER --}}
           </div>
         </div>
       </div>

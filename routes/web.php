@@ -45,9 +45,9 @@ Route::resource('shop', App\Http\Controllers\ShopController::class)->only([
     'update' => 'shop.update'
 ]);
 
+Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
 Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
 Route::get('/thankyou', [App\Http\Controllers\CheckoutController::class, 'thankyou'])->name('thankyou');
-Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
