@@ -53,6 +53,7 @@ class CartController extends Controller
      */     
     public function store(Product $product, Request $request)
     {
+        dd($product);
         // Check if Out Of Stock
         if($product->qty == 0) {
             return back();

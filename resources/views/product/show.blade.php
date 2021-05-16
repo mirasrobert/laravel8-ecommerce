@@ -80,13 +80,13 @@
                               Qty
                           </div>
                           <div class="align-self-end ps-5 ms-4">
-                            <input type="number" name="product_qty" class="form-control  @error('product_qty') border border-danger @enderror" value="{{ old('product_qty') ?? 1 }}" placeholder="" min="1" autofocus required {{ ($product->qty === 0) ? "disabled" : "" }}>
+                            <input type="number" name="product_qty" class="form-control  @error('product_qty') border border-danger @enderror" value="{{ old('product_qty') ?? 1 }}" placeholder="" min="1" autofocus required {{ ($product->qty < 1) ? "disabled" : "" }}>
                           </div>
                       </div>
                   </li>
                   <li class="list-group-item">
                       <div class="d-grid gap-2 col-6 mx-auto">
-                          <button type="submit" class="btn {{ ($product->qty === 0) ? "btn-danger" : "btn-primary" }} text-uppercase p-2" {{ ($product->qty === 0) ? "disabled" : "" }}>add to cart</button>
+                          <button type="submit" class="btn {{ ($product->qty < 1) ? "btn-danger" : "btn-primary" }} text-uppercase p-2" {{ ($product->qty < 1) ? "disabled" : "" }}>add to cart</button>
                       </div>
                   </li>
                 </ul>
