@@ -104,7 +104,8 @@
   
           <div class="row">
           @foreach ($products as $product)
-            <div class="col-lg-3 col-md-6">
+          {{-- d-flex align-items-stretch --}}
+            <div class="col-lg-3 col-md-4 col-sm-6">
               <div class="card my-3">
                 <div class="card-body">
 
