@@ -26,7 +26,9 @@
             <div class="col-lg-7 col-sm-12">
               <div class="d-flex">
                   <div class="p-4 align-self-start">
-                      <img src="/storage/{{ $product->image }}" class="img-fluid" />
+                      <a href="/storage/{{ $product->image }}" data-toggle="lightbox" data-height="560" data-width="563">
+                        <img src="/storage/{{ $product->image }}" width="280" height="260" />
+                      </a>
                   </div>
                   <div class="p-4 align-self-end">
   

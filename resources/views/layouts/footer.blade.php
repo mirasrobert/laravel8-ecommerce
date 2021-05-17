@@ -6,10 +6,12 @@
         <div class="col-lg-6 col-md-4 col-sm-12">
           <h5 class="text-uppercase">About</h5>
           <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Repudiandae quis ut hic? Sed iure ratione reprehenderit neque quam
-            enim impedit provident veritatis ullam quas, harum unde reiciendis
-            autem cupiditate nam!
+            {{ env('APP_NAME') }} is a Fictional Ecommerce Website. 
+            This is a LARAVEL APP by Robert Miras. The purpose of this app 
+            is to showcase the skills of what I am capable of. Please do not try 
+            any real transactions here. Mostly the features of an ecommerce site is implemented in this app, only for showing
+            the skills only for my Portfolio. If you want to get in touch with me, please contact me with my email: mrmirasrobert@gmail.com
+
           </p>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-12">
@@ -31,10 +33,14 @@
         </div>
         <div class="col-lg-3 col-md-4 col-sm-12">
           <h5 class="text-uppercase mt-3">Social</h5>
-          <ul class="category-footer p-0 m-0">
+          <ul class="category-footer p-0 mb-2">
+            <li>
+              <i class="fab fa-github"></i>
+              <a href="https://github.com/mirasrobert">Github</a>
+            </li>
             <li>
               <i class="fab fa-facebook-f"></i>
-              <a href="#">Facebook</a>
+              <a href="https://www.facebook.com/MirasRobert">Facebook</a>
             </li>
             <li>
               <i class="fab fa-twitter"></i>
@@ -42,16 +48,16 @@
             </li>
             <li>
               <i class="fab fa-instagram"></i>
-              <a href="#">Instagram</a>
+              <a href="https://www.instagram.com/robertmiras/">Instagram</a>
             </li>
           </ul>
         </div>
 
         <hr />
-        <p class="lead m-0 p-0">
+        <p class="lead">
           &copy;
           <span id="year"></span>
-          ZALADA <span>Made With Robert Miras &hearts;.</span>
+          <span>{{ env('APP_NAME') }} Made By Robert Miras &hearts;.</span>
         </p>
       </div>
     </div>

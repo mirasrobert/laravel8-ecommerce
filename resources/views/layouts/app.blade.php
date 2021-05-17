@@ -11,6 +11,11 @@
 
     <link rel="icon" href="http://assets.stickpng.com/images/5f480fb74ee26200042222e5.png" type="image/gif" sizes="8x8">
 
+    <link
+    href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+    rel="stylesheet"
+  />
+
     <!-- Fontawesome -->
     <link
       href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
@@ -26,15 +31,17 @@
     />
 
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
     {{--  --}}
     @yield('extra-css')
 </head>
 <body>
-    <div id="app">
-      
+    <div id="main">
+        
         @include('layouts.navigation')
 
-        <main class="">
+        
+        <main id="app">
             @yield('content')
         </main>
 
@@ -52,6 +59,19 @@
 <!-- Get The Current Year Dynamically -->
 <script>
       document.getElementById("year").innerHTML = new Date().getFullYear();
+</script>
+
+{{-- <script src="{{ mix('js/app.js') }}"></script> --}}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js" integrity="sha512-Y2IiVZeaBwXG1wSV7f13plqlmFOx8MdjuHyYFVoYzhyRr3nH/NMDjTBSswijzADdNzMyWNetbLMfOpIPl6Cv9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+  $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+                event.preventDefault();
+                $(this).ekkoLightbox();
+            });
 </script>
 
 @yield('extra-js')

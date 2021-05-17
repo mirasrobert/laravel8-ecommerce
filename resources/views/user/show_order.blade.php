@@ -160,7 +160,7 @@
         
                 <!-- Subtotal-->
                 <div class="row py-1">
-                  <div class="col lg-6">Address:</div>
+                  <div class="col lg-6">Contact:</div>
                   <div class="col lg-6">{{ $shippingAddress->contact }}</div>
                 </div>         
               </div>

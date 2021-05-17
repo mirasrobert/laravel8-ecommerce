@@ -48,7 +48,7 @@
                                 {{ $product->name }}
                             </td>
                             <td>
-                                <img src="/storage/{{ $product->image }}" class="img-fluid" width="150rem;" height="150rem;" alt="product-img">
+                                <img src="/storage/{{ $product->image }}" class="img-fluid" width="320" height="300" alt="product-img">
                             </td>
                             <td>
                                 ₱{{ $product->price }}

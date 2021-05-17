@@ -3,9 +3,11 @@
 <!-- Start Navigation -->
  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" id="mainNav" >
     <div class="container">
-      <a class="navbar-brand" href="{{ route('home') }}">ZALADA</a>
+      <a class="navbar-brand" href="{{ route('home') }}">
+        <h4>{{ env('APP_NAME') }}</h4>
+      </a>
       <!-- Search -->
-      <form class="d-flex">
+      {{-- <form class="d-flex">
         <input
           class="form-control me-2"
           type="search"
@@ -15,7 +17,7 @@
         <button class="btn btn-outline-primary text-primary" type="submit">
           <i class="fas fa-search"></i>
         </button>
-      </form>
+      </form> --}}
       <!-- End Search -->
       <button
         class="navbar-toggler"
