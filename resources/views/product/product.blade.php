@@ -8,7 +8,7 @@
 
 <div>
     <!-- Begin Page Content -->
- <div class="container">
+ <div class="container pt-5">
 
     @if( session('status') )
         <div class="alert alert-danger alert-dismissible my-3">
@@ -21,7 +21,7 @@
     <div class="shadow mb-4 mt-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Products</h6>
-            <a href="{{ route('product.create') }}" class="btn btn-md btn-dark text-uppercase p-2 mt-1"><i class="fas fa-plus"></i> Create product</a>
+            <a href="{{ route('product.create') }}" class="btn btn-md btn-dark text-uppercase p-2 mt-1"><i class="fa fa-plus"></i> Create product</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -64,13 +64,13 @@
                             </td>
                             <td>  
                                  
-                                <a href="/product/{{ $product->id }}/edit" class="btn btn-sm btn-light text-uppercase p-2 mt-1"><i class="far fa-edit"></i></a>
+                                <a href="/product/{{ $product->id }}/edit" class="btn btn-sm btn-light text-uppercase p-2 mt-1"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                 
                                 <form action="/product/{{ $product->id }}" method="POST">
                                     @csrf
                                     @method('DELETE')
 
-                                    <button class="btn btn-sm btn-danger text-uppercase p-2 mt-1" type="submit"><i class="far fa-trash-alt"></i></button>
+                                    <button class="btn btn-sm btn-danger text-uppercase p-2 mt-1" type="submit"><i class="fa fa-trash"></i></button>
                                 </form>
 
                             </td>

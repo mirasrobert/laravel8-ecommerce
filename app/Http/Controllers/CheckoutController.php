@@ -76,12 +76,14 @@ class CheckoutController extends Controller
                 $date = Carbon::createFromFormat('Y-m-d\TH:i:s\Z', $details['create_time'], 'Asia/Manila');
 
                 $isPaid = $date->toDateTimeString();
+
+                $tax = intval(str_replace(array(','), '', MyCart::tax()));
                 
                 $data = [
                     'content' => $content,
                     'id' => $details["id"],
                     'isPaid' => $isPaid,
-                    'tax' => MyCart::tax()
+                    'tax' => $tax
                 ];
 
                 // Save Order to the database

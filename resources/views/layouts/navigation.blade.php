@@ -1,153 +1,127 @@
+<!-- Pre Header -->
+<div id="pre-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <span>
+          <i class="fa fa-envelope" aria-hidden="true"></i>
+          mrmirasrobert@gmail.com
+        </span>
+        <span class="ml-3">
+          <i class="fa fa-phone" aria-hidden="true"></i>
+          010-020-0340
+        </span>
+      </div>
+      <div class="col-md-6">
+        <span>
+          <a class="ml-2" href="https://github.com/mirasrobert">
+            <i class="fa fa-github text-white" aria-hidden="true"></i>
+          </a>
+          <a class="ml-2" href="https://www.facebook.com/MirasRobert">
+            <i class="fa fa-facebook text-white" aria-hidden="true"></i>
+          </a>
+          <a class="ml-2" href="https://www.instagram.com/robertmiras/">
+            <i class="fa fa-instagram text-white" aria-hidden="true"></i>
+          </a>
+          <a class="ml-2" href="https://www.linkedin.com/in/robert-miras/">
+            <i class="fa fa-linkedin-square text-white" aria-hidden="true"></i>
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <a class="navbar-brand text-dark" href="#">
+      {{-- <img src="{{ asset('assets/images/header-logo.png') }}" alt=""/> --}}
+      <span class="checked fw-600 text-size-2rem">FAB</span><span class="text-size-2rem">RIQUE</span>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarResponsive"
+      aria-controls="navbarResponsive"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive" >
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('home') }}"
+            >Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
 
-<!-- Start Navigation -->
- <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" id="mainNav" >
-    <div class="container">
-      <a class="navbar-brand" href="{{ route('home') }}">
-        <h4>{{ env('APP_NAME') }}</h4>
-      </a>
-      <!-- Search -->
-      {{-- <form class="d-flex">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-primary text-primary" type="submit">
-          <i class="fas fa-search"></i>
-        </button>
-      </form> --}}
-      <!-- End Search -->
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('product.cart') }}">
-              <i class="fas fa-shopping-cart"></i>
-              @auth
-                @if(MyCart::instance('default')->count() > 0)
-                {{-- Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ auth()->user()->products->count() }} </span>  --}}
-                Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ MyCart::instance('default')->count() }} </span>   
-                @else
-                Cart
-                @endif 
-                
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('product.view') }}">Products</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('product.cart') }}">
+            <i class="fa fa-shopping-cart"></i>
+            @auth
+              @if(MyCart::instance('default')->count() > 0)
+              {{-- Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ auth()->user()->products->count() }} </span>  --}}
+              Cart <span class="dot text-center text-dark fw-bold"> [{{ MyCart::instance('default')->count() }}] </span>   
               @else
-                @if(MyCart::instance('default')->count() > 0)
-                {{-- Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ auth()->user()->products->count() }} </span>  --}}
-                Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ MyCart::instance('default')->count() }} </span>   
-                @else
-                Cart
-                @endif  
-              @endauth
-            </a>
-          </li>
+              Cart
+              @endif 
+              
+            @else
+              @if(MyCart::instance('default')->count() > 0)
+              {{-- Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ auth()->user()->products->count() }} </span>  --}}
+              Cart <span class="dot text-center text-dark fw-bold"> [{{ MyCart::instance('default')->count() }}] </span>   
+              @else
+              Cart
+              @endif  
+            @endauth
+          </a>
+        </li>
+        
         @guest
           @if (Route::has('login'))
           <li class="nav-item">
             <a class="nav-link" href="{{ route('login') }}">
-              <i class="fas fa-user"></i>
+              <i class="fa fa-user"></i>
               Sign In
             </a>
           </li>
           @endif
         @else
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{ Auth::user()->name }}
             </a>
-            <ul class="dropdown-menu text-white" aria-labelledby="navbarDropdown">
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{{ route('orders.index') }}">My Orders</a>
 
-              <li><a class="dropdown-item" href="{{ route('orders.index') }}">My Orders</a></li>
-              
               {{-- CHECK IF ADMIN --}}
               @can('view', auth()->user())
-              <li><a class="dropdown-item" href="{{ route('shop') }}">Shop</a></li>
-              <li><a class="dropdown-item" href="{{ route('product.index') }}">Product</a></li>
+              <a class="dropdown-item" href="{{ route('shop') }}">Shop</a>
+              <a class="dropdown-item" href="{{ route('product.index') }}">Product</a>
               @endcan
 
-              <li>
-                <li>
-                  <a class="dropdown-item" href="{{ route('logout') }}"
+              <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                                   document.getElementById('logout-form').submit();">
                       {{ __('Logout') }}
                   </a>
-                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
-                  </form>
-              </li>
-              </li>
-            </ul>
-          </li>   
+              </form>
+
+            </div>
+          </li>
         @endguest
         </ul>
-      </div>
+      </ul>
     </div>
-  </nav>
-
-{{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-                            
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
- --}}
+  </div>
+</nav>

@@ -19,6 +19,7 @@ class OrderController extends Controller
 
     public function index()
     {  
+        session()->forget('thankyou');
         // GROUP BY IN STRICT MODE
         // $users = DB::table('orders')
         //         ->select('transaction_no', 'created_at')

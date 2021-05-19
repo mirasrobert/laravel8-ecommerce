@@ -53,6 +53,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('product.cart');
 
+Route::get('/products', [App\Http\Controllers\ProductController::class, 'view'])->name('product.view');
 Route::post('/product/store', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store');
 Route::get('/product/create', [App\Http\Controllers\ProductController::class, 'create'])->name('product.create');
 Route::get('/product', [App\Http\Controllers\ProductController::class, 'index'])->name('product.index');

@@ -7,8 +7,8 @@
 @section('content')
 <section id="thank-you">
   <div class="container">
-    <div class="row py-5">
-      <div class="jumbotron text-center">
+    <div class="row py-5 mt-5">
+      <div class="jumbotron text-center col-12">
         <i class="fas fa-clock fa-4x text-primary"></i>
         <h1 class="display-3">Thank You!</h1>
         @if ( session('thankyou') )
@@ -25,10 +25,10 @@
 
         <p class="lead">
           <a
-            class="btn btn-primary btn-sm"
-            href="{{ route('home') }}"
+            class="btn btn-primary btn-sm p-2"
+            href="/orders/{{ session('thankyou') }}"
             role="button"
-            >Go to Shopping</a
+            >Check My Order</a
           >
         </p>
       </div>

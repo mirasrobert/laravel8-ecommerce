@@ -8,7 +8,7 @@
   
 <section id="order">
       <div class="container">
-        <div class="row py-5">
+        <div class="row mt-5 py-5">
           <div class="col-lg-3 bg-light p-3">
             <small>Hello, {{ auth()->user()->name }}</small>
             <h5 class="fw-bold mt-1" style="font-size: 1.1rem">
@@ -27,7 +27,7 @@
             <h3>Shop Orders</h3>
 
             @if (count($orders) > 0)
-            <table class="table table-hover">
+            <table class="table">
               <thead class="table-dark">
                 <tr>
                   <th scope="col">Order#</th>

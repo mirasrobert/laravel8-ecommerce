@@ -16,7 +16,8 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        session()->forget('thankyou');
         // Get the product of the user
         //$posts = Post::with(['user', 'likes'])->paginate(20);
 

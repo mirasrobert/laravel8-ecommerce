@@ -7,7 +7,7 @@
 @section('content')
 <section id="order">
     <div class="container">
-      <div class="row py-5">
+      <div class="row mt-5 py-5">
         <div class="col-lg-8"> 
           <ul class="list-group list-group-flush">
 
@@ -67,12 +67,12 @@
                             height="75rem"
                           />
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                           <small class="text-dark">
                             {{ $order->name }}
                           </small>
                         </div>
-                        <div class="col-lg-5">
+                        <div class="col-lg-6">
                           <small class="text-dark">
                             <span>{{ $order->qty }}</span> x
                             <span> &#8369;{{ $order->amount }}</span> =

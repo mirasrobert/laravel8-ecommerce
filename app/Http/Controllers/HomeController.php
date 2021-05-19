@@ -30,8 +30,11 @@ class HomeController extends Controller
 
         session()->forget('thankyou');
 
-        $products = Product::with(['reviews'])->paginate(8);
-
+        $products = Product::with(['reviews'])
+                    ->offset(0)
+                    ->limit(9)
+                    ->get();
+                    
         return view('home', compact('products', 'singularOfRatings'));
 
     }

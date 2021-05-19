@@ -9,22 +9,24 @@
 <div>
   <section id="main-cart">
     <div class="container">
-      <div class="row mt-3">
+      <div class="row mt-5 py-5">
         <div class="col-lg-9 col-sm-12">
           <h1 class="">Shopping Cart</h1>
-          
+
           @if( session('status') )
-          <div class="alert alert-success alert-dismissible">
-            {{ session('status')  }}    
+          <div class="alert alert-success alert-dismissible mt-3">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              {{ session('status')  }}  
           </div>
           @endif  
 
           @if( session('error') )
-          <div class="alert alert-danger" role="alert">
-            {{ session('error')  }}    
+          <div class="alert alert-danger alert-dismissible mt-3">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              {{ session('error')  }}  
           </div>
           @endif  
-
+         
           {{-- Check If Cart is Empty --}}
           @if (MyCart::count() == 0 )
                <!-- Cart Info -->
@@ -89,7 +91,7 @@
 
                     <div class="col-lg-1">
                         <button class="btn btn-lg" type="submit">
-                          <i class="fas fa-pen text-muted"></i>
+                          <i class="fa fa-pencil" aria-hidden="true"></i>
                         </button>
                       </form>
                     </div>
@@ -99,7 +101,7 @@
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-lg" type="submit">
-                          <i class="fas fa-trash text-danger"></i>
+                          <i class="fa fa-trash text-danger"></i>
                         </button>
                       </form>
                     </div>  
@@ -122,12 +124,12 @@
               Have a coupon?
               <form class="form-inline d-flex">
                 <input
-                  class="form-control me-2"
+                  class="form-control mr-2"
                   type="search"
                   placeholder="Coupon code"
                   aria-label="Coupon"
                 />
-                <button class="btn btn-primary" type="submit">Apply</button>
+                <button class="btn btn-primary mt-2" type="submit">Apply</button>
               </form>
             </div>
           </div>
@@ -167,7 +169,7 @@
               </div>
 
               <hr />
-              <div class="d-grid gap-2">
+              <div class="d-grid gap-2 text-center">
                 <a
                   href="{{ route('shipping') }}"
                   class="btn btn-primary text-uppercase p-2"
@@ -190,4 +192,11 @@
 @section('extra-js')
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/cartqty.js') }}"></script>
+    {{-- DROPDOWN --}}
+    <script>
+      let dropdownMenu = document.querySelector('.dropdown-menu');
+      navbarDropdown.addEventListener('click', function() {
+        dropdownMenu.classList.toggle("show");
+      })
+    </script>
 @endsection

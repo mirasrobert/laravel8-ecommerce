@@ -12,7 +12,7 @@
 
 <section id="order">
     <div class="container">
-      <div class="row py-5">
+      <div class="row mt-5 py-5">
         <div class="col-lg-8"> 
 
           @if( session('error') )
@@ -23,7 +23,7 @@
 
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              <h3 class="text-uppercase text-muted">Shipping</h3>
+              <h3 class="text-uppercase">Shipping</h3>
               <small>{{ auth()->user()->shipping->address }} {{ auth()->user()->shipping->city }} {{ auth()->user()->shipping->province }}, {{ auth()->user()->shipping->country }}</small>
               <span> <a href="#">Edit</a> </span>
             </li>
@@ -40,7 +40,7 @@
               <ul class="list-group list-group-flush">
                 @foreach (MyCart::content() as $key => $product)
                 <li class="list-group-item">
-                  <div class="div-row">
+                  <div class="row">
                     <div class="row">
                       <div class="row align-items-center">
                         <div class="col-lg-3">
@@ -54,9 +54,9 @@
                           </a>
                         </div>
                         <div class="col-lg-4">
-                          <small class="text-dark">
+                          <p class="text-dark">
                             {{ $product->name }}
-                          </small>
+                          </p>
                         </div>
                         <div class="col-lg-5">
                           <small class="text-dark">
@@ -312,4 +312,12 @@
   }
 </script>
 --}}
+
+{{-- DROPDOWN --}}
+<script>
+  let dropdownMenu = document.querySelector('.dropdown-menu');
+  navbarDropdown.addEventListener('click', function() {
+    dropdownMenu.classList.toggle("show");
+  })
+</script>
 @endsection

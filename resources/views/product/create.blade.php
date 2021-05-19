@@ -9,7 +9,7 @@
 @include('layouts.links')
 
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5 pt-4">
         <div class="col-md-8">
 
             @if( session('status') )
@@ -72,13 +72,16 @@
 
                         <div class="form-group mb-3 row">
                             <label for="image" class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
-                            <div class="col-md-6">          
-                                <input class="form-control border border-secondary @error('image') is-invalid @enderror" name="image" value="{{ old('image') }}" required autocomplete="image" type="file" id="formFile">
-                                @error('image')
+                            <div class="col-md-6">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input @error('image') is-invalid @enderror" name="image" value="{{ old('image') }}" required autocomplete="image" type="file" id="formFile" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                    @error('image')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
+                                    @enderror
+                                </div>
                             </div>
                         </div>
 
@@ -139,4 +142,13 @@
         </div>
     </div>
 </div>
+@endsection
+@section('extra-js')
+{{-- DROPDOWN --}}
+<script>
+    let dropdownMenu = document.querySelector('.dropdown-menu');
+    navbarDropdown.addEventListener('click', function() {
+      dropdownMenu.classList.toggle("show");
+    })
+</script>
 @endsection

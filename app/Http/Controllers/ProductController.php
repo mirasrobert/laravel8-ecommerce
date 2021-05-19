@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function __construct()
     {
         $this->middleware('auth', ['except' => [
-            'show'
+            'show','view'
         ]]);
     }
     /**
@@ -97,7 +97,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        
+        session()->forget('thankyou');
         $isAuthenticated = (Auth::check()) ? Auth::id() : '';
 
         // USING DB FACADE WITH PAGINATION
@@ -113,14 +113,15 @@ class ProductController extends Controller
         //             ->where('user_id', $isAuthenticated)
         //             ->where('product_id', $product->id)
         //             ->exists();
-        // Get the reviews by product ID
-        // $reviews = DB::table('users')
-        //     ->join('reviews', 'users.id', '=', 'reviews.user_id')
-        //     ->join('products', 'products.id', '=', 'reviews.product_id')
-        //     ->select('users.name', 'reviews.*')
-        //     ->latest()
-        //     ->where('reviews.product_id', $product->id)
-        //     ->paginate(5);
+
+        //Get the reviews by product ID
+        $reviews = DB::table('users')
+            ->join('reviews', 'users.id', '=', 'reviews.user_id')
+            ->join('products', 'products.id', '=', 'reviews.product_id')
+            ->select('users.name', 'reviews.*')
+            ->latest()
+            ->where('reviews.product_id', $product->id)
+            ->paginate(5);
 
         // Total Participants that reviewed.
         // $totalVotes = DB::table('users')
@@ -142,7 +143,7 @@ class ProductController extends Controller
         // Ratings
         $rateAverage = ($product->reviews->count() != 0) ? ($product->reviews->sum('rate') / $product->reviews->count()) : 0;
 
-        return view('product.show', compact('product', 'hasReview', 'rateAverage', 'canReview'));
+        return view('product.show', compact('product', 'hasReview', 'rateAverage', 'canReview', 'reviews'));
     }
 
     /**
@@ -181,6 +182,13 @@ class ProductController extends Controller
 
         $product->destroy($product->id);
         return back()->with('status', 'A product has been removed.');
+    }
+
+    public function view()
+    {
+        $products = Product::paginate(6);
+
+        return view('product.all-product' , compact('products'));
     }
 }
 
