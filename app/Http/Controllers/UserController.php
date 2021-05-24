@@ -17,17 +17,24 @@ class UserController extends Controller
 
     public function index() {
 
-        $selectedProvince = DB::table('refprovince')
+        $selectedProvince = null;
+        $selectedCity = null;
+        $selectedBrgy = null;
+
+        if(!is_null(auth()->user()->shipping))
+        {
+            $selectedProvince = DB::table('refprovince')
                     ->where('provCode', auth()->user()->shipping->province)
                     ->first();
 
-        $selectedCity = DB::table('refcitymun')
-                    ->where('citymunCode', auth()->user()->shipping->city)
-                    ->first();
+            $selectedCity = DB::table('refcitymun')
+                        ->where('citymunCode', auth()->user()->shipping->city)
+                        ->first();
 
-        $selectedBrgy = DB::table('refbrgy')
-                    ->where('brgyCode', auth()->user()->shipping->barangay)
-                    ->first();
+            $selectedBrgy = DB::table('refbrgy')
+                        ->where('brgyCode', auth()->user()->shipping->barangay)
+                        ->first();
+        }
 
         return view('user.profile.user-profile', compact('selectedProvince' , 'selectedCity', 'selectedBrgy'));
     }
