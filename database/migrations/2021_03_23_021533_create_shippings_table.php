@@ -17,7 +17,6 @@ class CreateShippingsTable extends Migration
             $table->id();
             $table->foreignId('user_id')
                   ->constrained()
-                  ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->string('address');
             $table->string('city');
