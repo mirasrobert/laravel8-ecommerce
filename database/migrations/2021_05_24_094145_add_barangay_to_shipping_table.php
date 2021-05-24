@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCountryToShippingsTable extends Migration
+class AddBarangayToShippingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddCountryToShippingsTable extends Migration
     public function up()
     {
         Schema::table('shippings', function (Blueprint $table) {
-            $table->string('contact');
+            $table->string('barangay');
         });
     }
 
@@ -25,7 +25,7 @@ class AddCountryToShippingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('shippings', function (Blueprint $table) {
+        Schema::table('shipping', function (Blueprint $table) {
             //
         });
     }

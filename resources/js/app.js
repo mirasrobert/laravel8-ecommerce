@@ -20,7 +20,7 @@ new Vue({
 }).$mount("#app");
 */
 
-//window.Vue = require("vue").default;
+window.Vue = require("vue").default;
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,20 +29,20 @@ new Vue({
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
-/*
-const files = require.context("./", true, /\.vue$/i);
-files.keys().map(key =>
-    Vue.component(
-        key
-            .split("/")
-            .pop()
-            .split(".")[0],
-        files(key).default
-    )
-);
 
-Vue.component("App-Component", require("./components/App.vue").default);
-*/
+// const files = require.context("./", true, /\.vue$/i);
+// files.keys().map(key =>
+//     Vue.component(
+//         key
+//             .split("/")
+//             .pop()
+//             .split(".")[0],
+//         files(key).default
+//     )
+// );
+
+Vue.component("Products", require("./components/Product.vue").default);
+Vue.component("single-product", require("./components/Product.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -50,8 +50,6 @@ Vue.component("App-Component", require("./components/App.vue").default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-/*
 const app = new Vue({
     el: "#app"
 });
-*/

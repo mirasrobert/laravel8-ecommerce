@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Str;
@@ -25,7 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //dd(session('paypal'));
+
         $singularOfRatings = Str::singular('Ratings');
 
         session()->forget('thankyou');
@@ -36,7 +37,6 @@ class HomeController extends Controller
                     ->get();
                     
         return view('home', compact('products', 'singularOfRatings'));
-
     }
    
 }

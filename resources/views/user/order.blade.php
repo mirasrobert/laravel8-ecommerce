@@ -16,7 +16,7 @@
             </h5>
             <div class="d-flex flex-column bd-highlight mb-3">
               <div class="p-2 bd-highlight">
-                <a href="#">My Profile</a>
+                <a href="{{ route('user.index') }}">My Profile</a>
               </div>
               {{-- <div class="p-2 bd-highlight">
                 <a href="#">My Returns</a>

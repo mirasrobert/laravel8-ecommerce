@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+
 <!-- Page Content -->
     <!-- Banner Starts Here -->
     <div class="banner">
@@ -45,53 +46,14 @@
               <div class="line-dec"></div>
               <h1>Featured Items</h1>
               <div class="ml-auto">
-            <a href="{{ route('product.view') }}">View all products <i class="fa fa-angle-right"></i></a>
+                <a href="{{ route('product.view') }}">View all products <i class="fa fa-angle-right"></i></a>
               </div>
             </div>
           </div>
-          <div class="col-md-12">
-            <div class="owl-carousel owl-theme">
-              
-              @foreach ($products as $key => $product)
-              <a href="/product/{{ $product->id }}">
-                <div class="featured-item">
+          <div class="col-md-12 mb-3">
 
-                  <img src="/storage/{{ $product->image }}" alt="Item {{ $key }}" width="220" height="206" />
+            <x-home-product :products="$products" />
 
-                  <h4>
-                    @if (strlen($product->name) > 0 && strlen($product->name) < 49)
-                    <br>{{ substr($product->name,0 , 48) }}<br>
-                    @elseif(strlen($product->name) > 48) <!-- TOO MUCH TEXT -->
-                       {{ substr($product->name,0 , 45) }}...
-                    @endif
-                  </h4>
-
-                  <h6>${{ $product->price }}.00</h6>
-
-                  <p> 
-                    {{ $product->reviews->count() == 1 ? $singularOfRatings : "Reviews" }} 
-                    ({{ $product->reviews->count() }})
-                  </p>
-
-                  @if($product->reviews->count() != 0)
-                    <div class="d-flex justify-content-start">
-                      @for ($i = 0; $i < intval(($product->reviews->sum('rate')) / ($product->reviews->count())); $i++)
-                        <i class="fa fa-star checked"></i>
-                      @endfor
-                    </div>
-                  @else
-                    <div class="d-flex justify-content-start">
-                      @for ($i = 0; $i < 5; $i++)
-                        <i class="fa fa-star gray"></i>
-                      @endfor
-                    </div>
-                  @endif
-
-                </div>
-              </a>
-              @endforeach
-              
-            </div>
           </div>
         </div>
       </div>
@@ -148,7 +110,4 @@
       </div>
     </div>
     <!-- Subscribe Form Ends Here -->
-@endsection
-@section('extra-js')
-
 @endsection

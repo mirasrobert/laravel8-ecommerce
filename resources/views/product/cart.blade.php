@@ -171,7 +171,7 @@
               <hr />
               <div class="d-grid gap-2 text-center">
                 <a
-                  href="{{ route('shipping') }}"
+                  href="{{ route('shipping.index') }}"
                   class="btn btn-primary text-uppercase p-2"
                   type="button"
                 >
@@ -190,13 +190,5 @@
 @endsection
 
 @section('extra-js')
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/cartqty.js') }}"></script>
-    {{-- DROPDOWN --}}
-    <script>
-      let dropdownMenu = document.querySelector('.dropdown-menu');
-      navbarDropdown.addEventListener('click', function() {
-        dropdownMenu.classList.toggle("show");
-      })
-    </script>
+  <script src="{{ asset('js/cartqty.js') }}"></script>
 @endsection

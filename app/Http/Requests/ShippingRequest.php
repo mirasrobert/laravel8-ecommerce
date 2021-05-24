@@ -25,11 +25,10 @@ class ShippingRequest extends FormRequest
     {
         return [
             'address' => 'required',
-            'postal_code' => 'required|numeric',
             'contact' => 'required',
             'city' => 'required',
             'province' => 'required',
-            'country' => 'required'
+            'barangay' => 'required'
         ];
     }
 }

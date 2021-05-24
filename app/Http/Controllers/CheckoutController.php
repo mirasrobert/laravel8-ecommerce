@@ -32,9 +32,24 @@ class CheckoutController extends Controller
         $total = str_replace(array(','), '', MyCart::total());
         $config = config("api.PAYPAL_CLIENT_ID");
 
+        $selectedProvince = DB::table('refprovince')
+                    ->where('provCode', auth()->user()->shipping->province)
+                    ->first();
+
+        $selectedCity = DB::table('refcitymun')
+                    ->where('citymunCode', auth()->user()->shipping->city)
+                    ->first();
+
+        $selectedBrgy = DB::table('refbrgy')
+                    ->where('brgyCode', auth()->user()->shipping->barangay)
+                    ->first();
+
         return view('checkout.checkout', [
             "PAYPAL_CLIENT_ID" => $config,
-            "total" => $total
+            "total" => $total,
+            'selectedProvince' => $selectedProvince,
+            'selectedCity' => $selectedCity,
+            'selectedBrgy' => $selectedBrgy
         ]);
     }
 

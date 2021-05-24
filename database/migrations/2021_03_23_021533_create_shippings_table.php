@@ -15,11 +15,13 @@ class CreateShippingsTable extends Migration
     {
         Schema::create('shippings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->onDelete('cascade');
+            $table->foreignId('user_id')
+                  ->constrained()
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
             $table->string('address');
             $table->string('city');
             $table->string('province');
-            $table->string('postal_code');
             
             $table->timestamps();
 

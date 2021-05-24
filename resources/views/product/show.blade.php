@@ -17,7 +17,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="section-heading">
-
+              
               @if( session('status') )
               <div class="alert alert-success alert-dismissible mt-3">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -82,11 +82,7 @@
               <h6>${{ $product->price }}.00</h6>
 
               <p>
-                Proin commodo, diam a ultricies sagittis, erat odio rhoncus
-                metus, eu feugiat lorem lacus aliquet arcu. Curabitur in gravida
-                nisi, non placerat nibh. Praesent sit amet diam ultrices,
-                commodo turpis id, dignissim leo. Suspendisse mauris massa,
-                porttitor non fermentum vel, ullamcorper scelerisque velit.
+                {{ $product->description }}
               </p>
 
               <span class="{{ ($product->qty < 1) ? 'text-danger' : "" }}">
@@ -94,12 +90,21 @@
               </span>
 
               <div id="rate-avg">
-                <span class="m-0 p-0">{{ $rateAverage }}</span>
-                <span>
-                  @for ($i = 0; $i < intval( $rateAverage); $i++)
-                  <i class="fa fa-star checked pt-1"></i>
-                @endfor
-                </span>
+                @if($rateAverage != 0)
+                  <span class="m-0 p-0">{{ $rateAverage }}</span>
+                  <span>
+                    @for ($i = 0; $i < intval($rateAverage); $i++)
+                    <i class="fa fa-star checked pt-1"></i>
+                    @endfor
+                  </span>
+                @else
+                  <span class="m-0 p-0">No ratings |</span>
+                  <span>
+                    @for ($i = 0; $i < 5; $i++)
+                    <i class="fa fa-star gray pt-1"></i>
+                    @endfor
+                  </span>
+                @endif
               </div>
             
               <form action="/mycart/{{ $product->id }}" method="POST">
@@ -169,112 +174,13 @@
                           {{ $product->reviews->count() }} review(s)
                         </span>
                       </div>
-                      <div class="card-body">
-                        
-                        {{-- PRODUCT REVIEWS --}}
-                        @if ($product->reviews->count() != 0)
-                          @foreach ($reviews as $key => $review)
-                          <div id="product-reviews">
-                            <p class="text-dark">{{ $review->comment }}</p>
-                            <small class="text-muted">Posted by {{ $review->name }} on {{ $review->created_at }}</small>
-                            <div class="reviews d-flex justify-content-start">
-                            @for ($i = 0; $i < $review->rate; $i++)
-                             <i class="fa fa-star checked pt-1"></i>
-                            @endfor
-                            <span class="ps-2 text-muted">  | <small>{{ $review->rate }} Stars</small> </span>
-                          </div>
-                          <hr>
-                          </div>
-                          @endforeach
-                        @else
-                          <div class="alert alert-info alert-dismissible mt-3">
-                            <small>
-                              This product has no reviews.
-                              Let others know what do you think and be the first to write a review.
-                            </small>
-                            <img width="35" height="35" src="https://laz-img-cdn.alicdn.com/tfs/TB1cXF1llTH8KJjy0FiXXcRsXXa-112-98.png" alt="sad-face">
-                          </div>
-                        @endif
+                      
+                      {{-- MAIN BODY --}}
 
-                        {{-- PAGINATION BUTTONS --}}
-                        <div class="row ml-1">
-                          {{ $reviews->links('pagination::bootstrap-4') }}
-                        </div>
+                      <x-product-review :product="$product" :reviews="$reviews" :hasReview="$hasReview" :canReview="$canReview" />
 
-                        <!-- FORM REVIEW -->
-                        <div class="row">
-                          
-                          @guest
-                          <!-- Login Info -->
-                          <div class="container ps-4 pe-4">
-                              <div class="alert alert-info" role="alert">
-                              @if (Route::has('login'))
-                                Please <a href="{{ route('login') }}" class="alert-link">sign in</a>. to write a review.
-                              </div>
-                              @endif
-                          </div>
-                          <!-- End Login Info -->
-                          @else
-                            <div class="col-lg-7 col-sm-12">
+                      {{-- END OF MAIN BODY --}}
 
-                              {{-- Check if user has review --}}
-                              @if ($hasReview)
-                                <div class="alert alert-info alert-dismissible mt-3">
-                                  You already have a review
-                                </div>
-                              @else
-
-                                @if ($canReview && Auth::checK())
-                                  <h4>Write your Review</h4>
-                                  
-                                  <form action="{{ route('review.store', ['id' => $product->id]) }}" method="POST">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="Rating" class="form-label">Rating</label>
-                                        <select class="form-select @error('rating') is-invalid @enderror" name="rating" value="{{ old('rating') }}" aria-label="Rating" autofocus >
-                                            <option value="1">1 - Very Bad</option>
-                                            <option value="2">2 - Bad</option>
-                                            <option value="3">3 - Satisfactory</option>
-                                            <option value="4">4 - Good</option>
-                                            <option value="5">5 - Satisfactory</option>
-                                          </select>
-                                    </div>
-
-                                    @error('rating')
-                                      <span class="invalid-feedback" role="alert">
-                                          <strong>{{ $message }}</strong>
-                                      </span>
-                                    @enderror
-
-                                    <div class="mb-3">
-                                      <label for="review" class="form-label">Review</label>
-                                      <textarea class="form-control @error('review') is-invalid @enderror" name="review" value="{{ old('review') }}" placeholder="Write your review here.." autofocus></textarea>
-                                      <small id="emailHelp" class="form-text text-muted">Please share your experience with this product.</small>
-
-                                      @error('review')
-                                      <span class="invalid-feedback" role="alert">
-                                          <strong>{{ $message }}</strong>
-                                      </span>
-                                      @enderror
-
-                                    </div>                    
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                  </form>
-                                  @else
-                                   
-                                    <div class="alert alert-info alert-dismissible mt-3">
-                                      <small>Please buy the product to write a review.</small>
-                                    </div>
-
-                                @endif
-                              @endif
-
-                            </div>
-                            @endguest
-
-                        </div>
-                        <!-- END OF FORM REVIEW -->
-                      </div>
                     </div>
               </div>
           </div>
@@ -284,13 +190,5 @@
 @endsection
 
 @section('extra-js')
-<script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/cartqty.js') }}"></script>
-{{-- DROPDOWN --}}
-<script>
-  let dropdownMenu = document.querySelector('.dropdown-menu');
-  navbarDropdown.addEventListener('click', function() {
-    dropdownMenu.classList.toggle("show");
-  })
-</script>
 @endsection

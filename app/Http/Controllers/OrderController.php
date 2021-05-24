@@ -53,12 +53,7 @@ class OrderController extends Controller
     }
 
     public function show($id)
-    {    
-        $userOwnedTheOrder = DB::table('orders')
-                    ->where('user_id', auth()->user()->id)
-                    ->where('transaction_no', $id)
-                    ->exists();
-
+    {   
         // Select All ORDERS WITH PRODUCTS OF THE AUTHENTICATED USER BY TRANSACTION NO
         $orders = Order::where('transaction_no', $id)->get();
 
@@ -76,6 +71,23 @@ class OrderController extends Controller
         $user = User::with(['shipping'])->findOrFail($orders[0]->user_id);
 
         $shippingAddress = $user->shipping()->first();
+
+        $selectedProvince = DB::table('refprovince')
+                    ->where('provCode', $shippingAddress->province)
+                    ->first();
+
+        $selectedCity = DB::table('refcitymun')
+                    ->where('citymunCode', $shippingAddress->city)
+                    ->first();
+
+        $selectedBrgy = DB::table('refbrgy')
+                    ->where('brgyCode', $shippingAddress->barangay)
+                    ->first();
+
+        $userOwnedTheOrder = DB::table('orders')
+                    ->where('user_id', auth()->user()->id)
+                    ->where('transaction_no', $id)
+                    ->exists();
 
         // Cache the data
         /*
@@ -114,7 +126,10 @@ class OrderController extends Controller
                 'isDelivered' => $isDelivered,
                 'deliveredAt' => $date,
                 'user' => $user,
-                'shippingAddress' => $shippingAddress
+                'shippingAddress' => $shippingAddress,
+                'selectedProvince' => $selectedProvince,
+                'selectedCity' => $selectedCity,
+                'selectedBrgy' => $selectedBrgy
             ]);
         } 
         else 
@@ -129,7 +144,10 @@ class OrderController extends Controller
                 'isDelivered' => $isDelivered,
                 'deliveredAt' => $date,
                 'user' => $user,
-                'shippingAddress' => $shippingAddress
+                'shippingAddress' => $shippingAddress,
+                'selectedProvince' => $selectedProvince,
+                'selectedCity' => $selectedCity,
+                'selectedBrgy' => $selectedBrgy
                 ]);
                
         }

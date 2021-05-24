@@ -24,12 +24,12 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <h3 class="text-uppercase">Shipping</h3>
-              <small>{{ auth()->user()->shipping->address }} {{ auth()->user()->shipping->city }} {{ auth()->user()->shipping->province }}, {{ auth()->user()->shipping->country }}</small>
+              <small>{{ auth()->user()->shipping->address }} {{ $selectedProvince->provDesc }} - {{ $selectedCity->citymunDesc }} - {{ $selectedBrgy->brgyDesc }}</small>
               <span> <a href="#">Edit</a> </span>
             </li>
             <li class="list-group-item">
               <h3 class="text-uppercase text-dark">Payment Method</h3>
-              <small>Credit or Debit Card</small>
+              <small>Paypal or Debit Card</small>
               <span> <a href="#">Change</a> </span>
             </li>
             {{-- Item --}}
@@ -149,9 +149,9 @@
 
                   <div class="form-group">
                     <input type="hidden" name="address" id="address" value="{{ auth()->user()->shipping->address }}"  readonly required>
-                    <input type="hidden" name="city" id="city" value="{{ auth()->user()->shipping->city }}"  readonly required>
-                    <input type="hidden" name="province" id="province" value="{{ auth()->user()->shipping->province }}"  readonly required>
-                    <input type="hidden" name="postalcode" id="postalcode" value="{{ auth()->user()->shipping->postal_code }}"  readonly required>
+                    <input type="hidden" name="city" id="city" value="{{ $selectedCity->citymunDesc }}"  readonly required>
+                    <input type="hidden" name="province" id="province" value="{{ $selectedProvince->provDesc }}"  readonly required>
+                    <input type="hidden" name="brgy" id="brgy" value="{{ $selectedBrgy->brgyDesc }}"  readonly required>
                   </div>
 
                 {{--
@@ -207,6 +207,7 @@
 @endsection
 @section('extra-js')
 {{-- AXIOS --}}
+{{-- AXIOS HAS CONFLICT IN DROPDOWN NAV --}}
 <script src="{{ asset('js/app.js') }}"></script>
 
 {{-- PAYPAL SDK API --}}
@@ -313,11 +314,4 @@
 </script>
 --}}
 
-{{-- DROPDOWN --}}
-<script>
-  let dropdownMenu = document.querySelector('.dropdown-menu');
-  navbarDropdown.addEventListener('click', function() {
-    dropdownMenu.classList.toggle("show");
-  })
-</script>
 @endsection

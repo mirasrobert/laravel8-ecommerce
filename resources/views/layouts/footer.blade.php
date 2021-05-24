@@ -1,10 +1,10 @@
 
 <!-- Start Footer -->
-<footer id="footer" class="py-5 bg-dark text-white border-top">
+<footer id="footer" class="py-5 text-white">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 col-md-4 col-sm-12">
-          <h5 class="text-uppercase text-dark">About</h5>
+          <h5 class="text-uppercase text-white">About</h5>
           <p>
             {{ env('APP_NAME') }} is a Fictional Ecommerce Website. 
             This is a LARAVEL APP by Robert Miras. The purpose of this app 
@@ -13,15 +13,9 @@
             my skills and for my Portfolio. If you want to get in touch with me, please contact me with my email: mrmirasrobert@gmail.com
           </p>
 
-          <p class="lead">
-            &copy;
-            <span id="year"></span>
-            <span>{{ env('APP_NAME') }} Made By Robert Miras &hearts;.</span>
-          </p>
-
         </div>
         <div class="col-lg-3 col-md-4 col-sm-12">
-          <h5 class="text-uppercase text-dark">Categories</h5>
+          <h5 class="text-uppercase text-white">Categories</h5>
           <ul class="category-footer m-0 p-0">
             <li>
               <a href="#">Electronics</a>
@@ -37,8 +31,8 @@
             </li>
           </ul>
         </div>
-        <div class="col-lg-3 col-md-4 col-sm-12 text-dark">
-          <h5 class="text-uppercase mt-3 text-dark">Social</h5>
+        <div class="col-lg-3 col-md-4 col-sm-12 text-white">
+          <h5 class="text-uppercase mt-3 text-white">Social</h5>
           <ul class="category-footer p-0 mb-2">
             <li>
               <i class="fa fa-github" aria-hidden="true"></i>
@@ -59,12 +53,20 @@
           </ul>
 
         </div>
-
-        <hr />
-
-          
-
       </div>
+
+      <hr style="background: grey;">
+
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <p class="lead">
+            &copy;
+            <span id="year"></span>
+            <span>{{ env('APP_NAME') }} Made By Robert Miras &hearts;.</span>
+          </p>
+        </div>
+      </div>
+
     </div>
   </footer>
   <!-- End Footer -->

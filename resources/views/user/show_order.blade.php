@@ -18,16 +18,33 @@
 
             <li class="list-group-item">
               <h3 class="text-uppercase text-dark">Shipping</h3>
-              <small>{{ $shippingAddress->address }}</small>
+              <small>
+                {{ $shippingAddress->address }}
+                {{ $selectedProvince->provDesc }} - {{ $selectedCity->citymunDesc }} - {{ $selectedBrgy->brgyDesc }}
+              </small>
             </li>
 
             <li class="list-group-item">
               <h3 class="text-uppercase text-dark">Payment Method</h3>
-              <small>Credit or Debit Card</small>
+              <small>Paypal or Debit Card</small>
             </li>
 
             <li class="list-group-item">
-              <h3 class="text-uppercase text-dark">Delivered At</h3>
+              <h3 class="text-uppercase text-dark">
+                Delivered At
+                <span style="display: inline;">
+                  @if (is_null($isDelivered))
+                    @can('view', auth()->user())
+                    
+                    <form action="/shop/{{ $id }}" method="POST">
+                      @csrf
+                      @method('PATCH')
+                      <button type="submit" class="btn btn-sm btn-primary">Mark as delivered.</button>
+                    </form>
+                    @endcan
+                  @endif
+                </span>
+              </h3>
               <div class="alert {{ is_null($isDelivered) ? "alert-danger" : "alert-success" }}" role="alert">
                 <div class="row">
                   <div class="col-md-6">
@@ -35,17 +52,6 @@
                   </div>
                 </div>
               </div>
-
-              @if (is_null($isDelivered))
-                @can('view', auth()->user())
-                
-                <form action="/shop/{{ $id }}" method="POST">
-                  @csrf
-                  @method('PATCH')
-                  <button type="submit" class="btn btn-sm btn-primary">Mark as delivered.</button>
-                </form>
-                @endcan
-              @endif
             
             </li>
             

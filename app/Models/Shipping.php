@@ -16,10 +16,9 @@ class Shipping extends Model
 
     protected $fillable = [
         'address' ,
-        'postal_code',
         'contact' ,
         'city' ,
         'province',
-        'country' 
+        'barangay',
     ];
 }

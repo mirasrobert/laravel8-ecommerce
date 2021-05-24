@@ -73,4 +73,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Review::class);
     }
+  
+    public function realUser($id)
+    {
+        return auth()->user()->id === $id;
+    }
 }

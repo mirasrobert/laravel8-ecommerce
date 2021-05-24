@@ -15,7 +15,7 @@
 
     <title>@yield('title')</title>
 
-    <link rel="icon" href="http://assets.stickpng.com/images/5f480fb74ee26200042222e5.png" type="image/gif" sizes="8x8">
+    <link rel="icon" href="https://www.pinclipart.com/picdir/middle/168-1681636_140-clothes-icon-packs-icon-t-shirt-png.png" type="image/gif" sizes="8x8">
 
     <link
     href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
@@ -23,7 +23,8 @@
   />
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
+    {{-- <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" /> --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.css') }}" />
@@ -38,7 +39,7 @@
         @include('layouts.navigation')
 
         
-        <main id="app">
+        <main>
             @yield('content')
         </main>
 
@@ -52,31 +53,19 @@
       document.getElementById("year").innerHTML = new Date().getFullYear();
 </script>
 
-
 <!-- Bootstrap core JavaScript -->
+{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> --}}
+
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
 
 <!-- Additional Scripts -->
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 <script src="{{ asset('assets/js/owl.js') }}"></script>
 <script src="{{ asset('assets/js/isotope.js') }}"></script>
 <script src="{{ asset('assets/js/flex-slider.js') }}"></script>
-
-<script language="text/Javascript">
-  cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
-  function clearField(t) {
-    //declaring the array outside of the
-    if (!cleared[t.id]) {
-      // function makes it static and global
-      cleared[t.id] = 1; // you could use true and false, but that's more typing
-      t.value = ""; // with more chance of typos
-      t.style.color = "#fff";
-    }
-  }
-</script>
-
+<script src="{{ asset('js/navbarcollapse.js') }}"></script>
 @yield('extra-js')
 </body>
 </html>

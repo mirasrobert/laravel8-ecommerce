@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -9,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 //use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -68,6 +70,8 @@ class ProductController extends Controller
             'image' => 'required|image'
         ]);
 
+        $slug = Str::slug($data['name']);
+
         // Move uploaded file to the folder with FILE PATH and FILE NAME
         $imageNameWithPath = $request->image->store('product_img', 'public');
 
@@ -82,7 +86,8 @@ class ProductController extends Controller
             'description' =>  $data['description'],
             'brand' => $data['brand'],
             'category' => $data['category'],
-            'image' => $imageNameWithPath
+            'image' => $imageNameWithPath,
+            'slug' => $slug
         ]);
 
        // redirect
@@ -95,8 +100,13 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Product $product, $slug)
     {
+        // If slug is empty or wrong
+        if(empty($slug) || $product->slug != $slug) {
+            abort(404);
+        }
+
         session()->forget('thankyou');
         $isAuthenticated = (Auth::check()) ? Auth::id() : '';
 

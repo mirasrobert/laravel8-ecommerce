@@ -5,8 +5,6 @@
 
 @section('content')
 
-@include('layouts.links')
-
 <div class="container">
     <div class="row justify-content-center py-5 mt-5">
         <div class="col-md-8">

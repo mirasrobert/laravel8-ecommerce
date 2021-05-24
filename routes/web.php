@@ -29,12 +29,36 @@ Route::resource('orders', App\Http\Controllers\OrderController::class)->only([
     'index' => 'orders.index'
 ]);
 
-Route::resource('shipping', App\Http\Controllers\ShippingController::class)->only([
-    'index', 'store'
+Route::resource('profile', App\Http\Controllers\UserController::class)->only([
+    'index', 'edit'
 ])->names([
-    'index' => 'shipping',
+    'index' => 'user.index',
+    'edit' => 'user.edit'
+]);
+
+Route::prefix('profile')->group(function () {
+    Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
+    Route::get('/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
+    Route::patch('/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+    Route::get('/password', [App\Http\Controllers\UserController::class, 'changePassword'])->name('user.changePassword');
+    Route::patch('/password/change/{user}', [App\Http\Controllers\UserController::class, 'change'])->name('user.change');
+});
+
+Route::resource('shipping', App\Http\Controllers\ShippingController::class)->only([
+    'index', 'store', 'edit'
+])->names([
+    'index' => 'shipping.index',
     'store' => 'shipping.store'
 ]);
+
+Route::get('/shipping/edit', [App\Http\Controllers\ShippingController::class, 'edit'])->name('shipping.edit');
+Route::patch('/shipping/update', [App\Http\Controllers\ShippingController::class, 'update'])->name('shipping.update');
+
+// POPULATE AJAX DROPDOWN SHIPPING
+Route::prefix('populate')->group(function () {
+    Route::post('/city', [App\Http\Controllers\ShippingController::class, 'populateCity'])->name('shipping.populatecity');
+    Route::post('/brgy', [App\Http\Controllers\ShippingController::class, 'populateBrgy'])->name('shipping.populatebrgy');
+});
 
 Route::resource('shop', App\Http\Controllers\ShopController::class)->only([
     'index', 'update'
@@ -44,6 +68,7 @@ Route::resource('shop', App\Http\Controllers\ShopController::class)->only([
     'index' => 'shop',
     'update' => 'shop.update'
 ]);
+
 
 Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
 Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
@@ -57,7 +82,7 @@ Route::get('/products', [App\Http\Controllers\ProductController::class, 'view'])
 Route::post('/product/store', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store');
 Route::get('/product/create', [App\Http\Controllers\ProductController::class, 'create'])->name('product.create');
 Route::get('/product', [App\Http\Controllers\ProductController::class, 'index'])->name('product.index');
-Route::get('/product/{product}', [App\Http\Controllers\ProductController::class, 'show'])->name('product.show');
+Route::get('/product/{product}/{slug}', [App\Http\Controllers\ProductController::class, 'show'])->name('product.show');
 Route::delete('/product/{id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.delete');
 
 Route::put('/cart/{id}/qty/{qty}', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');

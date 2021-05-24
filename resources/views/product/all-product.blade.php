@@ -34,7 +34,7 @@
           <div class="row posts">
               @foreach ($products as $product)
               <div id="{{ $product->id }}" class="item new col-md-4">
-                <a href="/product/{{ $product->id }}">
+                <a href="/product/{{ $product->id }}/{{ $product->slug }}">
                   <div class="featured-item">
                     <img src="/storage/{{ $product->image }}" width="308" height="233">
 
@@ -65,13 +65,4 @@
       </div>
       <!-- Featred Page Ends Here -->
 
-@endsection
-
-@section('extra-js')
-<script>
-  let dropdownMenu = document.querySelector('.dropdown-menu');
-  navbarDropdown.addEventListener('click', function() {
-    dropdownMenu.classList.toggle("show");
-  })
-</script>
 @endsection

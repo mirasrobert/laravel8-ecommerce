@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/product', function() {
-    return Product::with(['reviews'])->paginate(1);
+// Get All The Products with Reviews
+Route::get('/products', [App\Http\Controllers\Api\ProductController::class, 'index']);
+
+Route::middleware('api')->group(function () {
+    Auth::routes();
+    Route::get('/product/{product}', [App\Http\Controllers\Api\ProductController::class, 'show']);
 });
+
+
+
+
+
