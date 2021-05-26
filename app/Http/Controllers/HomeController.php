@@ -6,6 +6,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Str;
+use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
 
 class HomeController extends Controller
 {
@@ -26,6 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        //dd(MyCart::content());
 
         $singularOfRatings = Str::singular('Ratings');
 

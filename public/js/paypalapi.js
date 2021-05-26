@@ -1,19 +1,34 @@
 let amount = document.querySelector("#total").value;
 
-// HTTP REQ
-// Async Axios Patch
-const sendPostRequest = async (url, data) => {
-    const response = await axios.post(`${url}`, {
+// Send Order To Server
+function saveOrderToDatabase(url, data) {
+    // Ajax Post Request
+    $.ajaxSetup({
         headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content")
-        },
-        paypal: data,
-        msg: "payment-success"
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
     });
 
-    return response;
-};
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: {
+            paypal: data,
+            msg: "payment-success"
+        },
+        success: function(response) {
+            if(!response.success || response.success == undefined){
+                alert("Something went wrong, please try again later");
+            } else {
+                window.location.href = "/thankyou";
+            }
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
+        }
+    });
+
+}
 
 const paypalButton = () => {
     paypal
@@ -76,13 +91,7 @@ const paypalButton = () => {
                     // This function shows a transaction success message to your buyer.
                     if (details.status == "COMPLETED") {
                         // Do Something to the data that passed from the server side.
-                        sendPostRequest("/checkout", details).then(res => {
-                            // redirect and refresh
-                            //console.log(res);
-                            if (res.data.msg == "payment-success") {
-                                window.location.href = "/thankyou";
-                            }
-                        });
+                        saveOrderToDatabase('/checkout', details);
                     } else {
                         console.error(
                             "Something went wrong with payment. Please try again later"

@@ -85,7 +85,7 @@ Route::get('/product', [App\Http\Controllers\ProductController::class, 'index'])
 Route::get('/product/{product}/{slug}', [App\Http\Controllers\ProductController::class, 'show'])->name('product.show');
 Route::delete('/product/{id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.delete');
 
-Route::put('/cart/{id}/qty/{qty}', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
+Route::put('/cart', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
 
 Route::post('/mycart/{product}', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
 

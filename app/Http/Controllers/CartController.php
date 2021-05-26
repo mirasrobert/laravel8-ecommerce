@@ -11,7 +11,7 @@ use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
 class CartController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the caresource.
      *
      * @return \Illuminate\Http\Response
      */
@@ -95,16 +95,39 @@ class CartController extends Controller
      * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id, $qty)
+    public function update(Request $request)
     {
-        if ($qty > 20) {
-            
-            session()->flash('error', 'Max quantity of 20.');
-            return redirect()->route('cart.index');
-        }
+            $rowId = $request->rowId; // Request Qty from Ajax
+            $qty = $request->quantiy; // Request rowId from Ajax
 
-        MyCart::update($id, $qty);
-        return response()->json(['success' => true]);
+            // If request is empty
+            if(is_null($rowId) || is_null($qty)) {
+                // IF server error
+                return response()->json([
+                    "success" => false
+                ]);
+            }
+
+            // If Authenticated update the saved cart on the database.
+            if(Auth::check()) {
+                // Erase the old cart from the database
+                MyCart::instance('default')->erase(Auth::id());
+
+                // Update the quantity
+                MyCart::update($rowId,$qty); // Will update the quantity
+
+                // Replace the Old Cart from Database with the New Cart to the Database
+                MyCart::instance('default')->store(Auth::id());
+            } else {
+                // Update the quantity
+                MyCart::update($rowId,$qty); // Will update the quantity
+            }
+
+            // Return a json response to ajax
+            return response()->json([
+                "success" => true
+            ]);
+
     }
 
     /**

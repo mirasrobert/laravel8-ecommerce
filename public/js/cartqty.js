@@ -1,38 +1,46 @@
-// Get All the Product Qty
-const className = document.querySelectorAll(".product_qty");
+$(function(){
+    // Get All the Product Qty Input
+    const className = document.querySelectorAll(".product_qty");
 
-// Make a Array and convert node list.
-Array.from(className).forEach(element => {
-    element.addEventListener("change", () => {
-        // data-id attribute
-        const id = element.getAttribute("data-id");
+    Array.from(className).forEach(element => {
+        let rowId = element.id.split('_')[2];
 
-        // Input product_qty value
-        const qty = element.value;
+        let idOfEachElement = "#"+element.id;
 
-        // Async Axios Patch
-        const sendPatchRequest = async () => {
-            try {
-                const response = await axios.put(`/cart/${id}/qty/${qty}`, {
-                    headers: {
-                        "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr(
-                            "content"
-                        )
-                    },
-                    quantity: qty
-                });
+        $(idOfEachElement).change(function(){
+            let qty = document.querySelector(idOfEachElement).value;
 
-                return response;
-            } catch (err) {
-                // Handle Error Here
-                console.error(err);
-            }
-        };
+            updateQty(qty, rowId); // make request to Server to Update the Quantity
 
-        // Do Something to the data.
-        sendPatchRequest().then(res => {
-            // redirect and refresh
-            window.location.href = `/cart`;
         });
+
     });
+
 });
+
+function updateQty(qty, rowId) {
+    // Ajax Post Request
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: "/cart",
+        method: "PUT",
+        data: {
+            quantiy: parseInt(qty),
+            rowId: rowId
+        },
+        success: function(response) {
+            if(!response.success){
+                alert("Something went wrong, please try again later");
+            }
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
+        }
+    });
+
+}

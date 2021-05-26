@@ -78,8 +78,9 @@ class CheckoutController extends Controller
 
             $this->paypalIntegration($request, $value, $order, $product);
 
-            $response = array("msg" => "payment-success");
-            return json_encode($response);
+            return response()->json([
+                "success" => true
+            ]);
         }
     }
 

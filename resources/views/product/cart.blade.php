@@ -52,13 +52,12 @@
               <div class="d-flex justify-content-center">
                 <div class="row">
                   <div class="row align-items-center">
-                    <div class="col-lg-3">
+                    <div class="col-lg-4 mx-auto m-0">
                       <a href="/product/{{ $product->id }}">
                         <img
                           src="storage/{{ $product->options->img }}"
-                          class="img-fluid"
-                          width="100rem"
-                          height="100rem"
+                          class="w-75"
+                          height="160"
                         />
                       </a>
                     </div>
@@ -73,27 +72,18 @@
                     </div>
                     
                     <div class="col-lg-2">
-                      <form action="/cart/" method="POST">
+                      <form action="/cart" method="POST">
                         @csrf
-                        @method('PATCH')
-
+                        @method('PUT')
                       <input
                         data-id="{{ $product->rowId }}"
                         class="form-control product_qty @error('product_qty') border border-danger @enderror"
                         type="number"
                         name="product_qty"
-                        id="product_qty"
+                        id="product_qty_{{ $product->rowId }}"
                         min="1"
                         value="{{ $product->qty }}"
-                        required
                       />
-                    </div>
-
-                    <div class="col-lg-1">
-                        <button class="btn btn-lg" type="submit">
-                          <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </button>
-                      </form>
                     </div>
 
                     <div class="col-lg-1">

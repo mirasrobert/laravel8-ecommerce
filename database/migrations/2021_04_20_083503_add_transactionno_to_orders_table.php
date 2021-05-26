@@ -14,7 +14,7 @@ class AddTransactionnoToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->bigInteger('transaction_no');
+            $table->string('transaction_no');
         });
     }
 
@@ -26,7 +26,7 @@ class AddTransactionnoToOrdersTable extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            //
+            $table->string('transaction_no');
         });
     }
 }

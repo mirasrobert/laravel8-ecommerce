@@ -47,9 +47,8 @@
                           <a href="/product/{{ $product->id }}">
                             <img
                               src="storage/{{ $product->options->img }}"
-                              class="img-fluid"
-                              width="75rem"
-                              height="75rem"
+                              width="80"
+                              height="75"
                             />
                           </a>
                         </div>
