@@ -1,12 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Order;
-use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Str;
-use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
+
 
 class HomeController extends Controller
 {
@@ -27,7 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //dd(MyCart::content());
 
         $singularOfRatings = Str::singular('Ratings');
 
@@ -39,6 +35,11 @@ class HomeController extends Controller
                     ->get();
                     
         return view('home', compact('products', 'singularOfRatings'));
+    }
+
+    public function test()
+    {
+        return view('test');
     }
    
 }

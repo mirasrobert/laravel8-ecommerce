@@ -89,6 +89,14 @@ const paypalButton = () => {
                 // This function captures the funds from the transaction.
                 return actions.order.capture().then(function(details) {
                     // This function shows a transaction success message to your buyer.
+
+                    // Loading
+                    document.body.innerHTML = `
+                        <div class="spinner">
+                            <span class="spinner-text">Please wait, we are processing your order...</span> 
+                        </div>
+                        `;
+
                     if (details.status == "COMPLETED") {
                         // Do Something to the data that passed from the server side.
                         saveOrderToDatabase('/checkout', details);

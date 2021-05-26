@@ -84,12 +84,14 @@
                         min="1"
                         value="{{ $product->qty }}"
                       />
+                      </form>
                     </div>
 
                     <div class="col-lg-1">
                       <form action="/cart/{{ $product->rowId }}" method="POST">
                         @csrf
                         @method('DELETE')
+
                         <button class="btn btn-lg" type="submit">
                           <i class="fa fa-trash text-danger"></i>
                         </button>
@@ -108,7 +110,7 @@
         </div>
 
         <!-- Cart Information  -->
-        <div class="col-lg-3 col-sm-12">
+        <div class="col-lg-3 col-sm-12 card-info">
           <div class="card">
             <div class="card-body">
               Have a coupon?

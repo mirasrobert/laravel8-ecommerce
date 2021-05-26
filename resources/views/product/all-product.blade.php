@@ -33,7 +33,11 @@
   
           <div class="row posts">
               @foreach ($products as $product)
-              <div id="{{ $product->id }}" class="item new col-md-4">
+              <div id="{{ $product->id }}"
+                   class="item {{ (intval($product->price) <= 300) ? 'low' : 'high'}}
+                   {{ (\Carbon\Carbon::now()->between($product->created_at, $product->created_at->addDays(2))) ? 'new' : ''}}
+                   col-md-4"
+              >
                 <a href="/product/{{ $product->id }}/{{ $product->slug }}">
                   <div class="featured-item">
                     <img src="/storage/{{ $product->image }}" width="308" height="233">

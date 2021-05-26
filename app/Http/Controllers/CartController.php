@@ -156,7 +156,7 @@ class CartController extends Controller
 
         //MyCart::instance('default')->merge('shoppingcart', MyCart::discount(), MyCart::tax(), null, 'default');
 
-        return redirect()->back();
+        return redirect()->route('product.cart');
 
     }
 }

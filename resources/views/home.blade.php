@@ -22,7 +22,6 @@
                 my skills and for my Portfolio.
                 <br><br>
                 If you want to get in touch with me, please contact me with my email: <span class="checked">mrmirasrobert@gmail.com</span><br>
-                
               </p>
               <div class="main-button">
                 <a href="#">
