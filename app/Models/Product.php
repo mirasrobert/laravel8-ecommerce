@@ -9,7 +9,16 @@ class Product extends Model
 {
     use HasFactory;
     
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'price',
+        'qty',
+        'description',
+        'brand',
+        'category',
+        'image',
+        'slug'
+    ];
 
     // A product can have a many users/customers into the cart
 

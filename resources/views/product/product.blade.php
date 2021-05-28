@@ -11,7 +11,7 @@
  <div class="container pt-5">
 
     @if( session('status') )
-        <div class="alert alert-danger alert-dismissible my-3">
+        <div class="alert alert-success alert-dismissible my-3">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ session('status')  }}  
          </div>
@@ -64,7 +64,7 @@
                             </td>
                             <td>  
                                  
-                                <a href="/product/{{ $product->id }}/edit" class="btn btn-sm btn-light text-uppercase p-2 mt-1"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <a href="{{ route('product.edit', $product->id) }}" class="btn btn-sm btn-light text-uppercase p-2 mt-1"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                 
                                 <form action="/product/{{ $product->id }}" method="POST">
                                     @csrf

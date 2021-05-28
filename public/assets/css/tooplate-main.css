@@ -39,6 +39,18 @@ a {
     text-align: center;
 }
 
+.img-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.mark-as-delivered-btn {
+    border: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+}
+
 .gray {
     color: grey;
 }
@@ -857,5 +869,27 @@ a {
     .featured-page #filters {
         margin-top: 15px;
         text-align: left;
+    }
+
+    .img-container {
+        margin-bottom: 10px;
+        padding-top: 10px !important;
+    }
+
+    .product-name {
+        margin-bottom: 10px !important;
+    }
+}
+
+/* Medium to large devices */
+@media(min-width: 1280px) {
+    .img-container {
+        width: 300px;
+        margin: 50px 0;
+        padding: 50px 0;
+    }
+
+    .product-name {
+        text-align: center;
     }
 }

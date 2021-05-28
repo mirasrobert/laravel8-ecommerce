@@ -10,7 +10,7 @@
   <section id="main-cart">
     <div class="container">
       <div class="row mt-5 py-5">
-        <div class="col-lg-9 col-sm-12">
+        <div class="col-lg-9 col-md-12">
           <h1 class="">Shopping Cart</h1>
 
           @if( session('status') )
@@ -37,7 +37,7 @@
 
           @else <!-- Show Only Pending Products -->
           <div class="bg-light d-flex text-muted mg-0 p-0">
-            <div class="col-lg-3 d-lg-block d-none">Product</div>
+            <div class="col-lg-4 d-lg-block d-none">Product</div>
             <div class="col-lg-3 d-lg-block d-none"></div>
             <div class="col-lg-2 d-lg-block d-none">Price</div>
             <div class="col-lg-2 d-lg-block d-none">Quantity</div>
@@ -53,7 +53,7 @@
                 <div class="row">
                   <div class="row align-items-center">
                     <div class="col-lg-4 mx-auto m-0">
-                      <a href="/product/{{ $product->id }}">
+                      <a href="{{ route('product.show', ['product' => $product->id, 'slug' => $product->options->slug]) }}">
                         <img
                           src="storage/{{ $product->options->img }}"
                           class="w-75"
@@ -88,7 +88,7 @@
                     </div>
 
                     <div class="col-lg-1">
-                      <form action="/cart/{{ $product->rowId }}" method="POST">
+                      <form action="{{ route('cart.destroy', $product->rowId) }}" method="POST">
                         @csrf
                         @method('DELETE')
 
@@ -110,7 +110,7 @@
         </div>
 
         <!-- Cart Information  -->
-        <div class="col-lg-3 col-sm-12 card-info">
+        <div class="col-lg-3 col-md-12 card-info">
           <div class="card">
             <div class="card-body">
               Have a coupon?

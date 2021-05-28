@@ -107,7 +107,7 @@
                 @endif
               </div>
             
-              <form action="/mycart/{{ $product->id }}" method="POST">
+              <form action="{{ route('cart.store', $product->id) }}" method="POST">
                 @csrf
                 <label for="quantity">Quantity:</label>
                 <input

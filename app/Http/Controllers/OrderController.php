@@ -20,26 +20,6 @@ class OrderController extends Controller
     public function index()
     {  
         session()->forget('thankyou');
-        // GROUP BY IN STRICT MODE
-        // $users = DB::table('orders')
-        //         ->select('transaction_no', 'created_at')
-        //         ->groupBy("transaction_no", "created_at")
-        //         ->where('user_id', '=', auth()->user()->id)
-        //         ->get();
-
-        // $users = DB::table('products')
-        //         ->join('orders', 'orders.product_id', '=' , 'products.id')
-        //         ->select('products.name', 'products.price', 'products.qty', 'products.image','orders.user_id', 'orders.product_id', 'orders.created_at', 'orders.amount', 'orders.qty', 'orders.transaction_no')
-        //         ->where('orders.user_id', $authenticated_user_id)
-        //         ->groupBy('orders.transaction_no', 'products.name' ,'products.price', 'products.qty', 'products.image','orders.user_id', 'orders.product_id', 'orders.created_at', 'orders.amount', 'orders.qty')
-        //         ->get();
-
-        // $users = DB::table('products')
-        //         ->join('orders', 'orders.product_id', '=' , 'products.id')
-        //         ->select('orders.transaction_no', 'orders.created_at')
-        //         ->where('orders.user_id', $authenticated_user_id)
-        //         ->groupBy('orders.created_at', 'orders.transaction_no')
-        //         ->get();
 
         $authenticated_user_id = (int) auth()->user()->id;
 

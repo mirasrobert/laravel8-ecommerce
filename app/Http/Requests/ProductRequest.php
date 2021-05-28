@@ -30,8 +30,7 @@ class ProductRequest extends FormRequest
             'description' => 'required|min:50|max:230',
             'brand' => 'required',
             'category' => 'required',
-            'image' => 'required|image',
-            'slug' => 'required|unique'
+            'image' => ''
         ];
     }
 }

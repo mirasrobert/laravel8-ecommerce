@@ -39,20 +39,20 @@
 
               <ul class="list-group list-group-flush">
                 @foreach (MyCart::content() as $key => $product)
-                <li class="list-group-item">
+                <li class="list-group-item pl-4">
                   <div class="row">
-                    <div class="row">
-                      <div class="row align-items-center">
-                        <div class="col-lg-3">
-                          <a href="/product/{{ $product->id }}">
+                    <div class="col-12">
+                      <div class="row">
+                        <div class="col-lg-3 img-container m-0 p-0">
+                          <a href="/product/{{ $product->id }}/{{ $product->slug }}">
                             <img
-                              src="storage/{{ $product->options->img }}"
-                              width="80"
-                              height="75"
+                                    src="storage/{{ $product->options->img }}"
+                                    width="150"
+                                    height="100"
                             />
                           </a>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 product-name">
                           <p class="text-dark">
                             {{ $product->name }}
                           </p>

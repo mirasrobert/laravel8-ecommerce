@@ -5,12 +5,12 @@
       @foreach ($reviews as $key => $review)
       <div id="product-reviews">
         <p class="text-dark">{{ $review->comment }}</p>
-        <small class="text-muted">Posted by {{ $review->name }} on {{ $review->created_at }}</small>
+        <small class="text-muted">Posted by {{ $review->name }} on {{ \Carbon\Carbon::parse($review->created_at)->diffForHumans() }}</small>
         <div class="reviews d-flex justify-content-start">
         @for ($i = 0; $i < $review->rate; $i++)
          <i class="fa fa-star checked pt-1"></i>
         @endfor
-        <span class="ps-2 text-muted">  | <small>{{ $review->rate }} Stars</small> </span>
+        <span class="ps-2 text-muted">  | <small>{{ $review->rate }} {{ Str::plural('star', $review->rate) }}</small> </span>
       </div>
       <hr>
       </div>
@@ -61,11 +61,11 @@
                 <div class="mb-3">
                     <label for="Rating" class="form-label">Rating</label>
                     <select class="form-select @error('rating') is-invalid @enderror" name="rating" value="{{ old('rating') }}" aria-label="Rating"  >
-                        <option value="1">1 - Very Bad</option>
+                        <option value="1">1 - Horrible</option>
                         <option value="2">2 - Bad</option>
-                        <option value="3">3 - Satisfactory</option>
-                        <option value="4">4 - Good</option>
-                        <option value="5">5 - Satisfactory</option>
+                        <option value="3">3 - Good</option>
+                        <option value="4">4 - Satisfactory</option>
+                        <option value="5">5 - Outstanding</option>
                       </select>
                 </div>
 

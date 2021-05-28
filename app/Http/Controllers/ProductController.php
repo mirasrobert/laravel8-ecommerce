@@ -21,11 +21,7 @@ class ProductController extends Controller
             'show','view'
         ]]);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(User $user)
     {
         //Check if admin
@@ -36,11 +32,6 @@ class ProductController extends Controller
         return view('product.product' , compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(User $user)
     {
         //Check if admin
@@ -48,12 +39,6 @@ class ProductController extends Controller
         return view('product.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request, User $user)
     {
         //Check if admin
@@ -78,33 +63,21 @@ class ProductController extends Controller
         $image = Image::make(public_path("storage/{$imageNameWithPath}"))->resize(320, 300);
         $image->save();
 
+        // Override the image input with imagePath
+        $data = array_merge($data, ['slug' => $slug], ['image' => $imageNameWithPath]);
+
         // IF validation returns no error create and insert new product to the database
-        Product::create([
-            'name' => $data['name'],
-            'price' => $data['price'],
-            'qty' => $data['qty'],
-            'description' =>  $data['description'],
-            'brand' => $data['brand'],
-            'category' => $data['category'],
-            'image' => $imageNameWithPath,
-            'slug' => $slug
-        ]);
+        Product::create($data);
 
        // redirect
        return back()->with('status', 'A new product has been added.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product, $slug)
+    public function show(Product $product, $slug = '')
     {
-        // If slug is empty or wrong
+         //If slug is empty or wrong
         if(empty($slug) || $product->slug != $slug) {
-            abort(404);
+            return redirect()->route('product.show', ['product'=> $product, 'slug' => $product->slug]);
         }
 
         session()->forget('thankyou');
@@ -156,35 +129,39 @@ class ProductController extends Controller
         return view('product.show', compact('product', 'hasReview', 'rateAverage', 'canReview', 'reviews'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Product $product)
     {
-        //
+        //Check if admin
+        $this->authorize('view', auth()->user());
+
+        return view('product.edit', compact('product'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $this->authorize('update', auth()->user());
+
+        $slug = Str::slug($request->name);
+        $imageNameWithPath = null;
+
+
+        if($request->hasFile('image')) {
+            // Move uploaded file to the folder with FILE PATH and FILE NAME
+            $imageNameWithPath = $request->image->store('product_img', 'public');
+            $image = Image::make(public_path("storage/{$imageNameWithPath}"))->resize(320, 300);
+            $image->save();
+        }
+
+        $data = array_merge($request->all(), ['slug' => $slug], ['image' => $imageNameWithPath]);
+
+        // Check if user want to override the image
+        $data = is_null($imageNameWithPath) ? array_merge($request->except(['image']), ['slug' =>  $slug]) : $data;
+
+        $product->update($data);
+
+        return back()->with('status', 'Product has been updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Product $product, User $user)
     {
         //Check if authorize to delete

@@ -19,7 +19,7 @@
         <h6>${{ $product->price }}.00</h6>
 
         <p> 
-          {{ $product->reviews->count() == 1 ? $singularOfRatings : "Reviews" }} 
+          {{ Str::plural('Review', $product->reviews->count()) }}
           ({{ $product->reviews->count() }})
         </p>
 

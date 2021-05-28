@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Support\Str;
-
+use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
 
 class HomeController extends Controller
 {
@@ -24,7 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         $singularOfRatings = Str::singular('Ratings');
 
         session()->forget('thankyou');

@@ -8,7 +8,7 @@
 <section id="order">
     <div class="container">
       <div class="row mt-5 py-5">
-        <div class="col-lg-8"> 
+        <div class="col-lg-8">
           <ul class="list-group list-group-flush">
 
             <li class="list-group-item">
@@ -29,32 +29,39 @@
               <small>Paypal or Debit Card</small>
             </li>
 
-            <li class="list-group-item">
-              <h3 class="text-uppercase text-dark">
-                Delivered At
-                <span style="display: inline;">
-                  @if (is_null($isDelivered))
-                    @can('view', auth()->user())
-                    
-                    <form action="/shop/{{ $id }}" method="POST">
+            <li class="list-group-item" style="display:inline-block;">
+
+              @if (is_null($isDelivered))
+                @can('view', auth()->user())
+                  <span class="m-0 p-0">
+                      <form action="{{ route('shop.update', $id) }}" method="POST" class="m-0 p-0">
                       @csrf
-                      @method('PATCH')
-                      <button type="submit" class="btn btn-sm btn-primary">Mark as delivered.</button>
+                        @method('PATCH')
+                      <h3 class="text-uppercase text-dark">
+                          Delivered At |
+                        <button type="submit" class="btn mark-as-delivered-btn btn-sm btn-primary">Mark as delivered</button>
+                      </h3>
                     </form>
-                    @endcan
-                  @endif
                 </span>
-              </h3>
+                @endcan
+              @endif
+
+              @if (!is_null($isDelivered))
+                  <h3 class="text-uppercase text-dark">
+                    Delivered At
+                  </h3>
+              @endif
+
               <div class="alert {{ is_null($isDelivered) ? "alert-danger" : "alert-success" }}" role="alert">
                 <div class="row">
                   <div class="col-md-6">
-                    {{ is_null($isDelivered) ? "Not yet been delivered." : $deliveredAt }}
+                    {{ is_null($isDelivered) ? "Status: Pending" : $deliveredAt }}
                   </div>
                 </div>
               </div>
-            
+
             </li>
-            
+
             <li class="list-group-item mt-3">
               <h3 class="text-uppercase text-dark">Order Items</h3>
 
@@ -66,12 +73,15 @@
                     <div class="row">
                       <div class="row align-items-center">
                         <div class="col-lg-3">
-                          <img
-                            src="/storage/{{ $order->image }}"
-                            class="img-fluid"
-                            width="75rem"
-                            height="75rem"
-                          />
+                          <a href="/product/{{ $order->product_id }}">
+                            <img
+                               src="/storage/{{ $order->image }}"
+                               class="img-fluid"
+                               alt="{{ $order->name }}"
+                               width="75rem"
+                               height="75rem"
+                            />
+                          </a>
                         </div>
                         <div class="col-lg-3">
                           <small class="text-dark">
@@ -92,8 +102,8 @@
                 @endforeach
 
               </ul>
-              
-              
+
+
             </li>
 
           </ul>
@@ -105,13 +115,13 @@
 
               <h3 class="text-uppercase">Order Summary</h3>
               <hr>
-              
+
               <!-- Subtotal Price -->
               <div class="row py-1">
                 <div class="col lg-6">Items:</div>
                 <div class="col lg-6">{{ $orders->count() }}</div>
               </div>
-      
+
               <!-- Subtotal-->
               <div class="row py-1">
                 <div class="col lg-6">Subtotal:</div>
@@ -148,7 +158,7 @@
               <div class="d-grid gap-2">
                 <button class="btn btn-pr ry text-uppercase p-2" type="button">Place Order</button>
               </div> --}}
-                              
+
               </div>
 
             </div>
@@ -157,18 +167,18 @@
               <div class="card-body">
                 <h3 class="text-uppercase">Customer Details</h3>
                 <hr>
-              
+
                 <!-- Subtotal Price -->
                 <div class="row py-1">
                   <div class="col lg-6">Name:</div>
                   <div class="col lg-6">{{ $user->name }}</div>
                 </div>
-        
+
                 <!-- Subtotal-->
                 <div class="row py-1">
                   <div class="col lg-6">Contact:</div>
                   <div class="col lg-6">{{ $shippingAddress->contact }}</div>
-                </div>         
+                </div>
               </div>
             </div>
             {{-- END OF CUSTOMER --}}
