@@ -58,7 +58,7 @@ class ProductController extends Controller
         $slug = Str::slug($data['name']);
 
         // Move uploaded file to the folder with FILE PATH and FILE NAME
-        $imageNameWithPath = $request->image->storeAs('product_img', 'public');
+        $imageNameWithPath = $request->image->store('product_img', 'public');
 
         dd($imageNameWithPath);
 
