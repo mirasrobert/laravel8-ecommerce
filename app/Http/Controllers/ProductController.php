@@ -60,7 +60,7 @@ class ProductController extends Controller
         // Move uploaded file to the folder with FILE PATH and FILE NAME
         $imageNameWithPath = $request->image->store('product_img', 'public');
 
-        $image = Image::make(public_path("storage/{$imageNameWithPath}"))->resize(320, 300);
+        $image = Image::make("storage/{$imageNameWithPath}")->resize(320, 300);
         $image->save();
 
         // Override the image input with imagePath
