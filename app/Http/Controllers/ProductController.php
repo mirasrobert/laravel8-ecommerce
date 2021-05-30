@@ -61,9 +61,9 @@ class ProductController extends Controller
         $imageNameWithPath = $request->image->store('product_img', 'public');
 
         // Make-Upload Image
-        $image = Image::make("storage/{$imageNameWithPath}")->resize(320, 300);
+        //$image = Image::make("storage/{$imageNameWithPath}")->resize(320, 300);
 
-        $image->save();
+        //$image->save();
 
         // Override the image input with imagePath
         $data = array_merge($data, ['slug' => $slug], ['image' => $imageNameWithPath]);
