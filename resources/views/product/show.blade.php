@@ -41,16 +41,16 @@
               <div id="slider" class="flexslider">
                 <ul class="slides">
                   <li> 
-                    <img src="/storage/{{ $product->image }}" />
+                    <img src="{{ $product->image }}" />
                   </li>
                   <li>
-                    <img src="/storage/{{ $product->image }}" />
+                    <img src="{{ $product->image }}" />
                   </li>
                   <li>
-                    <img src="/storage/{{ $product->image }}" />
+                    <img src="{{ $product->image }}" />
                   </li>
                   <li>
-                    <img src="/storage/{{ $product->image }}" />
+                    <img src="{{ $product->image }}" />
                   </li>
                   <!-- items mirrored twice, total of 12 -->
                 </ul>
@@ -58,16 +58,16 @@
               <div id="carousel" class="flexslider">
                 <ul class="slides">
                   <li>
-                    <img src="/storage/{{ $product->image }}" />
+                    <img src="{{ $product->image }}" />
                   </li>
                   <li>
-                    <img src="/storage/{{ $product->image }}" />
+                    <img src="{{ $product->image }}" />
                   </li>
                   <li>
-                    <img src="/storage/{{ $product->image }}" />
+                    <img src="{{ $product->image }}" />
                   </li>
                   <li>
-                    <img src="/storage/{{ $product->image }}" />
+                    <img src="{{ $product->image }}" />
                   </li>
                   <!-- items mirrored twice, total of 12 -->
                 </ul>

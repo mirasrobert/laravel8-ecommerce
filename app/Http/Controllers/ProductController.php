@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 //use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ProductController extends Controller
 {
@@ -57,20 +58,14 @@ class ProductController extends Controller
 
         $slug = Str::slug($data['name']);
 
-        // Move uploaded file to the folder with FILE PATH and FILE NAME
-        $imageNameWithPath = $request->image->store('product_img', 'public');
+        // Image File
+        $img = $request->file('image')->getRealPath();
 
-        $public_path = public_path('storage/'.$imageNameWithPath.'');
+        // Upload an image file to cloudinary with one line of code
+        $uploadedFileUrl = cloudinary()->upload($img, ["folder => fabrique"])->getSecurePath();
 
-        dd($public_path);
-
-        // Make-Upload Image
-        //$image = Image::make("storage/{$imageNameWithPath}")->resize(320, 300);
-
-        //$image->save();
-
-        // Override the image input with imagePath
-        $data = array_merge($data, ['slug' => $slug], ['image' => $imageNameWithPath]);
+        // Override the image input with imageUrl of Cloudinary
+        $data = array_merge($data, ['slug' => $slug], ['image' => $uploadedFileUrl]);
 
         // IF validation returns no error create and insert new product to the database
         Product::create($data);
@@ -146,22 +141,22 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         $this->authorize('update', auth()->user());
-
+        $uploadedFileUrl = null;
         $slug = Str::slug($request->name);
         $imageNameWithPath = null;
 
-
         if($request->hasFile('image')) {
-            // Move uploaded file to the folder with FILE PATH and FILE NAME
-            $imageNameWithPath = $request->image->store('product_img', 'public');
-            $image = Image::make(public_path("storage/{$imageNameWithPath}"))->resize(320, 300);
-            $image->save();
+            // Image File
+            $img = $request->file('image')->getRealPath();
+
+            // Upload an image file to cloudinary with one line of code
+            $uploadedFileUrl = cloudinary()->upload($img, ["folder => fabrique"])->getSecurePath();
         }
 
-        $data = array_merge($request->all(), ['slug' => $slug], ['image' => $imageNameWithPath]);
+        $data = array_merge($request->all(), ['slug' => $slug], ['image' => $uploadedFileUrl]);
 
         // Check if user want to override the image
-        $data = is_null($imageNameWithPath) ? array_merge($request->except(['image']), ['slug' =>  $slug]) : $data;
+        $data = is_null($uploadedFileUrl) ? array_merge($request->except(['image']), ['slug' =>  $slug]) : $data;
 
         $product->update($data);
 
