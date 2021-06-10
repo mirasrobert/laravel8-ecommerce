@@ -75,7 +75,7 @@
                         <div class="col-lg-3">
                           <a href="/product/{{ $order->product_id }}">
                             <img
-                               src="/storage/{{ $order->image }}"
+                               src="{{ $order->image }}"
                                class="img-fluid"
                                alt="{{ $order->name }}"
                                width="75rem"

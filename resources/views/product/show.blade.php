@@ -41,16 +41,20 @@
               <div id="slider" class="flexslider">
                 <ul class="slides">
                   <li> 
-                    <img src="{{ $product->image }}" />
+                    <img src="{{ $product->image }}" width="468" height="
+468" />
                   </li>
                   <li>
-                    <img src="{{ $product->image }}" />
+                    <img src="{{ $product->image }}" width="468" height="
+468" />
                   </li>
                   <li>
-                    <img src="{{ $product->image }}" />
+                    <img src="{{ $product->image }}" width="468" height="
+468" />
                   </li>
                   <li>
-                    <img src="{{ $product->image }}" />
+                    <img src="{{ $product->image }}" width="468" height="
+468" />
                   </li>
                   <!-- items mirrored twice, total of 12 -->
                 </ul>

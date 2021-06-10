@@ -34,14 +34,12 @@ Route::resource('orders', App\Http\Controllers\OrderController::class)->only([
 ]);
 
 Route::resource('profile', App\Http\Controllers\UserController::class)->only([
-    'index', 'edit'
+    'edit'
 ])->names([
-    'index' => 'user.index',
     'edit' => 'user.edit'
 ]);
 
 Route::prefix('profile')->group(function () {
-    Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
     Route::get('/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
     Route::patch('/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
     Route::get('/password', [App\Http\Controllers\UserController::class, 'changePassword'])->name('user.changePassword');

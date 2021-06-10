@@ -46,7 +46,7 @@
                         <div class="col-lg-3 img-container m-0 p-0">
                           <a href="/product/{{ $product->id }}/{{ $product->slug }}">
                             <img
-                                    src="storage/{{ $product->options->img }}"
+                                    src="{{ $product->options->img }}"
                                     width="150"
                                     height="100"
                             />

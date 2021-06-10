@@ -7,28 +7,14 @@
 @section('content')
   
 <section id="order">
+
+  <x-user-profile :selectedProvince="$selectedProvince" :selectedCity="$selectedCity" :selectedBrgy="$selectedBrgy" />
+
       <div class="container">
-        <div class="row mt-5 py-5">
-          <div class="col-lg-3 bg-light p-3">
-            <small>Hello, {{ auth()->user()->name }}</small>
-            <h5 class="fw-bold mt-1" style="font-size: 1.1rem">
-              Manage my Account
-            </h5>
-            <div class="d-flex flex-column bd-highlight mb-3">
-              <div class="p-2 bd-highlight">
-                <a href="{{ route('user.index') }}">My Profile</a>
-              </div>
-              {{-- <div class="p-2 bd-highlight">
-                <a href="#">My Returns</a>
-              </div>
-              <div class="p-2 bd-highlight">
-                <a href="#">My Cancellation</a>
-              </div> --}}
-            </div>
-          </div>
+        <div class="row py-5">
 
           {{-- START OF CARD --}}
-          <div class="col-lg-8 ms-auto">
+          <div class="col">
 
             <h3>My Orders</h3>
 

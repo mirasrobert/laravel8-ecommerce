@@ -123,7 +123,7 @@ class ShippingController extends Controller
                 'barangay'
             ]));
 
-            return redirect()->route('user.index');
+            return redirect()->route('orders.index');
         } else {
             return back();
         }

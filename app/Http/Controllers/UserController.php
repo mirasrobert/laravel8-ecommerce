@@ -17,26 +17,7 @@ class UserController extends Controller
 
     public function index() {
 
-        $selectedProvince = null;
-        $selectedCity = null;
-        $selectedBrgy = null;
-
-        if(!is_null(auth()->user()->shipping))
-        {
-            $selectedProvince = DB::table('refprovince')
-                    ->where('provCode', auth()->user()->shipping->province)
-                    ->first();
-
-            $selectedCity = DB::table('refcitymun')
-                        ->where('citymunCode', auth()->user()->shipping->city)
-                        ->first();
-
-            $selectedBrgy = DB::table('refbrgy')
-                        ->where('brgyCode', auth()->user()->shipping->barangay)
-                        ->first();
-        }
-
-        return view('user.profile.user-profile', compact('selectedProvince' , 'selectedCity', 'selectedBrgy'));
+        
     }
 
     public function edit() {
@@ -55,7 +36,7 @@ class UserController extends Controller
             return back()->with('error', 'Invalid password.');
         }
 
-        return redirect()->route('user.index')->with('status', 'User profile has been updated.');
+        return redirect()->route('orders.index')->with('status', 'User profile has been updated.');
 
     }
 
@@ -88,6 +69,6 @@ class UserController extends Controller
             return back()->with('error', 'Invalid password.');
         }
 
-        return redirect()->route('user.index')->with('status', 'Password has been updated.');
+        return redirect()->route('orders.index')->with('status', 'Password has been updated.');
     }
 }

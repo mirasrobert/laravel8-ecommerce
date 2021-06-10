@@ -21,6 +21,25 @@ class OrderController extends Controller
     {  
         session()->forget('thankyou');
 
+        $selectedProvince = null;
+        $selectedCity = null;
+        $selectedBrgy = null;
+
+        if(!is_null(auth()->user()->shipping))
+        {
+            $selectedProvince = DB::table('refprovince')
+                    ->where('provCode', auth()->user()->shipping->province)
+                    ->first();
+
+            $selectedCity = DB::table('refcitymun')
+                        ->where('citymunCode', auth()->user()->shipping->city)
+                        ->first();
+
+            $selectedBrgy = DB::table('refbrgy')
+                        ->where('brgyCode', auth()->user()->shipping->barangay)
+                        ->first();
+        }
+
         $authenticated_user_id = (int) auth()->user()->id;
 
         $order = Order::select('transaction_no', 'created_at', 'isPaid' , 'deliveredAt')
@@ -28,8 +47,9 @@ class OrderController extends Controller
                         ->orderBy('created_at', 'DESC')
                         ->groupBy('created_at', 'transaction_no', 'isPaid' , 'deliveredAt')
                         ->get();
-        
-        return view('user.order', ['order' => $order]);
+    
+
+        return view('user.order', compact('order', 'selectedProvince' , 'selectedCity', 'selectedBrgy'));
     }
 
     public function show($id)

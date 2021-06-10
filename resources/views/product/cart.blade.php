@@ -55,7 +55,7 @@
                     <div class="col-lg-4 mx-auto m-0">
                       <a href="{{ route('product.show', ['product' => $product->id, 'slug' => $product->options->slug]) }}">
                         <img
-                          src="storage/{{ $product->options->img }}"
+                          src="{{ $product->options->img }}"
                           class="w-75"
                           height="160"
                         />

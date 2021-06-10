@@ -13,7 +13,7 @@
         <header class="mb-4">
             <h4 class="card-title">
             Edit Address / Shipping
-            <span class="float-right"> <a href="{{ route('user.index') }}">
+            <span class="float-right"> <a href="{{ route('orders.index') }}">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
                   Back
                 </a> 
