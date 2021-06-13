@@ -119,13 +119,13 @@
               <!-- Subtotal Price -->
               <div class="row py-1">
                 <div class="col lg-6">Items:</div>
-                <div class="col lg-6">{{ $orders->count() }}</div>
+                <div class="col lg-6">{{ $itemsCount   }}</div>
               </div>
 
               <!-- Subtotal-->
               <div class="row py-1">
                 <div class="col lg-6">Subtotal:</div>
-                <div class="col lg-6">&#8369;{{ $total }}</div>
+                <div class="col lg-6">&#8369;{{ $total  }}</div>
               </div>
 
               <!-- TAX-->

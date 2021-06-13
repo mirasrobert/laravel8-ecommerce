@@ -58,7 +58,15 @@ class OrderController extends Controller
         $orders = Order::where('transaction_no', $id)->get();
 
         // SUM OF EACH AMOUNT WITH THE ALL THE SAME CORRECT TRANSACTION_NO
-        $total = $orders->sum('amount');
+        //$total = $orders->sum('amount');
+
+        $total = 0;
+        $itemsCount = 0;
+
+        foreach ($orders as $key => $order) {
+            $itemsCount += $order->qty;
+            $total += $order->amount * $order->qty;
+        }
 
         // Get the Tax
         $tax = Order::where('transaction_no', $id)->first()->tax;
@@ -115,12 +123,19 @@ class OrderController extends Controller
             return $tax;
         });
 
+        $itemsCount = Cache::remember('itemsCount'.auth()->user()->id, 
+        now()->addSeconds(30), 
+        function() use ($itemsCount) {
+            return $itemsCount;
+        });
+
         // If Admin
         if(auth()->user()->role === 0)
         {
             return view('user.show_order', [
                 'id' =>  $id,
                 'orders' => $orders,
+                'itemsCount' => $itemsCount,
                 'total' => $orderTotal,
                 'tax' => $orderTax,
                 'isDelivered' => $isDelivered,
@@ -139,6 +154,7 @@ class OrderController extends Controller
             return view('user.show_order', [
                 'id' =>  $id,
                 'orders' => $orders,
+                'itemsCount' => $itemsCount,
                 'total' => $orderTotal,
                 'tax' => $orderTax,
                 'isDelivered' => $isDelivered,
