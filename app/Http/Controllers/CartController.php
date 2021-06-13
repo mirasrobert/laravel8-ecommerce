@@ -55,7 +55,8 @@ class CartController extends Controller
                 $product->price, 550,
                 [
                     'img' => $product->image,
-                    'slug' => $product->slug
+                    'slug' => $product->slug,
+                    'brand' => $product->brand
                 ])
                 ->associate('App\Models\Product');
 
@@ -73,7 +74,8 @@ class CartController extends Controller
                 $product->price, 550,
                 [
                     'img' => $product->image,
-                    'slug' => $product->slug
+                    'slug' => $product->slug,
+                    'brand' => $product->brand
                 ])
                 ->associate('App\Models\Product');
 

@@ -5,10 +5,10 @@ Tooplate 2114 Pixie
 https://www.tooplate.com/view/2114-pixie
 
 */
-
 body {
     font-family: "Roboto", sans-serif;
     transition: all 0.5s;
+    overflow-x: hidden;
 }
 p {
     margin-bottom: 0px;
@@ -31,6 +31,125 @@ a {
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 50 50'%3E%3Cpath d='M28.43 6.378C18.27 4.586 8.58 11.37 6.788 21.533c-1.791 10.161 4.994 19.851 15.155 21.643l.707-4.006C14.7 37.768 9.392 30.189 10.794 22.24c1.401-7.95 8.981-13.258 16.93-11.856l.707-4.006z'%3E%3CanimateTransform attributeType='xml' attributeName='transform' type='rotate' from='0 25 25' to='360 25 25' dur='0.6s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E")
         center / 50px no-repeat;
 }
+
+/* SHOPPING CART */
+.table-shopping-cart.table td,
+.table-shopping-cart.table th {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+.table-shopping-cart .price-wrap {
+    line-height: 1.2;
+}
+.table-shopping-cart .price {
+    font-weight: bold;
+    margin-right: 5px;
+    display: block;
+}
+
+.itemside {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+.itemside .aside {
+    position: relative;
+    flex-shrink: 0;
+}
+.itemside .info {
+    padding-left: 15px;
+    padding-right: 7px;
+}
+.itemside p {
+    margin-bottom: 0;
+}
+.itemside .title {
+    display: block;
+    margin-bottom: 5px;
+    color: #212529;
+}
+.itemside a.title:hover {
+    color: #3167eb;
+}
+
+a.itemside {
+    color: initial;
+}
+
+.items-bordered-wrap .itemside:not(:last-child) {
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.itemlist {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.list-inline {
+    margin-bottom: 0;
+}
+
+.list-inline-item {
+    vertical-align: middle;
+}
+
+/* --------- description list --------*/
+dl[class="row"] {
+    margin-bottom: 0;
+}
+[class*="dlist-"] {
+    margin-bottom: 5px;
+}
+[class*="dlist-"] dd {
+    margin-bottom: 0;
+}
+
+.dlist-inline dt,
+.dlist-inline dd {
+    display: inline-block;
+}
+
+.dlist-align {
+    display: flex;
+}
+.dlist-align dt {
+    width: 150px;
+    word-wrap: break-word;
+    font-weight: normal;
+}
+.dlist-align dd {
+    flex-grow: 1;
+}
+
+.img-product-cart {
+    width: 80px !important;
+    height: 80px !important;
+    max-width: 80px !important;
+    max-height: 80px !important;
+}
+
+.mx-6 {
+    margin: 0 7.5rem;
+}
+
+.img-xs,
+.img-sm,
+.img-md,
+.img-lg {
+    -o-object-fit: cover;
+    object-fit: cover;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.padding-y {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+/* END SHOPPING CART */
 
 .spinner-text {
     position: absolute;
@@ -83,6 +202,7 @@ a {
 #footer {
     background-color: #212934 !important;
     color: white;
+    width: 100%;
 }
 
 /* START FOOTER */
@@ -864,6 +984,21 @@ a {
     .contact-page {
         margin-top: 0px;
     }
+
+    /* small tablet devices */
+    .slider-main .item-slide {
+        height: auto;
+    }
+
+    .table-shopping-cart tr td:first-child {
+        width: 250px;
+    }
+    .table-shopping-cart .itemside .info {
+        padding: 0;
+    }
+    .table-shopping-cart .itemside .aside {
+        display: none;
+    }
 }
 
 @media (max-width: 767px) {
@@ -883,6 +1018,29 @@ a {
     .product-name {
         margin-bottom: 10px !important;
     }
+
+    .title-page {
+        text-align: center;
+    }
+
+    .table-shopping-cart tr td:first-child {
+        width: 250px;
+    }
+    .table-shopping-cart .itemside .info {
+        padding: 0;
+    }
+    .table-shopping-cart .itemside .aside {
+        display: none;
+    }
+
+    .minus,
+    .plus {
+        width: 50%;
+    }
+
+    .prd-name {
+        font-size: 1rem;
+    }
 }
 
 /* Medium to large devices */
@@ -896,4 +1054,147 @@ a {
     .product-name {
         text-align: center;
     }
+}
+
+/* ONLY FOR MObILE PHONES */
+@media (max-width: 480px) {
+    .quantity-section {
+        margin-left: 30px;
+        width: 100%;
+    }
+}
+
+/* CUSTOM STYLE FOR SHOPPiNG CART */
+.number-input input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+.number-input input[type="number"]::-webkit-inner-spin-button,
+.number-input input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+.number-input {
+    margin-bottom: 3rem;
+}
+.number-input button {
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: none;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+}
+
+/* REMOVE OUTLINE */
+.minus:focus,
+.plus:focus {
+    outline: none;
+}
+.minus:active,
+.plus:active {
+    outline: none;
+}
+
+.number-input button:before,
+.number-input button:after {
+    display: inline-block;
+    position: absolute;
+    content: "";
+    height: 2px;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.number-input button.plus:after {
+    -webkit-transform: translate(-50%, -50%) rotate(90deg);
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+.number-input input[type="number"] {
+    text-align: center;
+}
+.number-input.number-input {
+    border: 1px solid #ced4da;
+    width: 8.6rem;
+    border-radius: 0.25rem;
+}
+.number-input.number-input button {
+    width: 2.5rem;
+    height: 0.7rem;
+}
+.number-input.number-input button.minus {
+    padding-left: 10px;
+}
+.number-input.number-input button:before,
+.number-input.number-input button:after {
+    width: 0.7rem;
+    background-color: #495057;
+}
+.number-input.number-input input[type="number"] {
+    max-width: 3rem;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-width: 0 1px;
+    font-size: 1rem;
+    height: 2rem;
+    color: #495057;
+}
+
+@media not all and (min-resolution: 0.001dpcm) {
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) {
+        .number-input.def-number-input.safari_only button:before,
+        .number-input.def-number-input.safari_only button:after {
+            margin-top: -0.3rem;
+        }
+    }
+}
+.wish-list a.card-link-secondary > .fas.fa-heart {
+    color: #6c757d !important;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.wish-list a.card-link-secondary:hover > .fas.fa-heart {
+    color: #ff3d71 !important;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.file-field input.file-path {
+    height: 32px;
+}
+
+.slider-price .multi-range-field {
+    padding-bottom: 2.15rem;
+}
+@media (max-width: 450px) {
+    .classic-tabs .nav .nav-link {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+.text-black {
+    color: #111;
+}
+
+.wish-list form {
+    display: inline-block;
+}
+
+.remove-item {
+    outline: none;
+    border: none;
+    background: transparent;
+}
+.remove-item:focus {
+    outline: none;
+    border: none;
+}
+
+.remove-item:hover {
+    color: #007bff;
 }

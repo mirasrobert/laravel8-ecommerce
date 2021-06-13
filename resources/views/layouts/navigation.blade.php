@@ -61,7 +61,7 @@
             @auth
               @if(MyCart::instance('default')->count() > 0)
               {{-- Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ auth()->user()->products->count() }} </span>  --}}
-              Cart <span class="dot text-center text-dark fw-bold"> [{{ MyCart::instance('default')->count() }}] </span>   
+              Cart <span class="badge badge-pill badge-danger notify"> {{ MyCart::instance('default')->count() }} </span>
               @else
               Cart
               @endif 
@@ -69,7 +69,7 @@
             @else
               @if(MyCart::instance('default')->count() > 0)
               {{-- Cart <span class="dot text-center text-dark align-middle fw-bold"> {{ auth()->user()->products->count() }} </span>  --}}
-              Cart <span class="dot text-center text-dark fw-bold"> [{{ MyCart::instance('default')->count() }}] </span>   
+              Cart <span class="badge badge-pill badge-danger notify"> {{ MyCart::instance('default')->count() }} </span>
               @else
               Cart
               @endif  

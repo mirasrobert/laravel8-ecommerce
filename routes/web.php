@@ -96,7 +96,7 @@ Route::prefix('checkout')->group(function () {
 
 Route::prefix('cart')->group(function () {
     Route::post('/{product}', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
-    Route::put('/', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
+    Route::post('/', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
     Route::delete('/{id}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
 });
 
