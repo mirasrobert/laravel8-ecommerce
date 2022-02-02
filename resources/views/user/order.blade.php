@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-  
+
 <section id="order">
 
   <x-user-profile :selectedProvince="$selectedProvince" :selectedCity="$selectedCity" :selectedBrgy="$selectedBrgy" />
@@ -24,7 +24,7 @@
                 <tr>
                   <th scope="col">Order#</th>
                   <th scope="col">Date</th>
-                  <th scope="col">Delivered</th>
+                  <th scope="col">Status</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -37,9 +37,8 @@
                   <td>
                       <span
                       class="{{ is_null($product->deliveredAt) ? 'bg-danger' : 'bg-success' }} rounded-pill p-2 text-white my-order-status"
-                      style="font-size: 0.7rem"
-                      >
-                      {{ is_null($product->deliveredAt) ? "Not yet Delivered" : "Delivered" }}
+                      style="font-size: 0.7rem">
+                      {{ is_null($product->deliveredAt) ? "Pending" : "Received" }}
                     </span>
                   </td>
                   <td><span class="btn btn-light"><a style="text-decoration: none; color: #4d4d4d;" href="/orders/{{ $product->transaction_no }}">Manage</a></span></td>
@@ -47,15 +46,15 @@
                 </tr>
                 @endforeach
 
-                @else 
+                @else
 
                 <div class="alert alert-info" style="margin-bottom: 10rem;" role="alert">
                   You do not have any order. <a href="{{ route('home') }}" class="alert-link">Go Back</a>
                 </div>
-                
+
                 @endif
 
-              
+
 
               </tbody>
             </table>
@@ -80,8 +79,8 @@
                         <small class="text-dark my-order-name">
                           @if (strlen($product->name > 50))
                           {{ substr( $product->name , 0, 50) }} ...
-                          @else 
-                          {{ substr( $product->name , 0, 50) }} 
+                          @else
+                          {{ substr( $product->name , 0, 50) }}
                           @endif
                         </small>
                     </div>
@@ -104,7 +103,7 @@
 
           </div>
         </div>
-      </div>
+
     </section>
 
 

@@ -10,18 +10,17 @@ class ShopController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        
+
     }
 
-    public function index() {
-        
+    public function index()
+    {
+
         $this->authorize('view', auth()->user());
         $orders = Order::select('transaction_no', 'created_at', 'deliveredAt')
-                        ->orderBy('created_at', 'ASC')
-                        ->groupBy('created_at', 'transaction_no', 'deliveredAt')
-                        ->get();
-
-        //$order = Order::oldest()->get();
+            ->orderBy('created_at', 'DESC')
+            ->get()
+            ->unique('transaction_no');
 
         return view('admin.shop', compact('orders'));
     }
@@ -34,16 +33,16 @@ class ShopController extends Controller
 
         try {
             foreach ($orders as $key => $value) {
-    
+
                 $order = Order::findOrFail($value->id);
-    
+
                 $order->update([
                     'deliveredAt' => now('Asia/Manila')
                 ]);
             }
 
         } catch (\Illuminate\Database\QueryException $e) {
-            die('SOMETHING WENT WRONG '.$e->getMessage());
+            die('SOMETHING WENT WRONG ' . $e->getMessage());
         }
 
         return redirect()->back();

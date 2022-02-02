@@ -18,42 +18,41 @@ class OrderController extends Controller
     }
 
     public function index()
-    {  
+    {
         session()->forget('thankyou');
 
         $selectedProvince = null;
         $selectedCity = null;
         $selectedBrgy = null;
 
-        if(!is_null(auth()->user()->shipping))
-        {
+        if (!is_null(auth()->user()->shipping)) {
             $selectedProvince = DB::table('refprovince')
-                    ->where('provCode', auth()->user()->shipping->province)
-                    ->first();
+                ->where('provCode', auth()->user()->shipping->province)
+                ->first();
 
             $selectedCity = DB::table('refcitymun')
-                        ->where('citymunCode', auth()->user()->shipping->city)
-                        ->first();
+                ->where('citymunCode', auth()->user()->shipping->city)
+                ->first();
 
             $selectedBrgy = DB::table('refbrgy')
-                        ->where('brgyCode', auth()->user()->shipping->barangay)
-                        ->first();
+                ->where('brgyCode', auth()->user()->shipping->barangay)
+                ->first();
         }
 
-        $authenticated_user_id = (int) auth()->user()->id;
+        $authenticated_user_id = (int)auth()->user()->id;
 
-        $order = Order::select('transaction_no', 'created_at', 'isPaid' , 'deliveredAt')
-                        ->where('user_id', $authenticated_user_id)
-                        ->orderBy('created_at', 'DESC')
-                        ->groupBy('created_at', 'transaction_no', 'isPaid' , 'deliveredAt')
-                        ->get();
-    
+        $order = Order::select('transaction_no', 'created_at', 'isPaid', 'deliveredAt')
+            ->where('user_id', $authenticated_user_id)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->unique('transaction_no');
 
-        return view('user.order', compact('order', 'selectedProvince' , 'selectedCity', 'selectedBrgy'));
+
+        return view('user.order', compact('order', 'selectedProvince', 'selectedCity', 'selectedBrgy'));
     }
 
     public function show($id)
-    {   
+    {
         // Select All ORDERS WITH PRODUCTS OF THE AUTHENTICATED USER BY TRANSACTION NO
         $orders = Order::where('transaction_no', $id)->get();
 
@@ -81,59 +80,58 @@ class OrderController extends Controller
         $shippingAddress = $user->shipping()->first();
 
         $selectedProvince = DB::table('refprovince')
-                    ->where('provCode', $shippingAddress->province)
-                    ->first();
+            ->where('provCode', $shippingAddress->province)
+            ->first();
 
         $selectedCity = DB::table('refcitymun')
-                    ->where('citymunCode', $shippingAddress->city)
-                    ->first();
+            ->where('citymunCode', $shippingAddress->city)
+            ->first();
 
         $selectedBrgy = DB::table('refbrgy')
-                    ->where('brgyCode', $shippingAddress->barangay)
-                    ->first();
+            ->where('brgyCode', $shippingAddress->barangay)
+            ->first();
 
         $userOwnedTheOrder = DB::table('orders')
-                    ->where('user_id', auth()->user()->id)
-                    ->where('transaction_no', $id)
-                    ->exists();
+            ->where('user_id', auth()->user()->id)
+            ->where('transaction_no', $id)
+            ->exists();
 
         // Cache the data
         /*
-        $orderId = Cache::remember('orderId'.auth()->user()->id, 
-        now()->addSeconds(30), 
+        $orderId = Cache::remember('orderId'.auth()->user()->id,
+        now()->addSeconds(30),
         function() use ($id) {
             return $id;
         });*/
 
-        // $deliveredAt = Cache::remember('orderDeliveredAt'.auth()->user()->id, 
-        // now()->addSeconds(30), 
+        // $deliveredAt = Cache::remember('orderDeliveredAt'.auth()->user()->id,
+        // now()->addSeconds(30),
         // function() use ($date) {
         //     return $date;
         // });
 
-        $orderTotal = Cache::remember('orderTotal'.auth()->user()->id, 
-        now()->addSeconds(30), 
-        function() use ($total) {
-            return $total;
-        });
+        $orderTotal = Cache::remember('orderTotal' . auth()->user()->id,
+            now()->addSeconds(30),
+            function () use ($total) {
+                return $total;
+            });
 
-        $orderTax = Cache::remember('orderTax'.auth()->user()->id, 
-        now()->addSeconds(30), 
-        function() use ($tax) {
-            return $tax;
-        });
+        $orderTax = Cache::remember('orderTax' . auth()->user()->id,
+            now()->addSeconds(30),
+            function () use ($tax) {
+                return $tax;
+            });
 
-        $itemsCount = Cache::remember('itemsCount'.auth()->user()->id, 
-        now()->addSeconds(30), 
-        function() use ($itemsCount) {
-            return $itemsCount;
-        });
+        $itemsCount = Cache::remember('itemsCount' . auth()->user()->id,
+            now()->addSeconds(30),
+            function () use ($itemsCount) {
+                return $itemsCount;
+            });
 
         // If Admin
-        if(auth()->user()->role === 0)
-        {
+        if (auth()->user()->role === 0) {
             return view('user.show_order', [
-                'id' =>  $id,
+                'id' => $id,
                 'orders' => $orders,
                 'itemsCount' => $itemsCount,
                 'total' => $orderTotal,
@@ -146,13 +144,11 @@ class OrderController extends Controller
                 'selectedCity' => $selectedCity,
                 'selectedBrgy' => $selectedBrgy
             ]);
-        } 
-        else 
-        {
+        } else {
             if (!$userOwnedTheOrder) return abort(404);
-            
+
             return view('user.show_order', [
-                'id' =>  $id,
+                'id' => $id,
                 'orders' => $orders,
                 'itemsCount' => $itemsCount,
                 'total' => $orderTotal,
@@ -164,9 +160,9 @@ class OrderController extends Controller
                 'selectedProvince' => $selectedProvince,
                 'selectedCity' => $selectedCity,
                 'selectedBrgy' => $selectedBrgy
-                ]);
-               
+            ]);
+
         }
-    }   
+    }
 
 }

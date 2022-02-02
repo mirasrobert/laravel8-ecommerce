@@ -16,8 +16,8 @@ function saveOrderToDatabase(url, data) {
             paypal: data,
             msg: "payment-success"
         },
-        success: function(response) {
-            if(!response.success || response.success == undefined){
+        success: function (response) {
+            if (!response.success || response.success == undefined) {
                 alert("Something went wrong, please try again later");
             } else {
                 window.location.href = "/thankyou";
@@ -41,7 +41,7 @@ const paypalButton = () => {
                 label: "pay"
             },
 
-            createOrder: function(data, actions) {
+            createOrder: function (data, actions) {
                 // This function sets up the details of the transaction, including the amount and line item details.
                 return actions.order.create({
                     // Configure environment
@@ -65,7 +65,7 @@ const paypalButton = () => {
                                         selected: true,
                                         amount: {
                                             value: "0.00",
-                                            currency_code: "USD"
+                                            currency_code: "PHP"
                                         }
                                     },
                                     {
@@ -75,7 +75,7 @@ const paypalButton = () => {
                                         selected: false,
                                         amount: {
                                             value: "0.00",
-                                            currency_code: "USD"
+                                            currency_code: "PHP"
                                         }
                                     }
                                 ]
@@ -85,15 +85,15 @@ const paypalButton = () => {
                 });
             },
 
-            onApprove: function(data, actions) {
+            onApprove: function (data, actions) {
                 // This function captures the funds from the transaction.
-                return actions.order.capture().then(function(details) {
+                return actions.order.capture().then(function (details) {
                     // This function shows a transaction success message to your buyer.
 
                     // Loading
                     document.body.innerHTML = `
                         <div class="spinner">
-                            <span class="spinner-text">Please wait, we are processing your order...</span> 
+                            <span class="spinner-text">Please wait, we are processing your order...</span>
                         </div>
                         `;
 

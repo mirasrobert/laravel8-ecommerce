@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-  
+
 <section id="order">
       <div class="container">
         <div class="row mt-5 py-5">
@@ -32,7 +32,7 @@
                 <tr>
                   <th scope="col">Order#</th>
                   <th scope="col">Date</th>
-                  <th scope="col">Delivered</th>
+                  <th scope="col">Status</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -47,7 +47,7 @@
                       class="{{ is_null($order->deliveredAt) ? 'bg-danger' : 'bg-success' }} rounded-pill p-2 text-white my-order-status"
                       style="font-size: 0.7rem"
                       >
-                      {{ is_null($order->deliveredAt) ? "Not Yet Delivered" : "Delivered" }}
+                      {{ is_null($order->deliveredAt) ? "Pending" : "Delivered" }}
                     </span>
                   </td>
                   <td><span class="btn btn-light"><a style="text-decoration: none; color: #4d4d4d;" href="/orders/{{ $order->transaction_no }}">Manage</a></span></td>
@@ -55,15 +55,15 @@
                 </tr>
                 @endforeach
 
-                @else 
+                @else
 
                 <div class="alert alert-info" style="margin-bottom: 10rem;" role="alert">
                   You do not have any order. <a href="{{ route('home') }}" class="alert-link">Go Back</a>
                 </div>
-                
+
                 @endif
 
-              
+
 
               </tbody>
             </table>
@@ -88,8 +88,8 @@
                         <small class="text-dark my-order-name">
                           @if (strlen($product->name > 50))
                           {{ substr( $product->name , 0, 50) }} ...
-                          @else 
-                          {{ substr( $product->name , 0, 50) }} 
+                          @else
+                          {{ substr( $product->name , 0, 50) }}
                           @endif
                         </small>
                     </div>

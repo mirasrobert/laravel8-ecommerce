@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'name',
         'price',
@@ -20,8 +20,14 @@ class Product extends Model
         'slug'
     ];
 
-    // A product can have a many users/customers into the cart
 
+    public function getPriceAttribute()
+    {
+
+        return number_format(($this->attributes['price']), 2, '.', ',');
+    }
+
+    // A product can have a many users/customers into the cart
     public function reviews()
     {
         return $this->hasMany(Review::class);
@@ -31,24 +37,21 @@ class Product extends Model
     {
         return $this->hasMany(Order::class);
     }
-    
+
     // Update Product Qty
     public function updateProductQuantity($data)
     {
         try {
             foreach ($data['content'] as $key => $value) {
-    
+
                 $product = Product::findOrFail($value->id);
 
-                // $product->qty = (($product->qty) - ($value->qty));
-                // $product->save(); 
-    
                 $product->update([
                     'qty' => ($product->qty) - ($value->qty)
                 ]);
             }
         } catch (\Illuminate\Database\QueryException $e) {
-            die('SOMETHING WENT WRONG '.$e->getMessage());
+            die('SOMETHING WENT WRONG ' . $e->getMessage());
         }
     }
 }

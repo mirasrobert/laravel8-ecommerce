@@ -26,7 +26,7 @@ class CheckoutController extends Controller
     {
         if(auth()->user()->shipping()->doesntExist() || MyCart::instance('default')->count() == 0)
         {
-            return redirect()->route('home');
+            return redirect()->route('shipping.index');
         }
 
         $total = str_replace(array(','), '', MyCart::total());
@@ -86,7 +86,7 @@ class CheckoutController extends Controller
 
     protected function paypalIntegration($request, $details, Order $order,Product $product)
     {
-        try {         
+        try {
                 $content = MyCart::content();
 
                 $date = Carbon::createFromFormat('Y-m-d\TH:i:s\Z', $details['create_time'], 'Asia/Manila');
@@ -94,7 +94,7 @@ class CheckoutController extends Controller
                 $isPaid = $date->toDateTimeString();
 
                 $tax = intval(str_replace(array(','), '', MyCart::tax()));
-                
+
                 $data = [
                     'content' => $content,
                     'id' => $details["id"],
@@ -109,11 +109,11 @@ class CheckoutController extends Controller
 
                 // Remove All Cart
                 MyCart::instance('default')->destroy();
-        
+
                 // Delete the saved cart from the  database
                 MyCart::instance('default')->erase(auth()->user()->id);
-                    
-                session(["thankyou" => $data['id']]); // Create session for Order #   
+
+                session(["thankyou" => $data['id']]); // Create session for Order #
 
                 // Remove Paypal Details
                 session()->forget('paypal');
@@ -130,9 +130,9 @@ class CheckoutController extends Controller
         try {
             // Set Stripe API SECRET KEY
             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-    
-            // Payment Intent Method 
-            
+
+            // Payment Intent Method
+
             Stripe\PaymentIntent::create([
                 'amount' => 69,
                 'currency' => 'usd',
@@ -140,8 +140,8 @@ class CheckoutController extends Controller
                 'description' => 'Laravel Test Payment',
                 'setup_future_usage' => 'off_session'
             ]);
-            
-             
+
+
             // Total Amount
             $amount = str_replace(array(',','.'), '', MyCart::total());
 
@@ -149,8 +149,8 @@ class CheckoutController extends Controller
             $contents = MyCart::content()->map(function($item) {
                 return $item->qty.', '.$item->name;
             })->values()->toJson();
-            
-    
+
+
             // Create customer payment
             $customer = Stripe\Customer::create([
                 'email' => auth()->user()->email,
@@ -168,8 +168,8 @@ class CheckoutController extends Controller
                         'contents' => $contents,
                         'quantity' => MyCart::instance('default')->count()
                     ]
-            ]); 
-           
+            ]);
+
             // SAVE ORDER
             $order = new Order();
             $content = MyCart::content();
@@ -184,12 +184,12 @@ class CheckoutController extends Controller
 
             // Remove All Cart
             MyCart::instance('default')->destroy();
-    
+
             // Delete the old cart from the  database
             MyCart::instance('default')->erase(auth()->user()->id);
-              
+
             session(["thankyou" => $data['id']]);
-            
+
             return redirect()->route('thankyou');
 
             } catch (Exception $e) {
@@ -205,7 +205,7 @@ class CheckoutController extends Controller
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
-        
+
         $transationnoDoesExist = Order::find($randomString);
 
         $check = (! $transationnoDoesExist) ? $randomString : $this->generateRandomString();

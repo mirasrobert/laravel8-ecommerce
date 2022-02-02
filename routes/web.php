@@ -21,6 +21,14 @@ use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
 
 Auth::routes();
 
+// Google login
+Route::get('auth/google', [App\Http\Controllers\Auth\LoginController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('auth/google/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleGoogleCallback']);
+
+// Facebook login
+Route::get('auth/facebook', [App\Http\Controllers\Auth\LoginController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('auth/facebook/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleFacebookCallback']);
+
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('/reviews/{id}', [App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
@@ -76,14 +84,6 @@ Route::get('/thankyou', [App\Http\Controllers\CheckoutController::class, 'thanky
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('product.cart');
 
 Route::get('/products', [App\Http\Controllers\ProductController::class, 'view'])->name('product.view');
-//Route::prefix('product')->group(function () {
-//    Route::post('/store', [App\Http\Controllers\ProductController::class, 'store'])->name('product.store');
-//    Route::get('/create', [App\Http\Controllers\ProductController::class, 'create'])->name('product.create');
-//    Route::get('/', [App\Http\Controllers\ProductController::class, 'index'])->name('product.index');
-//
-//    Route::get('/{product}/edit', [App\Http\Controllers\ProductController::class, 'edit'])->name('product.edit');
-//    Route::delete('/{product}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.delete');
-//});
 
 Route::resource('product', App\Http\Controllers\ProductController::class)->except(['show']);
 

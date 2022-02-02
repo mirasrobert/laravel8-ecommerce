@@ -9,8 +9,8 @@
 
     {{-- Custom Font --}}
     <link
-      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700"
-      rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700"
+        rel="stylesheet"
     />
 
     <title>@yield('title')</title>
@@ -18,47 +18,45 @@
     <link rel="icon" href="{{ asset('img/fabrique_icon.png') }}" type="image/gif" sizes="8x8">
 
     <link
-    href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
-    rel="stylesheet"
-  />
+        href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet"
+    />
 
-    <!-- Bootstrap core CSS -->
-    {{-- <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" /> --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/pulse/bootstrap.min.css"
+          integrity="sha384-L7+YG8QLqGvxQGffJ6utDKFwmGwtLcCjtwvonVZR/Ba2VzhpMwBz51GaXnUsuYbj" crossorigin="anonymous">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/tooplate-main.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/owl.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/owl.css') }}"/>
 
     @yield('extra-css')
 </head>
 <body>
-    <div id="main">
-        
-        @include('layouts.navigation')
+<div id="main">
 
-        
-        <main>
-            @yield('content')
-        </main>
+    @include('layouts.navigation')
 
-        @include('layouts.footer')
 
-    </div>
+    <main>
+        @yield('content')
+    </main>
 
+    @include('layouts.footer')
+
+</div>
 
 <!-- Get The Current Year Dynamically -->
 <script>
-      document.getElementById("year").innerHTML = new Date().getFullYear();
+    document.getElementById("year").innerHTML = new Date().getFullYear();
 </script>
 
-<!-- Bootstrap core JavaScript -->
-{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> --}}
-
-<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
 
 <!-- Additional Scripts -->
 <script src="{{ asset('assets/js/custom.js') }}"></script>
