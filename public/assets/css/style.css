@@ -1746,6 +1746,10 @@ font-lg {
     .facebook-text {
         padding: 0.4rem 0;
     }
+
+    .footer-category-wrapper {
+        margin-top: 30px;
+    }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
