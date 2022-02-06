@@ -58,6 +58,8 @@ Check this websites to grab your own CLIENT_ID and CLIENT_SECRET
 <br>
 [GOOGLE CONSOLE DEVELOPER](https://console.developers.google.com/apis/credentials?project=intense-base-324910)
 <br>
+[FACEBOOK DEVELOPER](https://developers.facebook.com/apps/)
+<br>
 [CLOUDINARY](https://cloudinary.com/)
 
 
