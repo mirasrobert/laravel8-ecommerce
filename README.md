@@ -55,7 +55,9 @@ FACEBOOK_CLIENT_SECRET=
 Check this websites to grab your own CLIENT_ID and CLIENT_SECRET
 
 [PAYPAL DEVELOPER](https://developer.paypal.com/home)
+<br>
 [GOOGLE CONSOLE DEVELOPER](https://console.developers.google.com/apis/credentials?project=intense-base-324910)
+<br>
 [CLOUDINARY](https://cloudinary.com/)
 
 
