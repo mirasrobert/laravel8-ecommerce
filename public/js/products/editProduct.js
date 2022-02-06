@@ -30,13 +30,26 @@ $(document).ready(function () {
 
                 //let price = parseFloat(response.price.replace(/,/g, ''))
                 let price = parseFloat(response.price.replace(',', ''))
-
                 $("#editProductForm #name").val(response.name);
                 $("#editProductForm #qty").val(response.qty);
                 $("#editProductForm #price").val(price);
                 $("#editProductForm #brand").val(response.brand);
-                $("#editProductForm #category").val(response.category);
-                //$("#editProductForm #description").val(response.description);
+
+                console.log(response.category);
+
+                let categories = `
+                            <option value="Processor" ${response.category === "Processor" ? 'selected' : ''}>Processor</option>
+                            <option value="Motherboard" ${response.category === "Motherboard" ? 'selected' : ''}>Motherboard</option>
+                            <option value="Memory" ${response.category === "Memory" ? 'selected' : ''}>Memory</option>
+                            <option value="PSU" ${response.category === "PSU" ? 'selected' : ''}>Power Supply</option>
+                            <option value="Mouse" ${response.category === "Mouse" ? 'selected' : ''}>Mouse</option>
+                            <option value="Keyboard" ${response.category === "Keyboard" ? 'selected' : ''}>Keyboard</option>
+                            <option value="GPU" ${response.category === "GPU" ? 'selected' : ''}>Graphics Card</option>
+                            <option value="Monitor" ${response.category === "Monitor" ? 'selected' : ''}>Monitor</option>
+                            <option value="Laptop" ${response.category === "Laptop" ? 'selected' : ''}>Laptop</option>
+                `;
+
+                $('#editProductForm #category').html(categories);
                 editDescriptionEditor.setData(response.description);
 
                 // let image = response.photos[0].url;

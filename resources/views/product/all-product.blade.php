@@ -23,10 +23,10 @@
                         <button class="btn btn-primary" data-filter=".Processor">Processor</button>
                         <button class="btn btn-primary" data-filter=".Motherboard">Motherboard</button>
                         <button class="btn btn-primary" data-filter=".Memory">Memory</button>
-                        <button class="btn btn-primary" data-filter=".Power Supply">Power Supply</button>
+                        <button class="btn btn-primary" data-filter=".PSU">Power Supply</button>
                         <button class="btn btn-primary" data-filter=".Mouse">Mouse</button>
                         <button class="btn btn-primary" data-filter=".Keyboard">Keyboard</button>
-                        <button class="btn btn-primary" data-filter=".Graphics Card">Graphics Card</button>
+                        <button class="btn btn-primary" data-filter=".GPU">Graphics Card</button>
                         <button class="btn btn-primary" data-filter=".Monitor">Monitor</button>
                         <button class="btn btn-primary" data-filter=".Laptop">Laptop</button>
                     </div>
@@ -56,7 +56,7 @@
                                 @endif
                             </h4>
 
-                            <h6>${{ $product->price }}</h6>
+                            <h6>&#8369;{{ $product->price }}</h6>
                         </div>
                     </a>
                 </div>

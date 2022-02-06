@@ -7,7 +7,7 @@
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
 >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
@@ -69,10 +69,9 @@
 
                     <div class="form-group">
                         <label for="category">Category</label>
-                        <input type="text" class="form-control" name="category" id="category"
-                               placeholder="eg. Electronic, Accessories" value=""/>
+                        <select class="form-control" id="category" name="category" data-live-search="true">
+                        </select>
                     </div>
-
 
                     <div class="form-group">
                         <label for="description">Description</label>

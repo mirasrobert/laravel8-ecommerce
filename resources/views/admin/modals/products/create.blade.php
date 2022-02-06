@@ -7,7 +7,7 @@
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
 >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
@@ -66,15 +66,15 @@
                     <div class="form-group">
                         <label for="category">Category</label>
                         <select class="selectpicker form-control" id="category" name="category" data-live-search="true">
-                            <option>Processor</option>
-                            <option>Motherboard</option>
-                            <option>Memory</option>
-                            <option>Power Supply</option>
-                            <option>Mouse</option>
-                            <option>Keyboard</option>
-                            <option>Graphics Card</option>
-                            <option>Monitor</option>
-                            <option>Laptop</option>
+                            <option value="Processor">Processor</option>
+                            <option value="Motherboard">Motherboard</option>
+                            <option value="Memory">Memory</option>
+                            <option value="PSU">Power Supply</option>
+                            <option value="Mouse">Mouse</option>
+                            <option value="Keyboard">Keyboard</option>
+                            <option value="GPU">Graphics Card</option>
+                            <option value="Monitor">Monitor</option>
+                            <option value="Laptop">Laptop</option>
                         </select>
                     </div>
 

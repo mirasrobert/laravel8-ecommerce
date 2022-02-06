@@ -8,6 +8,7 @@ use App\Models\Checkout;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use DateTimeZone;
 use Exception;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
@@ -123,7 +124,7 @@ class CheckoutController extends Controller
 
             // SEND EMAIL
             $orderNo = session('thankyou');
-            $date = Carbon::parse($details['create_time'])->toDayDateTimeString();
+            $date = now(new DateTimeZone('Asia/Manila'))->toDayDateTimeString();
 
             Mail::to(auth()->user()->email)->send(new OrderReceipt(auth()->user(), $orderNo, $date));
 

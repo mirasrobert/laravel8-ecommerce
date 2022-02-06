@@ -64,7 +64,7 @@
 
                         <h4>{{ $product->name }}</h4>
 
-                        <h6>${{ $product->price }}.00</h6>
+                        <h6>&#8369;{{ $product->price }}</h6>
 
                         <p>
                             {!! $product->description !!}
@@ -95,6 +95,7 @@
                                 name="product_qty"
                                 type="number"
                                 min="1"
+                                max="{{ $product->qty }}"
                                 class="quantity-text @error('product_qty') border border-danger @enderror"
                                 value="{{ old('product_qty') ?? 1 }}"
                                 id="quantity"

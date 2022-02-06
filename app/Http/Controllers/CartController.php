@@ -71,7 +71,7 @@ class CartController extends Controller
                 $request->product_qty,
                 $price, 550,
                 [
-                    'img' => $product->image,
+                    'img' => $product->photos[0]->url,
                     'slug' => $product->slug,
                     'brand' => $product->brand,
                     'stock' => $product->qty
