@@ -39,6 +39,7 @@
                             <th>ID</th>
                             <th>Image</th>
                             <th>Name</th>
+                            <th>Stocks</th>
                             <th>Price</th>
                             <th>Category</th>
                             <th>Brand</th>
@@ -60,6 +61,9 @@
                                     {{ $product->name }}
                                 </td>
                                 <td>
+                                    {{ $product->qty }}
+                                </td>
+                                <td>
                                     ₱{{ $product->price }}
                                 </td>
                                 <td>
@@ -69,7 +73,7 @@
                                     {{ $product->brand }}
                                 </td>
                                 <td>
-                                    {!! \Illuminate\Support\Str::limit($product->description, 100) !!}
+                                    {!! \Illuminate\Support\Str::limit($product->description, 39) !!}
                                 </td>
                                 <td>
 
