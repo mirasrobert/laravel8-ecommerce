@@ -51,11 +51,13 @@ FACEBOOK_CLIENT_SECRET=
 ```
 
 ## GET KEY AND CREDENTIALS
-```
+
+Check this websites to grab your own CLIENT_ID and CLIENT_SECRET
+
 [PAYPAL DEVELOPER](https://developer.paypal.com/home)
 [GOOGLE CONSOLE DEVELOPER](https://console.developers.google.com/apis/credentials?project=intense-base-324910)
 [CLOUDINARY](https://cloudinary.com/)
-```
+
 
 ### Install Other Tables
 
