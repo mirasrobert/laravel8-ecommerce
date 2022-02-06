@@ -19,8 +19,6 @@
           integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-    <link rel="icon" href="{{ asset('img/fabrique_icon.png') }}" type="image/gif" sizes="8x8">
-
     <link
         href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
         rel="stylesheet"

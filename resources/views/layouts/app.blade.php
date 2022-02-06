@@ -15,8 +15,6 @@
 
     <title>@yield('title')</title>
 
-    <link rel="icon" href="{{ asset('img/fabrique_icon.png') }}" type="image/gif" sizes="8x8">
-
     <link
         href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
         rel="stylesheet"
