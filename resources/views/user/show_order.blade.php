@@ -34,7 +34,7 @@
 
                             @if (is_null($isDelivered))
                                 @can('view', auth()->user())
-                                    <form action="{{ route('shop.update', $id) }}" method="POST" class="m-0 p-0"
+                                    <form action="{{ route('orders.update', $id) }}" method="POST" class="m-0 p-0"
                                           style="display: inline-block">
                                         @csrf
                                         @method('PATCH')

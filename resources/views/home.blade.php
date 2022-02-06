@@ -21,7 +21,7 @@
                     @foreach($topProducts as $product)
                         <div class="carousel-item {{ $loop->first ? 'active' : NULL }}">
                             <img
-                                src="{{ $product->image }}"
+                                src="{{ $product->photos[0]->url }}"
                                 class="img-fluid" alt="...">
                             <div class="carousel-caption ">
                                 <h2>{{ $product->name }} (&#8369;{{ $product->price }}

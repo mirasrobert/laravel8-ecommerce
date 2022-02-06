@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -15,39 +16,41 @@ class UserController extends Controller
         $this->middleware(['auth']);
     }
 
-    public function index() {
+    public function index()
+    {
+        $this->authorize('view', auth()->user());
 
-        
+        $users = User::all();
+        return view('admin.users', compact('users'));
     }
 
-    public function edit() {
+    public function edit()
+    {
         return view('user.profile.edit-profile');
     }
 
-    public function update(User $user, UserRequest $request){
-
-        if(!$user->realUser($user->id)) {
+    // Update Username and EMail
+    public function update(User $user, UserRequest $request)
+    {
+        if (!$user->realUser($user->id)) {
             return back();
         }
 
-        if(Hash::check($request->password, $user->password)) {
-            $user->update($request->only(['name', 'email']));
-        } else {
-            return back()->with('error', 'Invalid password.');
-        }
+        $user->update($request->only(['name', 'email']));
 
-        return redirect()->route('orders.index')->with('status', 'User profile has been updated.');
+        alert('Updated', 'Changes has been saved.', 'success');
+        return back();
 
     }
 
-    public function changePassword() 
+    public function changePassword()
     {
         return view('user.profile.change-password');
     }
 
-    public function change(User $user, Request $request) {
-
-        if(!$user->realUser($user->id)) {
+    public function change(User $user, Request $request)
+    {
+        if (!$user->realUser($user->id)) {
             return back();
         }
 
@@ -59,16 +62,31 @@ class UserController extends Controller
         ]);
 
         // Check old password
-        if(Hash::check($request->old_password, $user->password)) {
+        if (Hash::check($request->old_password, $user->password)) {
             // Update password
             $user->update([
                 'password' => Hash::make($request->password)
             ]);
 
         } else {
-            return back()->with('error', 'Invalid password.');
+            alert('Error', 'Old password is incorrect.', 'error');
+            return back();
         }
 
-        return redirect()->route('orders.index')->with('status', 'Password has been updated.');
+        alert('Updated!', 'Password has been updated.', 'success');
+
+        return redirect('/profiles');
+    }
+
+    public function destroy(Request $request, User $user)
+    {
+        if ($request->ajax() && $user->id == auth()->user()->id) {
+            Auth::logout();
+            $user->delete();
+            return response()->noContent();
+        }
+
+        $user->delete();
+        return back()->with('status', 'User has been removed');
     }
 }

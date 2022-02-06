@@ -17,7 +17,20 @@ class OrderController extends Controller
         $this->middleware('auth');
     }
 
+    // Orders in table
     public function index()
+    {
+        $this->authorize('view', auth()->user());
+        $orders = Order::select('transaction_no', 'created_at', 'deliveredAt')
+            ->latest()
+            ->get()
+            ->unique('transaction_no');
+
+        return view('admin.orders', compact('orders'));
+    }
+
+    // Authenticated User's Order
+    public function myOrders()
     {
         session()->forget('thankyou');
 
@@ -43,7 +56,7 @@ class OrderController extends Controller
 
         $order = Order::select('transaction_no', 'created_at', 'isPaid', 'deliveredAt')
             ->where('user_id', $authenticated_user_id)
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->get()
             ->unique('transaction_no');
 
@@ -51,6 +64,7 @@ class OrderController extends Controller
         return view('user.order', compact('order', 'selectedProvince', 'selectedCity', 'selectedBrgy'));
     }
 
+    // Single Order
     public function show($id)
     {
         // Select All ORDERS WITH PRODUCTS OF THE AUTHENTICATED USER BY TRANSACTION NO
@@ -164,5 +178,30 @@ class OrderController extends Controller
 
         }
     }
+
+    // Mark As Delivered
+    public function update($id)
+    {
+        $this->authorize('update', auth()->user());
+        $orders = Order::where('transaction_no', $id)->get();
+
+        try {
+            foreach ($orders as $key => $value) {
+
+                $order = Order::findOrFail($value->id);
+
+                $order->update([
+                    'deliveredAt' => now('Asia/Manila')
+                ]);
+            }
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            die('SOMETHING WENT WRONG ' . $e->getMessage());
+        }
+
+        return redirect()->back();
+
+    }
+
 
 }

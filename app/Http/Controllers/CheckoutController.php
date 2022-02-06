@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Mail\OrderReceipt;
 use App\Models\Checkout;
 use App\Models\Order;
 use App\Models\Product;
@@ -11,6 +12,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Stripe;
 use Illuminate\Support\Carbon;
 
@@ -24,25 +26,26 @@ class CheckoutController extends Controller
 
     public function index()
     {
-        if(auth()->user()->shipping()->doesntExist() || MyCart::instance('default')->count() == 0)
-        {
+        if (auth()->user()->shipping()->doesntExist() && MyCart::instance('default')->count() != 0) {
             return redirect()->route('shipping.index');
+        } elseif (MyCart::instance('default')->count() == 0 && auth()->user()->shipping()->exists()) {
+            return redirect()->route('home');
         }
 
         $total = str_replace(array(','), '', MyCart::total());
         $config = config("api.PAYPAL_CLIENT_ID");
 
         $selectedProvince = DB::table('refprovince')
-                    ->where('provCode', auth()->user()->shipping->province)
-                    ->first();
+            ->where('provCode', auth()->user()->shipping->province)
+            ->first();
 
         $selectedCity = DB::table('refcitymun')
-                    ->where('citymunCode', auth()->user()->shipping->city)
-                    ->first();
+            ->where('citymunCode', auth()->user()->shipping->city)
+            ->first();
 
         $selectedBrgy = DB::table('refbrgy')
-                    ->where('brgyCode', auth()->user()->shipping->barangay)
-                    ->first();
+            ->where('brgyCode', auth()->user()->shipping->barangay)
+            ->first();
 
         return view('checkout.checkout', [
             "PAYPAL_CLIENT_ID" => $config,
@@ -55,22 +58,22 @@ class CheckoutController extends Controller
 
     public function thankyou(Order $order)
     {
-        if(! session()->has('thankyou'))
-        {
+        if (!session()->has('thankyou')) {
             return redirect()->route('home');
         }
 
         $user = User::with('orders')->findOrFail(auth()->user()->id)->first();
 
+
         return view('thankyou', [
-            'user' =>  $user
+            'user' => $user
         ]);
     }
 
-    public function store(Request $request, Order $order,Product $product)
+    public function store(Request $request, Order $order, Product $product)
     {
         // Check for Paypal Request from Axios
-        if($data = $request->paypal) {
+        if ($data = $request->paypal) {
 
             $details = session(["paypal" => $data]);
 
@@ -84,45 +87,51 @@ class CheckoutController extends Controller
         }
     }
 
-    protected function paypalIntegration($request, $details, Order $order,Product $product)
+    protected function paypalIntegration($request, $details, Order $order, Product $product)
     {
         try {
-                $content = MyCart::content();
+            $content = MyCart::content();
 
-                $date = Carbon::createFromFormat('Y-m-d\TH:i:s\Z', $details['create_time'], 'Asia/Manila');
+            $date = Carbon::createFromFormat('Y-m-d\TH:i:s\Z', $details['create_time'], 'Asia/Manila');
 
-                $isPaid = $date->toDateTimeString();
+            $isPaid = $date->toDateTimeString();
 
-                $tax = intval(str_replace(array(','), '', MyCart::tax()));
+            $tax = intval(str_replace(array(','), '', MyCart::tax()));
 
-                $data = [
-                    'content' => $content,
-                    'id' => $details["id"],
-                    'isPaid' => $isPaid,
-                    'tax' => $tax
-                ];
+            $data = [
+                'content' => $content,
+                'id' => $details["id"],
+                'isPaid' => $isPaid,
+                'tax' => $tax
+            ];
 
-                // Save Order to the database
-                $order->saveOrder($data);
+            // Save Order to the database
+            $order->saveOrder($data);
 
-                $product->updateProductQuantity($data);
+            $product->updateProductQuantity($data);
 
-                // Remove All Cart
-                MyCart::instance('default')->destroy();
+            // Remove All Cart
+            MyCart::instance('default')->destroy();
 
-                // Delete the saved cart from the  database
-                MyCart::instance('default')->erase(auth()->user()->id);
+            // Delete the saved cart from the  database
+            MyCart::instance('default')->erase(auth()->user()->id);
 
-                session(["thankyou" => $data['id']]); // Create session for Order #
+            session(["thankyou" => $data['id']]); // Create session for Order #
 
-                // Remove Paypal Details
-                session()->forget('paypal');
+            // Remove Paypal Details
+            session()->forget('paypal');
 
-                //\Illuminate\Database\QueryException
+            // SEND EMAIL
+            $orderNo = session('thankyou');
+            $date = Carbon::parse($details['create_time'])->toDayDateTimeString();
 
-           } catch (Exception $e) {
-                return back()->with('Error! ' . $e->getMessage());
-           }
+            Mail::to(auth()->user()->email)->send(new OrderReceipt(auth()->user(), $orderNo, $date));
+
+            //\Illuminate\Database\QueryException
+
+        } catch (Exception $e) {
+            return back()->with('Error! ' . $e->getMessage());
+        }
     }
 
     protected function stripeIntegration(Request $request)
@@ -143,11 +152,11 @@ class CheckoutController extends Controller
 
 
             // Total Amount
-            $amount = str_replace(array(',','.'), '', MyCart::total());
+            $amount = str_replace(array(',', '.'), '', MyCart::total());
 
             // Metadata of products
-            $contents = MyCart::content()->map(function($item) {
-                return $item->qty.', '.$item->name;
+            $contents = MyCart::content()->map(function ($item) {
+                return $item->qty . ', ' . $item->name;
             })->values()->toJson();
 
 
@@ -158,16 +167,16 @@ class CheckoutController extends Controller
             ]);
 
             // Charge Payment Method
-            $charge = Stripe\Charge::create ([
-                    "amount" => $amount,
-                    "currency" => "usd",
-                    "description" => "ZALADA Order",
-                    "receipt_email" => auth()->user()->email,
-                    'customer' => $customer,
-                    "metadata" => [
-                        'contents' => $contents,
-                        'quantity' => MyCart::instance('default')->count()
-                    ]
+            $charge = Stripe\Charge::create([
+                "amount" => $amount,
+                "currency" => "usd",
+                "description" => "ZALADA Order",
+                "receipt_email" => auth()->user()->email,
+                'customer' => $customer,
+                "metadata" => [
+                    'contents' => $contents,
+                    'quantity' => MyCart::instance('default')->count()
+                ]
             ]);
 
             // SAVE ORDER
@@ -192,12 +201,13 @@ class CheckoutController extends Controller
 
             return redirect()->route('thankyou');
 
-            } catch (Exception $e) {
-                return back()->with('Error! ' . $e->getMessage());
-            }
+        } catch (Exception $e) {
+            return back()->with('Error! ' . $e->getMessage());
+        }
     }
 
-    public function generateRandomString($length = 15) {
+    public function generateRandomString($length = 15)
+    {
 
         $characters = '012345678901234567890123456789012345678901234567890123456789';
         $charactersLength = strlen($characters);
@@ -208,7 +218,7 @@ class CheckoutController extends Controller
 
         $transationnoDoesExist = Order::find($randomString);
 
-        $check = (! $transationnoDoesExist) ? $randomString : $this->generateRandomString();
+        $check = (!$transationnoDoesExist) ? $randomString : $this->generateRandomString();
 
         return $check;
     }

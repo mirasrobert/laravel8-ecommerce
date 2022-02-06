@@ -40,24 +40,21 @@
                     <div class="product-slider">
                         <div id="slider" class="flexslider">
                             <ul class="slides">
-                                <li>
-                                    <img src="{{ $product->image }}" width="468" height="468"/>
-                                </li>
-                                <li>
-                                    <img src="{{ $product->image }}" width="468" height="468"/>
-                                </li>
-                                <!-- items mirrored twice, total of 12 -->
+                                @foreach($product->photos as $photo)
+                                    <li>
+                                        <img src="{{ $photo->url }}" width="468" height="468"/>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                         <div id="carousel" class="flexslider">
                             <ul class="slides">
-                                <li>
-                                    <img src="{{ $product->image }}"/>
-                                </li>
-                                <li>
-                                    <img src="{{ $product->image }}"/>
-                                </li>
-                                <!-- items mirrored twice, total of 12 -->
+                                @foreach($product->photos as $photo)
+                                    <li>
+                                        <img src="{{ $photo->url }}" width="468" height="468"/>
+                                    </li>
+                            @endforeach
+                            <!-- items mirrored twice, total of 12 -->
                             </ul>
                         </div>
                     </div>
@@ -136,13 +133,13 @@
                                     Share:
                                     <span>
                                         <a href="https://www.facebook.com/MirasRobert">
-                                            <i class="fa fa-facebook"></i>
+                                            <i class="fab fa-facebook"></i>
                                         </a>
                                         <a href="https://www.linkedin.com/in/robert-miras/">
-                                            <i class="fa fa-linkedin"></i>
+                                            <i class="fab fa-linkedin"></i>
                                         </a>
                                         <a href="https://github.com/mirasrobert">
-                                            <i class="fa fa-github"></i>
+                                            <i class="fab fa-github"></i>
                                         </a>
                                     </span>
                                 </h6>

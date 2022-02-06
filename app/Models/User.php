@@ -20,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
@@ -42,10 +43,10 @@ class User extends Authenticatable
     ];
 
     /**
-     * 
+     *
      *  A user can have many products in a cart
-     * 
-     * you may also customize the column names of the keys on the table 
+     *
+     * you may also customize the column names of the keys on the table
      * by passing additional arguments to the belongsToMany method
      *
      * The second argument is the name of the table
@@ -56,7 +57,7 @@ class User extends Authenticatable
     public function products()
     {
         return $this->belongsToMany(Product::class, 'orders', 'user_id', 'product_id')
-                    ->withPivot('id','amount', 'qty', 'transaction_no', 'tax');
+            ->withPivot('id', 'amount', 'qty', 'transaction_no', 'tax');
     }
 
     public function orders()
@@ -73,7 +74,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Review::class);
     }
-  
+
     public function realUser($id)
     {
         return auth()->user()->id === $id;

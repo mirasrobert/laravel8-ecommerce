@@ -68,7 +68,7 @@
 
                     <div class="form-group">
 
-                        <div class="d-flex">
+                        <div class="oauth-login">
                             <button type="button"
                                     id="singInWithGoogleButton"
                                     class="btn google-color py-0 px-0 d-block mr-3">
@@ -78,7 +78,7 @@
                                              height="20"
                                              alt="google">
                                     </div>
-                                    <p class="text-white ml-3 pr-2">Sign in with Google</p>
+                                    <p class="text-white ml-3 pr-2" style="color: #fff !important;">Sign in with Google</p>
                                 </div>
                             </button>
 
@@ -91,7 +91,7 @@
                                              height="20"
                                              alt="google">
                                     </div>
-                                    <p class="text-white ml-3 pr-2">Sign in with Facebook</p>
+                                    <p class="text-white ml-3 pr-2 facebook-text">Sign in with Facebook</p>
                                 </div>
                             </button>
                         </div>

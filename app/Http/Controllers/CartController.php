@@ -26,6 +26,12 @@ class CartController extends Controller
 
     public function store(Product $product, Request $request)
     {
+        // Check if valid price format
+        $price = 0;
+        if (!preg_match("/^[0-9,]+$/", $product->price)) {
+            $price = str_replace(',', '', $product->price);
+        }
+
         // Validate
         $this->validate($request, [
             'product_qty' => 'required|min:1'
@@ -44,10 +50,10 @@ class CartController extends Controller
             MyCart::add($product->id,
                 $product->name,
                 $request->product_qty,
-                $product->price,
+                $price,
                 550,
                 [
-                    'img' => $product->image,
+                    'img' => $product->photos[0]->url,
                     'slug' => $product->slug,
                     'brand' => $product->brand,
                     'stock' => $product->qty
@@ -63,7 +69,7 @@ class CartController extends Controller
             MyCart::add($product->id,
                 $product->name,
                 $request->product_qty,
-                $product->price, 550,
+                $price, 550,
                 [
                     'img' => $product->image,
                     'slug' => $product->slug,
