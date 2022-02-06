@@ -5,7 +5,7 @@
             <div class="col-md-6">
         <span>
           <i class="fa fa-envelope" aria-hidden="true"></i>
-          mrmirasrobert@gmail.com
+          {{ env('MAIL_FROM_ADDRESS') }}
         </span>
                 <span class="ml-3">
           <i class="fa fa-phone" aria-hidden="true"></i>
@@ -15,16 +15,16 @@
             <div class="col-md-6">
         <span>
           <a class="ml-2" href="https://github.com/mirasrobert">
-            <i class="fa fa-github text-white" aria-hidden="true"></i>
+            <i class="fab fa-github text-white" aria-hidden="true"></i>
           </a>
           <a class="ml-2" href="https://www.facebook.com/MirasRobert">
-            <i class="fa fa-facebook text-white" aria-hidden="true"></i>
+            <i class="fab fa-facebook text-white" aria-hidden="true"></i>
           </a>
           <a class="ml-2" href="https://www.instagram.com/robertmiras/">
-            <i class="fa fa-instagram text-white" aria-hidden="true"></i>
+            <i class="fab fa-instagram text-white" aria-hidden="true"></i>
           </a>
           <a class="ml-2" href="https://www.linkedin.com/in/robert-miras/">
-            <i class="fa fa-linkedin-square text-white" aria-hidden="true"></i>
+            <i class="fab fa-linkedin text-white" aria-hidden="true"></i>
           </a>
         </span>
             </div>
