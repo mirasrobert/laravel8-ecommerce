@@ -1727,16 +1727,32 @@ font-lg {
     border-radius: 3px;
 }
 
+.oauth-login {
+    display: flex;
+}
 
 /* MEDIA QUERIES */
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
+    .oauth-login {
+        display: block;
+    }
+
+    #singInWithGoogleButton {
+        margin-bottom: 10px;
+    }
+
+    .facebook-text {
+        padding: 0.4rem 0;
+    }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
+    /*html { display: none; }*/
 }
+
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {

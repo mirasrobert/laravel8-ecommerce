@@ -28,9 +28,9 @@
           </div>
         </div>
       </div>
-    
+
       <div class="featured container no-gutter">
-  
+
           <div class="row posts">
               @foreach ($products as $product)
               <div id="{{ $product->id }}"
@@ -40,7 +40,7 @@
               >
                 <a href="/product/{{ $product->id }}/{{ $product->slug }}">
                   <div class="featured-item">
-                    <img src="{{ $product->image }}" width="308" height="233">
+                    <img src="{{ $product->photos[0]->url }}" width="308" height="233">
 
                     <h4>
                         @if (strlen($product->name) > 0 && strlen($product->name) < 49)
@@ -49,15 +49,15 @@
                            {{ substr($product->name,0 , 45) }}...
                         @endif
                       </h4>
-                      
+
                     <h6>${{ $product->price }}</h6>
                   </div>
                 </a>
-              </div> 
+              </div>
               @endforeach
           </div>
       </div>
-  
+
       <div class="page-pagination">
         <div class="container justify-content-center">
           <div class="row  justify-content-center">

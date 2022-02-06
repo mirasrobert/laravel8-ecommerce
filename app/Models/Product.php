@@ -54,4 +54,9 @@ class Product extends Model
             die('SOMETHING WENT WRONG ' . $e->getMessage());
         }
     }
+
+    public function photos()
+    {
+        return $this->morphMany(Photos::class, 'imageable');
+    }
 }

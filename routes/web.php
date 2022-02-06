@@ -1,7 +1,15 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ShippingController;
+use App\Http\Controllers\UploadController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
@@ -22,82 +30,65 @@ use Gloudemans\Shoppingcart\Facades\Cart as MyCart;
 Auth::routes();
 
 // Google login
-Route::get('auth/google', [App\Http\Controllers\Auth\LoginController::class, 'redirectToGoogle'])->name('login.google');
-Route::get('auth/google/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleGoogleCallback']);
+Route::get('auth/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
 
 // Facebook login
-Route::get('auth/facebook', [App\Http\Controllers\Auth\LoginController::class, 'redirectToFacebook'])->name('login.facebook');
-Route::get('auth/facebook/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleFacebookCallback']);
+Route::get('auth/facebook', [LoginController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('auth/facebook/callback', [LoginController::class, 'handleFacebookCallback']);
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Profile
+Route::get('/profiles', [ProfileController::class, 'index']);
+Route::put('/profiles/change_avatar', [ProfileController::class, 'changeAvatar']);
 
-Route::post('/reviews/{id}', [App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::resource('orders', App\Http\Controllers\OrderController::class)->only([
-    'index', 'show', 'store'
-])->parameters([
-    'show' => 'id'
-])->names([
-    'index' => 'orders.index'
-]);
+Route::post('/reviews/{id}', [ReviewController::class, 'store'])->name('review.store');
 
-Route::resource('profile', App\Http\Controllers\UserController::class)->only([
-    'edit'
-])->names([
-    'edit' => 'user.edit'
-]);
+Route::get('/my_orders', [OrderController::class, 'myOrders'])->name('my_orders');
+Route::resource('orders', OrderController::class)->except(['destroy']);
+
+Route::get('profile', [UserController::class, 'edit'])->name('user.edit');
+
+Route::get('/users', [UserController::class, 'index'])->name('user.index');
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
 Route::prefix('profile')->group(function () {
-    Route::get('/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
-    Route::patch('/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
-    Route::get('/password', [App\Http\Controllers\UserController::class, 'changePassword'])->name('user.changePassword');
-    Route::patch('/password/change/{user}', [App\Http\Controllers\UserController::class, 'change'])->name('user.change');
+    Route::get('/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::patch('/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::get('/password', [UserController::class, 'changePassword'])->name('user.changePassword');
+    Route::patch('/password/change/{user}', [UserController::class, 'change'])->name('user.change');
 });
 
-Route::resource('shipping', App\Http\Controllers\ShippingController::class)->only([
-    'index', 'store', 'edit'
-])->names([
-    'index' => 'shipping.index',
-    'store' => 'shipping.store'
-]);
-
-Route::get('/shipping/edit', [App\Http\Controllers\ShippingController::class, 'edit'])->name('shipping.edit');
-Route::patch('/shipping/update', [App\Http\Controllers\ShippingController::class, 'update'])->name('shipping.update');
+Route::get('/shipping/edit', [ShippingController::class, 'edit'])->name('shipping.edit');
+Route::patch('/shipping/update', [ShippingController::class, 'update'])->name('shipping.update');
+Route::resource('shipping', ShippingController::class)->only(['index', 'store']);
 
 // POPULATE AJAX DROPDOWN SHIPPING
 Route::prefix('populate')->group(function () {
-    Route::post('/city', [App\Http\Controllers\ShippingController::class, 'populateCity'])->name('shipping.populatecity');
-    Route::post('/brgy', [App\Http\Controllers\ShippingController::class, 'populateBrgy'])->name('shipping.populatebrgy');
+    Route::post('/city', [ShippingController::class, 'populateCity'])->name('shipping.populatecity');
+    Route::post('/brgy', [ShippingController::class, 'populateBrgy'])->name('shipping.populatebrgy');
 });
 
-Route::resource('shop', App\Http\Controllers\ShopController::class)->only([
-    'index', 'update'
-])->parameters([
-    'update' => 'id'
-])->names([
-    'index' => 'shop',
-    'update' => 'shop.update'
-]);
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-Route::get('/thankyou', [App\Http\Controllers\CheckoutController::class, 'thankyou'])->name('thankyou');
+Route::get('/all_products', [ProductController::class, 'view'])->name('product.view');
+Route::get('/product/{product}/{slug?}', [ProductController::class, 'show'])->name('product.show');
+Route::resource('products', ProductController::class)->except(['show']);
 
-Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('product.cart');
-
-Route::get('/products', [App\Http\Controllers\ProductController::class, 'view'])->name('product.view');
-
-Route::resource('product', App\Http\Controllers\ProductController::class)->except(['show']);
-
-Route::get('/product/{product}/{slug?}', [App\Http\Controllers\ProductController::class, 'show'])->name('product.show');
-
+Route::get('/thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou');
 Route::prefix('checkout')->group(function () {
-    Route::post('/', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
-    Route::get('/', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/', [CheckoutController::class, 'index'])->name('checkout.index');
 });
 
+Route::get('/cart', [CartController::class, 'index'])->name('product.cart');
 Route::prefix('cart')->group(function () {
-    Route::post('/{product}', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
-    Route::post('/', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
-    Route::delete('/{id}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
+    Route::post('/{product}', [CartController::class, 'store'])->name('cart.store');
+    Route::post('/', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 });
+
+Route::post('/uploads', [UploadController::class, 'upload']);
 
 

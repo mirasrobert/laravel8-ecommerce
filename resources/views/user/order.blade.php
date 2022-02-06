@@ -8,10 +8,8 @@
 
 <section id="order">
 
-  <x-user-profile :selectedProvince="$selectedProvince" :selectedCity="$selectedCity" :selectedBrgy="$selectedBrgy" />
-
       <div class="container">
-        <div class="row py-5">
+        <div class="row pt-2 pb-5">
 
           {{-- START OF CARD --}}
           <div class="col">

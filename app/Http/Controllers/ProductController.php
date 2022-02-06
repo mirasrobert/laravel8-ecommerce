@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Models\Photos;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -24,14 +26,15 @@ class ProductController extends Controller
         ]]);
     }
 
+    // List of Products in Table
     public function index(User $user)
     {
         //Check if admin
         $this->authorize('view', $user);
 
-        $products = Product::get();
+        $products = Product::with('photos')->get();
 
-        return view('product.product', compact('products'));
+        return view('admin.product', compact('products'));
     }
 
     public function create(User $user)
@@ -43,6 +46,12 @@ class ProductController extends Controller
 
     public function store(Request $request, User $user)
     {
+
+
+        if (!$request->hasFile('image')) {
+            return response(['msg' => 'Image is required'], 400);
+        }
+
         //Check if admin
         $this->authorize('view', $user);
 
@@ -54,39 +63,58 @@ class ProductController extends Controller
             'description' => 'required',
             'brand' => 'required',
             'category' => 'required',
-            'image' => 'required|image'
+            'image' => 'required'
         ]);
 
-        $slug = Str::slug($data['name']);
+        $images = array();
 
-        // Image File
-        $img = $request->file('image')->getRealPath();
+        $files = $request->file('image');
 
-        // Upload an image file to cloudinary with one line of code
-        $uploadedFileUrl = cloudinary()->upload($img, [
-            "folder" => "img",
-            "transformation" => [
-                "gravity" => "auto",
-                "width" => 115,
-                "height" => 92,
-                "crop" => "fit"
-            ]
-        ])->getSecurePath();
+        foreach ($files as $file) {
 
-        // Override the image input with imageUrl of Cloudinary
-        $data = array_merge($data, ['slug' => $slug], ['image' => $uploadedFileUrl]);
+            //$uploadedFileUrl = $file->store('products', 'public');
+            $img = $file->getRealPath();
+            $uploadedFileUrl = cloudinary()->upload($img, [
+                "folder" => "img",
+                "transformation" => [
+                    "width" => 640,
+                    "height" => 640,
+                    "crop" => "fit"
+                ]
+            ])->getSecurePath();
+
+            array_push($images, $uploadedFileUrl);
+        }
 
         // IF validation returns no error create and insert new product to the database
-        Product::create($data);
+        $product = Product::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'qty' => $request->qty,
+            'description' => $request->description,
+            'brand' => $request->brand,
+            'category' => $request->category,
+            'slug' => Str::slug($request->name)
+        ]);
+
+        foreach ($images as $url) {
+            Photos::create([
+                'url' => $url,
+                'imageable_id' => $product->id,
+                'imageable_type' => 'App\Models\Product'
+            ]);
+        }
 
         // redirect
-        return back()->with('status', 'A new product has been added.');
+        return response()->json(['msg' => 'success']);
     }
 
     // WIDTH & HEIGHT: 114.48 , 91.22
 
-    public function show(Product $product, $slug = '')
+    public function show($id, $slug = '')
     {
+        $product = Product::with('photos')->find($id);
+
         //If slug is empty or wrong
         if (empty($slug) || $product->slug != $slug) {
             return redirect()->route('product.show', ['product' => $product, 'slug' => $product->slug]);
@@ -114,37 +142,61 @@ class ProductController extends Controller
         return view('product.show', compact('product', 'hasReview', 'rateAverage', 'canReview', 'reviews'));
     }
 
-    public function edit(Product $product)
+    public function edit(Request $request, Product $product)
     {
         //Check if admin
         $this->authorize('view', auth()->user());
 
-        return view('product.edit', compact('product'));
+        $product = Product::with('photos')->find($product->id);
+        return response()->json($product);
     }
 
     public function update(ProductRequest $request, Product $product)
     {
+        $id = $product->id;
         $this->authorize('update', auth()->user());
-        $uploadedFileUrl = null;
         $slug = Str::slug($request->name);
-        $imageNameWithPath = null;
+        $images = array();
 
         if ($request->hasFile('image')) {
-            // Image File
-            $img = $request->file('image')->getRealPath();
 
-            // Upload an image file to cloudinary with one line of code
-            $uploadedFileUrl = cloudinary()->upload($img, ["folder => fabrique"])->getSecurePath();
+            // Remove All Photos Associated in product
+            $photos = $product->photos;
+            foreach ($photos as $photo) {
+                Photos::destroy($photo->id);
+            }
+
+            $files = $request->file('image');
+            foreach ($files as $file) {
+                //$uploadedFileUrl = $file->store('products', 'public');
+                $img = $file->getRealPath();
+                $uploadedFileUrl = cloudinary()->upload($img, [
+                    "folder" => "img",
+                    "transformation" => [
+                        "width" => 640,
+                        "height" => 640,
+                        "crop" => "fit"
+                    ]
+                ])->getSecurePath();
+                array_push($images, $uploadedFileUrl);
+            }
         }
 
-        $data = array_merge($request->all(), ['slug' => $slug], ['image' => $uploadedFileUrl]);
-
-        // Check if user want to override the image
-        $data = is_null($uploadedFileUrl) ? array_merge($request->except(['image']), ['slug' => $slug]) : $data;
+        $data = array_merge($request->except('image'), ['slug' => $slug]);
 
         $product->update($data);
 
-        return back()->with('status', 'Product has been updated');
+        if (count($images) > 0) {
+            // Insert new images
+            foreach ($images as $url) {
+                Photos::create([
+                    'url' => $url,
+                    'imageable_id' => $id,
+                    'imageable_type' => 'App\Models\Product'
+                ]);
+            }
+        }
+        return response()->json(['status' => 'Product has been updated', 'msg' => 'success']);
     }
 
     public function destroy(Product $product, User $user)
@@ -152,14 +204,21 @@ class ProductController extends Controller
         //Check if authorize to delete
         $this->authorize('view', $user);
 
+        $photos = $product->photos;
+        foreach ($photos as $photo) {
+            Photos::destroy($photo->id);
+        }
+
         $product->destroy($product->id);
+
+
         return back()->with('status', 'A product has been removed.');
     }
 
+    // All Products
     public function view()
     {
-        $products = Product::paginate(6);
-
+        $products = Product::with('photos')->paginate(6);
         return view('product.all-product', compact('products'));
     }
 }

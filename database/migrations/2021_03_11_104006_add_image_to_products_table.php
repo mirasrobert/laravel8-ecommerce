@@ -16,7 +16,6 @@ class AddImageToProductsTable extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->string('brand');
             $table->string('category');
-            $table->string('image');
         });
     }
 

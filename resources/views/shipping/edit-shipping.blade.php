@@ -13,10 +13,10 @@
         <header class="mb-4">
             <h4 class="card-title">
             Edit Address / Shipping
-            <span class="float-right"> <a href="{{ route('orders.index') }}">
+            <span class="float-right"> <a href="{{ route('my_orders') }}">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
                   Back
-                </a> 
+                </a>
             </span>
             </h4>
         </header>
@@ -38,7 +38,7 @@
 
           <div class="form-group mb-3">
             <label>Contact</label>
-            <input type="text" id="contact" class="form-control @error('contact') is-invalid @enderror" name="contact" value="{{ auth()->user()->shipping->contact }}" autocomplete="contact" autofocus placeholder="+639XX-XXX-YYYY" />
+            <input type="number" id="contact" class="form-control @error('contact') is-invalid @enderror" name="contact" value="{{ auth()->user()->shipping->contact }}" autocomplete="contact" autofocus placeholder="+639XX-XXX-YYYY" />
             <small class="form-text text-muted"
               >We'll never share your contact with anyone else.</small
             >
@@ -74,7 +74,7 @@
               <label>City/Municipality</label>
               <select id="city" name="city" class="form-control city @error('city') is-invalid @enderror" name="city" value="{{ old('city') }}" autocomplete="city" autofocus data-dependent="barangay">
                 <option selected="{{ $selectedCity->citymunDesc }}" value="{{ $selectedCity->citymunCode }}">{{ $selectedCity->citymunDesc }}</option>
-                
+
               </select>
 
               @error('city')
@@ -89,7 +89,7 @@
               <select id="barangay" name="barangay" class="form-control barangay @error('barangay') is-invalid @enderror" name="barangay" value="{{ old('barangay') }}" autocomplete="barangay" autofocus>
                 <option selected="{{ $selectedBrgy->brgyDesc }}" value="{{ $selectedBrgy->brgyCode }}">{{ $selectedBrgy->brgyDesc }}</option>
               </select>
- 
+
               @error('barangay')
               <span class="invalid-feedback" role="alert">
                   <strong>{{ $message }}</strong>

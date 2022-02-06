@@ -4,7 +4,7 @@
         <a href="/product/{{ $product->id }}/{{ $product->slug }}">
             <div class="featured-item">
 
-                <img src="{{ $product->image }}" alt="Item {{ $key }}" width="220" height="206"/>
+                <img src="{{ $product->photos[0]->url }}" alt="Item {{ $key }}" width="220" height="206"/>
 
                 <h4>
                 @if (strlen($product->name) > 25 && strlen($product->name) < 45)

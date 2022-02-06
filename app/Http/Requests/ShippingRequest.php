@@ -25,7 +25,7 @@ class ShippingRequest extends FormRequest
     {
         return [
             'address' => 'required',
-            'contact' => 'required',
+            'contact' => ['required', 'numeric'],
             'city' => 'required',
             'province' => 'required',
             'barangay' => 'required'

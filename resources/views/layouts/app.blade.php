@@ -27,7 +27,9 @@
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="{{ asset('assets/css/owl.css') }}"/>
 
     @yield('extra-css')
@@ -58,12 +60,17 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
 
+@include('sweetalert::alert', ['cdn' => "//cdn.jsdelivr.net/npm/sweetalert2@11"])
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!-- Additional Scripts -->
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 <script src="{{ asset('assets/js/owl.js') }}"></script>
 <script src="{{ asset('assets/js/isotope.js') }}"></script>
 <script src="{{ asset('assets/js/flex-slider.js') }}"></script>
 <script src="{{ asset('js/navbarcollapse.js') }}"></script>
+
+
 @yield('extra-js')
 </body>
 </html>

@@ -45,13 +45,12 @@ class LoginController extends Controller
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
-
     }
 
     // Google Callback
     public function handleGoogleCallback()
     {
-        $user = Socialite::driver('google')->user();
+        $user = Socialite::driver('google')->stateless()->user();
 
         $this->registerOrLogin($user);
 
@@ -62,13 +61,13 @@ class LoginController extends Controller
     // Facebook login
     public function redirectToFacebook()
     {
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('facebook')->stateless()->redirect();
     }
 
     // Facebook callback
     public function handleFacebookCallback()
     {
-        $user = Socialite::driver('facebook')->user();
+        $user = Socialite::driver('facebook')->stateless()->user();
 
         $this->registerOrLogin($user);
 
@@ -95,5 +94,6 @@ class LoginController extends Controller
 
         // Login
         Auth::login($user);
+
     }
 }

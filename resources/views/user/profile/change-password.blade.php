@@ -9,23 +9,15 @@
 <section id="shipping">
     <!-- ============================ COMPONENT PROFILE   ================================= -->
     <div class="container">
-
-        @if( session('error') )
-              <div class="alert alert-danger alert-dismissible mt-3">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                  {{ session('error')  }}  
-              </div>
-        @endif
-
         <div class="card mx-auto" style="max-width: 520px; margin-top: 40px">
             <article class="card-body">
               <header class="mb-4">
                   <h4 class="card-title">
                       Change password
-                      <span class="float-right"> <a href="{{ route('user.edit') }}">
+                      <span class="float-right"> <a href="/profiles">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                           Back
-                        </a> 
+                        </a>
                       </span>
                     </h4>
                 </header>
@@ -38,11 +30,11 @@
                     <div class="form-group mb-3 col-md-12">
                       <label>Old Password</label>
                       <input type="password" class="form-control @error('password') is-invalid @enderror" name="old_password" autocomplete="old_password" autofocus />
-        
+
                       <small class="form-text text-muted"
                       >Please type your old password.</small
                     >
-        
+
                       @error('old_password')
                       <span class="invalid-feedback" role="alert">
                           <strong>{{ $message }}</strong>
@@ -56,7 +48,7 @@
                     <label>New Password</label>
                     <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="password" autofocus />
 
-      
+
                     @error('password')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -64,12 +56,12 @@
                     @enderror
                   </div>
                 </div>
-      
+
                 <div class="form-row">
                   <div class="form-group mb-3 col-md-12">
                     <label>Confirm Password</label>
                     <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" value="{{ old('password_confirmation') }}" autocomplete="password_confirmation" autofocus />
-      
+
                     <small class="form-text text-muted"
                     >Please repeat your password for security.</small>
 
@@ -80,8 +72,8 @@
                     @enderror
                   </div>
                 </div>
-      
-      
+
+
                 <button type="submit" name="submit" class="btn btn-primary btn-block">
                   Change password
                 </button>

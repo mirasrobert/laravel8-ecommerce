@@ -14,10 +14,6 @@ class HomeController extends Controller
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
 
     /**
      * Show the application dashboard.
@@ -30,13 +26,14 @@ class HomeController extends Controller
 
         session()->forget('thankyou');
 
-        $products = Product::with(['reviews'])
+        $products = Product::with(['reviews', 'photos'])
             ->offset(0)
             ->limit(9)
             ->get();
 
 
         $topProducts = Product::has('orders')
+            ->with('photos')
             ->limit(3)
             ->get();
 
