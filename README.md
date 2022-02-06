@@ -1,4 +1,4 @@
-# ProShop eCommerce Platform
+# MewTronShop eCommerce Platform
 
 > A fully functional eCommerce platform built with the Laravel framework.
 
@@ -52,22 +52,21 @@ FACEBOOK_CLIENT_SECRET=
 
 ## GET KEY AND CREDENTIALS
 ```
- - [PAYPAL DEVELOPER](https://developer.paypal.com/home)
- - [GOOGLE CONSOLE DEVELOPER](https://console.developers.google.com/apis/credentials?project=intense-base-324910)
- - [CLOUDINARY](https://cloudinary.com/)
+[PAYPAL DEVELOPER](https://developer.paypal.com/home)
+[GOOGLE CONSOLE DEVELOPER](https://console.developers.google.com/apis/credentials?project=intense-base-324910)
+[CLOUDINARY](https://cloudinary.com/)
 ```
-
-## SERVE APPLICATION
-<b>Run this 3 command in your project terminal</b> <br />
-<code>$ php artisan key:generate</code> <br />
-<code>$ composer update</code> <br />
-<code>$ php artisan serve</code> <br />
 
 
 ### Install Other Tables
 
 After migrating tables, import some tables manually in <i>database/mysql</i> folder for shipping address to work.
 
+## SERVE APPLICATION
+<b>Run this 3 command in your project terminal</b> <br />
+<code>$ php artisan key:generate</code> <br />
+<code>$ composer update</code> <br />
+<code>$ php artisan serve</code> <br />
 
 ## Additional
 
