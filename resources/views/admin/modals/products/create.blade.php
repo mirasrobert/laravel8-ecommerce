@@ -65,8 +65,17 @@
 
                     <div class="form-group">
                         <label for="category">Category</label>
-                        <input type="text" class="form-control" name="category" id="category"
-                               placeholder="eg. Electronic, Accessories" value=""/>
+                        <select class="selectpicker form-control" id="category" name="category" data-live-search="true">
+                            <option>Processor</option>
+                            <option>Motherboard</option>
+                            <option>Memory</option>
+                            <option>Power Supply</option>
+                            <option>Mouse</option>
+                            <option>Keyboard</option>
+                            <option>Graphics Card</option>
+                            <option>Monitor</option>
+                            <option>Laptop</option>
+                        </select>
                     </div>
 
 
@@ -74,6 +83,7 @@
                         <label for="description">Description</label>
                         <textarea class="form-control form-control-textarea" name="description" id="description"
                                   placeholder="eg. Specify what product are you selling..." rows="4"></textarea>
+                        <small id="description_validate" class="text-muted font-sm error"></small>
                     </div>
 
                     <div class="mt-2">

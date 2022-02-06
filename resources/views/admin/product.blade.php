@@ -44,7 +44,7 @@
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Description</th>
-                            <th>Actions</th>
+                            <th style="min-width: 100px;">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -70,7 +70,7 @@
                                     {{ $product->brand }}
                                 </td>
                                 <td>
-                                    {{ $product->description }}
+                                    {!! \Illuminate\Support\Str::limit($product->description, 100) !!}
                                 </td>
                                 <td>
 
@@ -106,6 +106,8 @@
 
 @endsection
 @section('extra-js')
+    <script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/products/createProduct.js') }}"></script>
     <script src="{{ asset('js/products/editProduct.js') }}"></script>
 @endsection
+

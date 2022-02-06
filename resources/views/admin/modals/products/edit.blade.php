@@ -78,6 +78,7 @@
                         <label for="description">Description</label>
                         <textarea class="form-control form-control-textarea" name="description" id="description"
                                   placeholder="eg. Specify what product are you selling..." rows="4"></textarea>
+                        <small id="description_validate" class="text-muted font-sm error"></small>
                     </div>
 
                     <div class="mt-2">

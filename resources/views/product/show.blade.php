@@ -67,7 +67,7 @@
                         <h6>${{ $product->price }}.00</h6>
 
                         <p>
-                            {{ $product->description }}
+                            {!! $product->description !!}
                         </p>
 
                         <span class="{{ ($product->qty < 1) ? 'text-danger' : "" }}">

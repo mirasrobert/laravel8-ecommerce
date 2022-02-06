@@ -1,5 +1,16 @@
 $(document).ready(function () {
 
+    let descriptionEditor;
+
+    ClassicEditor.create(document.querySelector("#addProductForm #description"))
+        .then((editor) => {
+            descriptionEditor = editor;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+
     $('#addProductForm #loader').hide();
 
     let validateForm = {
@@ -13,6 +24,10 @@ $(document).ready(function () {
             qty: {
                 required: true,
                 number: true
+            },
+            "image[]": {
+                required: true,
+                extension: "jpg|jpeg|png",
             },
             brand: {
                 required: true
@@ -35,6 +50,9 @@ $(document).ready(function () {
             qty: {
                 required: "Quantity is required",
             },
+            "image[]": {
+                required: "Please put at least one image"
+            },
             brand: {
                 required: "Brand is required"
             },
@@ -51,6 +69,17 @@ $(document).ready(function () {
         unhighlight: function (element) {
             $(element).removeClass("is-invalid");
         },
+        errorPlacement: function (error, element) {
+            // Change the location of error labels
+            if (element.attr("name") == "description") {
+                error.insertAfter("#addProductForm #description_validate");
+            } else if (element.attr("name") == "image[]") {
+                error.insertAfter("#addProductForm #image-err");
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        ignore: [],
         submitHandler: function () {
             $('#addProductForm #submit').attr('disabled', true);
             $('#addProductForm #cancel').attr('disabled', true);
@@ -77,6 +106,8 @@ $(document).ready(function () {
                             text: 'Product has been added.',
                             didClose: () => window.location.reload()
                         })
+
+                        descriptionEditor.setData(''); // Clear wysiwyg form
 
                         $('#addProductForm #loader').hide();
                         $('#addProductForm #submit').attr('disabled', false);

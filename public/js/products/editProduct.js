@@ -1,18 +1,24 @@
 $(document).ready(function () {
     let id = null;
 
+    let editDescriptionEditor;
+
+    ClassicEditor.create(document.querySelector("#editProductForm #description"))
+        .then((editor) => {
+            editDescriptionEditor = editor;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
     // Get the data ang put on the modal
     $("body").on("click", "#editProductModalBtn", function () {
         id = $(this).attr("data-id");
-
-        console.log(id);
 
         $.ajax({
             url: `/products/${id}/edit`,
             type: "GET",
             success: function (response) {
-
-                console.log(response.photos);
 
                 let html = '';
                 response.photos.forEach(photo => {
@@ -21,12 +27,17 @@ $(document).ready(function () {
 
                 $('#editProductForm .img-preview').html(html);
 
+
+                //let price = parseFloat(response.price.replace(/,/g, ''))
+                let price = parseFloat(response.price.replace(',', ''))
+
                 $("#editProductForm #name").val(response.name);
                 $("#editProductForm #qty").val(response.qty);
-                $("#editProductForm #price").val(response.price);
+                $("#editProductForm #price").val(price);
                 $("#editProductForm #brand").val(response.brand);
                 $("#editProductForm #category").val(response.category);
-                $("#editProductForm #description").val(response.description);
+                //$("#editProductForm #description").val(response.description);
+                editDescriptionEditor.setData(response.description);
 
                 // let image = response.photos[0].url;
                 //
@@ -77,6 +88,10 @@ $(document).ready(function () {
                 required: true,
                 number: true
             },
+            "image[]": {
+                required: false,
+                extension: "jpg|jpeg|png",
+            },
             brand: {
                 required: true
             },
@@ -114,6 +129,17 @@ $(document).ready(function () {
         unhighlight: function (element) {
             $(element).removeClass("is-invalid");
         },
+        errorPlacement: function (error, element) {
+            // Change the location of error labels
+            if (element.attr("name") == "description") {
+                error.insertAfter("#editProductForm #description_validate");
+            } else if (element.attr("name") == "image[]") {
+                error.insertAfter("#editProductForm #image-err");
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        ignore: [],
         submitHandler: function () {
             $('#editProductForm #submit').attr('disabled', true);
             $('#editProductForm #cancel').attr('disabled', true);

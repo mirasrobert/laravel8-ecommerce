@@ -19,16 +19,10 @@
           integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-    <link
-        href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
-        rel="stylesheet"
-    />
-
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css">
-    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet"/>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
     @yield('extra-css')
 </head>
@@ -129,12 +123,13 @@
         src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" language="javascript"
         src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
 <script src="{{ asset('js/fileInput.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+
 
 @yield('extra-js')
 </body>

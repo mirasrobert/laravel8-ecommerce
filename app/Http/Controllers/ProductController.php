@@ -46,8 +46,6 @@ class ProductController extends Controller
 
     public function store(Request $request, User $user)
     {
-
-
         if (!$request->hasFile('image')) {
             return response(['msg' => 'Image is required'], 400);
         }
@@ -56,7 +54,7 @@ class ProductController extends Controller
         $this->authorize('view', $user);
 
         // Validate the forms
-        $data = request()->validate([
+        $data = $request->validate([
             'name' => 'required|max:255',
             'price' => 'required|numeric',
             'qty' => 'required|numeric',
@@ -65,6 +63,7 @@ class ProductController extends Controller
             'category' => 'required',
             'image' => 'required'
         ]);
+
 
         $images = array();
 
@@ -148,6 +147,7 @@ class ProductController extends Controller
         $this->authorize('view', auth()->user());
 
         $product = Product::with('photos')->find($product->id);
+
         return response()->json($product);
     }
 
@@ -218,7 +218,8 @@ class ProductController extends Controller
     // All Products
     public function view()
     {
-        $products = Product::with('photos')->paginate(6);
+        $products = Product::with('photos')->paginate(100);
+
         return view('product.all-product', compact('products'));
     }
 }
