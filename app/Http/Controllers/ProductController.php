@@ -112,7 +112,7 @@ class ProductController extends Controller
 
     public function show($id, $slug = '')
     {
-        $product = Product::with('photos')->find($id);
+        $product = Product::with('photos')->findOrFail($id);
 
         //If slug is empty or wrong
         if (empty($slug) || $product->slug != $slug) {

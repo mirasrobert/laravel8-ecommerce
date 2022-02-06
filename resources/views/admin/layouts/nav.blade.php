@@ -18,6 +18,7 @@
     </button>
 
     <!-- Topbar Search -->
+    <!--
     <form
         class="
                 d-none d-sm-inline-block
@@ -44,7 +45,7 @@
             </div>
         </div>
     </form>
-
+    -->
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
