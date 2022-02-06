@@ -22,7 +22,8 @@
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
     @yield('extra-css')
 </head>
@@ -128,9 +129,11 @@
 
 <script src="{{ asset('js/fileInput.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
-
-
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
 @yield('extra-js')
 </body>
 </html>
