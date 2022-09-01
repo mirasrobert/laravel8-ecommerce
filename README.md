@@ -82,7 +82,7 @@ After migrating tables, import some tables manually in <i>database/mysql</i> fol
 
 MIT License
 
-Copyright (c) 2022 Robert Miras https://robertmiras.herokuapp.com/
+Copyright (c) 2022 Robert Miras https://robertmiras.site/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
