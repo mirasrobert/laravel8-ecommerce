@@ -25,6 +25,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "vercel-php": "^0.5.2",
         "vue-owl-carousel": "^2.0.3"
     }
 }
